@@ -1,8 +1,10 @@
-package com.example.sportsclubmanagementapp;
+package com.example.sportsclubmanagementapp.screens.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.sportsclubmanagementapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
