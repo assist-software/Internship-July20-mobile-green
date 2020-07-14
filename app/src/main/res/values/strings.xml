@@ -3,4 +3,5 @@
     <string name="guest_screen_title">Ready to push your limits?</string>
     <string name="guest_screen_main_button">LOG IN</string>
     <string name="guest_screen_secondary_button">REGISTER</string>
+    <string name="sports_club">Sports Club</string>
 </resources>

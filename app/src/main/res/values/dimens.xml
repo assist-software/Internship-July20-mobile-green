@@ -9,4 +9,7 @@
     <dimen name="space_54dp">54dp</dimen>
     <dimen name="space_64dp">64dp</dimen>
     <dimen name="space_327dp">327dp</dimen>
+    <dimen name="space_53dp">53dp</dimen>
+    <dimen name="space_63dp">63dp</dimen>
+    <dimen name="text_22sp">22sp</dimen>
 </resources>
