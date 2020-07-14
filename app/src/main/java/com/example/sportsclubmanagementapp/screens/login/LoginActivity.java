@@ -15,12 +15,5 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button register_btn = findViewById(R.id.register_btn);
-
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //startActivity(new Intent(GuestActivity.this, LoginActivity.class));
-            }
-        });
     }
 }
