@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".screens.login.LoginActivity"></activity>
         <activity android:name=".screens.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.guest.GuestActivity"/>
+        <activity android:name=".screens.guest.GuestActivity" />
         <activity android:name=".screens.main.MainActivity" />
     </application>
 
