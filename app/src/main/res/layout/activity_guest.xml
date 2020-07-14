@@ -4,6 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/f92a1d93b0acd1aa81f96cbe52f7c606"
+    android:backgroundTint="#CC1A1A1A"
+    android:backgroundTintMode="screen"
     tools:context=".screens.guest.GuestActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_background" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_161dp"
+        android:layout_marginStart="@dimen/margin_55dp"
+        android:layout_marginEnd="@dimen/margin_55dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/space_54dp"
+            android:layout_height="@dimen/space_64dp"
+            android:layout_gravity="center"
+            android:baselineAlignBottom="false"
+            android:textAlignment="center"
+            app:srcCompat="@drawable/vector" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_23dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="@string/guest_screen_title"
+            android:textAlignment="gravity"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_36sp"
+            android:textStyle="bold"
+            app:lineHeight="@dimen/space_64dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="@dimen/space_327dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:background="@drawable/border_radius_button"
+        android:text="@string/guest_screen_main_button"
+        android:textSize="@dimen/text_12sp"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias="0.75"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="327dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="@dimen/space_8dp"
+        android:background="@drawable/border_radius_black_button"
+        android:text="@string/guest_screen_secondary_button"
+        android:textColor="@color/cyan"
+        android:textSize="@dimen/text_12sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
