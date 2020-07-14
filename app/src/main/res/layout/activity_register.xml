@@ -10,34 +10,37 @@
         android:id="@+id/registerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register"
-        android:layout_marginLeft="@dimen/margin_42dp"
-        android:layout_marginTop="@dimen/margin_42dp"
-        android:textSize="@dimen/text_36sp"
-        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="@dimen/margin_56dp"
+        android:layout_marginStart="@dimen/margin_42dp"
         android:fontFamily="@font/inter_regular"
+        android:text="@string/register"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_36sp"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="36dp" />
 
     <TextView
         android:id="@+id/firstAndLastNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/first_and_last_name"
-        android:layout_marginLeft="@dimen/margin_42dp"
-        android:layout_marginTop="@dimen/margin_80dp"
-        android:textSize="@dimen/text_14sp"
-        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="@dimen/margin_42dp"
+        android:layout_marginTop="@dimen/margin_56dp"
         android:fontFamily="@font/inter_semibold"
+        android:text="@string/first_and_last_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerText" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/firstAndLastNameInput"
-        android:layout_width="@dimen/space_327dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/space_46dp"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
+        android:layout_marginEnd="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_6dp"
         android:background="@drawable/text_input"
         app:layout_constraintCircleRadius="@dimen/space_8dp"
@@ -46,8 +49,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_14dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/first_and_last_name" />
@@ -58,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email_address"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_16dp"
         android:textSize="@dimen/text_14sp"
         android:fontFamily="@font/inter_semibold"
@@ -68,9 +71,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInput"
-        android:layout_width="@dimen/space_327dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/space_46dp"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
+        android:layout_marginEnd="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_6dp"
         android:background="@drawable/text_input"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +82,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_14dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/email_address" />
@@ -90,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/password"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_16dp"
         android:textSize="@dimen/text_14sp"
         android:fontFamily="@font/inter_semibold"
@@ -100,9 +104,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInput"
-        android:layout_width="@dimen/space_327dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/space_46dp"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
+        android:layout_marginEnd="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_6dp"
         android:background="@drawable/text_input"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,8 +115,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_14dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/password" />
@@ -122,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/confirm_password"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_16dp"
         android:textSize="@dimen/text_14sp"
         android:fontFamily="@font/inter_semibold"
@@ -132,9 +137,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordInput"
-        android:layout_width="@dimen/space_327dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/space_46dp"
-        android:layout_marginLeft="@dimen/margin_42dp"
+        android:layout_marginStart="@dimen/margin_42dp"
+        android:layout_marginEnd="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_6dp"
         android:background="@drawable/text_input"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,8 +148,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_14dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_14dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:hint="@string/confirm_password" />
@@ -151,16 +157,52 @@
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:width="@dimen/space_327dp"
-        android:height="@dimen/space_46dp"
+        android:layout_marginLeft="@dimen/margin_42dp"
         android:layout_marginTop="@dimen/margin_49dp"
+        android:layout_marginRight="@dimen/margin_42dp"
+        android:height="@dimen/space_46dp"
         android:background="@drawable/black_button"
-        android:textColor="@color/colorAccent"
+        android:onClick="register"
         android:text="@string/register"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInput" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_35dp"
+        android:layout_marginTop="@dimen/margin_56dp"
+        android:onClick="logIn"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton">
+
+        <TextView
+            android:id="@+id/already_hav1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter_regular"
+            android:text="@string/already_have_an_account"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_14sp" />
+
+        <TextView
+            android:id="@+id/already_hav2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter_semibold"
+            android:text="@string/log_in"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
