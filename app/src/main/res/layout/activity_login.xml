@@ -15,7 +15,6 @@
         android:fontFamily="@font/inter_regular"
         android:textSize="@dimen/text_12sp"
         android:textColor="@color/black"
-        android:letterSpacing="6%"
         android:layout_marginStart="@dimen/space_42dp"
         android:layout_marginEnd="@dimen/space_104dp"
         android:layout_marginTop="@dimen/space_56dp"
