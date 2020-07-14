@@ -1,39 +1,33 @@
 package com.example.sportsclubmanagementapp.screens.splash;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
-
-import gr.net.maroulis.library.EasySplashScreen;
 
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getSupportActionBar().hide();
-
-        EasySplashScreen config = new EasySplashScreen(SplashActivity.this)
-                .withFullScreen()
-                .withTargetActivity(GuestActivity.class)
-                .withSplashTimeOut(5000)
-                .withBackgroundColor(Color.parseColor("#1a1a1a"))
-                .withAfterLogoText("SPORTS CLUB")
-                .withLogo(R.mipmap.ic_launcher_round);
-
-        config.getAfterLogoTextView().setTextColor(Color.WHITE);
-        config.getAfterLogoTextView().setTextSize(22);
-        config.getAfterLogoTextView().setLetterSpacing((float)0.06);
-        View easySplashScreen = config.create();
-
-        setContentView(easySplashScreen);
+        setContentView(R.layout.activity_splash);
+        redirectToGuestScreen();
     }
 
-
+    private void redirectToGuestScreen(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               Intent intent = new Intent(SplashActivity.this, GuestActivity.class);
+               startActivity(intent);
+            }
+        }, 5000);
+    }
 }
