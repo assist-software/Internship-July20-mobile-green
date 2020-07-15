@@ -13,7 +13,7 @@
         android:id="@+id/logoIcon"
         android:layout_width="@dimen/space_53dp"
         android:layout_height="@dimen/space_63dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/vector" />
 
     <TextView
         android:id="@+id/splashText"
