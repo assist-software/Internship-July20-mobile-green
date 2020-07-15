@@ -13,13 +13,20 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="login_to_your_account">Login To Your Account</string>
+    <string name="login_to_your_account">Login To Your \nAccount</string>
     <string name="email_address">Email Address</string>
-    <string name="input_placeholder">Input Placeholder</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot your password?</string>
     <string name="register">Register</string>
     <string name="first_and_last_name">First And Last Name</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="join_your_first_club">Join your first club</string>
+    <string name="home">Home</string>
+    <string name="clubs">Clubs</string>
+    <string name="events">Events</string>
+    <string name="workouts">Workouts</string>
+    <string name="new_here">New here?</string>
+    <string name="email_example">your_name@domain.ro</string>
+    <string name="password_example">at least 8 characters</string>
 
 </resources>
