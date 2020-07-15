@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
+
 import com.example.sportsclubmanagementapp.screens.register.RegisterActivity;
-import com.example.sportsclubmanagementapp.screens.splash.SplashActivity;
 
 public class GuestActivity extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class GuestActivity extends AppCompatActivity {
 
         login_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //startActivity(new Intent(GuestActivity.this, LoginActivity.class));
+                startActivity(new Intent(GuestActivity.this, LoginActivity.class));
             }
         });
 
