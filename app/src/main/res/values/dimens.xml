@@ -46,6 +46,7 @@
     <dimen name="margin_14dp">14dp</dimen>
     <dimen name="radius_8dp">8dp</dimen>
     <dimen name="border_1dp">1dp</dimen>
+
     <dimen name="space_96dp">96dp</dimen>
     <dimen name="space_241dp">241dp</dimen>
     <dimen name="space_131dp">131dp</dimen>
@@ -62,4 +63,12 @@
     <dimen name="dim_69dp">69dp</dimen>
     <dimen name="dim_103dp">103dp</dimen>
     <dimen name="space_0dp">0dp</dimen>
+
+    <dimen name="margin_57dp">57dp</dimen>
+    <dimen name="margin_98dp">98dp</dimen>
+    <dimen name="margin_44dp">44dp</dimen>
+    <dimen name="margin_56dp">56dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="space_35dp">35dp</dimen>
+    <dimen name="margin_0dp">0dp</dimen>
 </resources>

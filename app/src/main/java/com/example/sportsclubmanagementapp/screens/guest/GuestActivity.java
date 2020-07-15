@@ -10,8 +10,8 @@ import android.widget.Button;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
+
 import com.example.sportsclubmanagementapp.screens.register.RegisterActivity;
-import com.example.sportsclubmanagementapp.screens.splash.SplashActivity;
 
 public class GuestActivity extends AppCompatActivity {
 
