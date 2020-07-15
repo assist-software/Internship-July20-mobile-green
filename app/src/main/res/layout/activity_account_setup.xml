@@ -117,6 +117,7 @@
         android:background="@drawable/black_button"
         android:text="@string/continue_text"
         android:textColor="@color/colorAccent"
+        android:onClick="continueBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -206,7 +207,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <RadioButton
-            android:id="@+id/MaleRadioButton"
+            android:id="@+id/maleRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/male" />
