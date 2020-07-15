@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
-import com.example.sportsclubmanagementapp.screens.home.HomeActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.register.RegisterActivity;
 
