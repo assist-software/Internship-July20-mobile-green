@@ -60,9 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         return Utils.isPasswordValid(passwordInput,confirmPasswordInput,password,confirmPassword);
     }
 
-
     public void logIn(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
