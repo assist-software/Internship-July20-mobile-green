@@ -18,29 +18,28 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/space_0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_161dp"
-        android:layout_marginStart="@dimen/margin_55dp"
-        android:layout_marginEnd="@dimen/margin_55dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:baselineAlignBottom="false"
             app:srcCompat="@drawable/vector" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_23dp"
             android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:text="@string/guest_screen_title"
@@ -48,42 +47,42 @@
             android:textSize="@dimen/text_36sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
 
+    </LinearLayout>
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/space_0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_42dp"
-        app:layout_constraintVertical_bias="0.65"
-        android:layout_marginEnd="@dimen/space_42dp"
-        android:background="@drawable/border_radius_button"
+        android:background="@drawable/btn_rounded_8dp_white"
         android:text="@string/login_txt"
         android:textSize="@dimen/text_12sp"
         android:fontFamily="@font/inter_bold"
+        android:onClick="onClickLoginGuest"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+         />
 
     <Button
         android:id="@+id/register_btn"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_42dp"
-        android:layout_marginTop="@dimen/space_8dp"
-        android:layout_marginEnd="@dimen/margin_42dp"
-        android:background="@drawable/border_radius_black_button"
+        android:background="@drawable/btn_rounded_8dp_black_green"
         android:fontFamily="@font/inter_bold"
         android:text="@string/register_txt"
         android:textColor="@color/cyan"
         android:textSize="@dimen/text_12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="onClickRegisterGuest"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintTop_toBottomOf="@+id/login_btn"
-        app:layout_goneMarginStart="@dimen/space_42dp"
-        app:layout_constraintVertical_bias="0"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

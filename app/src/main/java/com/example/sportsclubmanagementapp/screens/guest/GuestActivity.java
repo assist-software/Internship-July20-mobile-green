@@ -19,19 +19,13 @@ public class GuestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest);
-        Button login_btn = findViewById(R.id.login_btn);
-        Button register_btn = findViewById(R.id.register_btn);
+    }
 
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(GuestActivity.this, LoginActivity.class));
-            }
-        });
+    public void onClickLoginGuest(View view){
+        startActivity(new Intent(GuestActivity.this, LoginActivity.class));
+    }
 
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(GuestActivity.this, RegisterActivity.class));
-            }
-        });
+    public void onClickRegisterGuest(View view){
+        startActivity(new Intent(GuestActivity.this, RegisterActivity.class));
     }
 }

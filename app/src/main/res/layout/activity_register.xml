@@ -167,7 +167,7 @@
         android:layout_marginTop="@dimen/margin_49dp"
         android:layout_marginRight="@dimen/margin_42dp"
         android:height="@dimen/space_46dp"
-        android:background="@drawable/black_button"
+        android:background="@drawable/btn_rounded_8dp_black"
         android:onClick="register"
         android:text="@string/register"
         android:textColor="@color/colorAccent"

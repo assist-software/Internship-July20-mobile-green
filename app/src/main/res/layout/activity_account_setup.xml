@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.8"
         android:height="@dimen/space_46dp"
-        android:background="@drawable/black_button"
+        android:background="@drawable/btn_rounded_8dp_black"
         android:text="@string/continue_text"
         android:textColor="@color/colorAccent"
         android:onClick="continueBtn"

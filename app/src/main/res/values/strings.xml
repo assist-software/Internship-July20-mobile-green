@@ -40,6 +40,12 @@
     <string name="weight">Weight (kg)</string>
     <string name="age">Age</string>
     <string name="continue_text">continue</string>
+    <string name="username">Username</string>
+    <string name="join_txt">JOIN</string>
+    <string name="join_your_first_event">Join your first event</string>
+    <string name="club_name_unknown">Club name unknown</string>
+    <string name="clubs_txt">Clubs</string>
+    <string name="future_events">Future events</string>
 
     <string-array name="primarySports">
         <item>1</item>
