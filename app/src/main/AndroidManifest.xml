@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.home.HomeActivity"/>
-        <activity android:name=".screens.accountsetup.AccountSetupActivity"/>
+        <activity android:name=".screens.notification.NotificationActivity"></activity>
+        <activity android:name=".screens.myprofile.MyProfileActivity" />
+        <activity android:name=".screens.calendar.CalendarActivity" />
+        <activity android:name=".screens.accountsetup.AccountSetupActivity" />
         <activity android:name=".screens.login.LoginActivity" />
         <activity android:name=".screens.register.RegisterActivity" />
         <activity android:name=".screens.splash.SplashActivity">
@@ -20,9 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.guest.GuestActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".screens.main.MainActivity" />
+        <activity
+            android:name=".screens.guest.GuestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

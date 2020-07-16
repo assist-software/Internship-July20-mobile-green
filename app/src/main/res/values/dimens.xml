@@ -71,4 +71,7 @@
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="space_35dp">35dp</dimen>
     <dimen name="margin_0dp">0dp</dimen>
+    <dimen name="space_176dp">176dp</dimen>
+    <dimen name="space_4dp">4dp</dimen>
+    <dimen name="text_18sp">18sp</dimen>
 </resources>

@@ -40,6 +40,13 @@
     <string name="weight">Weight (kg)</string>
     <string name="age">Age</string>
     <string name="continue_text">continue</string>
+    <string name="my_profile">My Profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="calendar">Calendar</string>
+    <string name="log_out">Log out</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="primarySports">
         <item>1</item>

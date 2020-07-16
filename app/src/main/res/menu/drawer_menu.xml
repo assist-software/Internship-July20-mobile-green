@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawerMenuProfile"
+            android:icon="@drawable/ic_my_profile_drawer"
+            android:title="@string/my_profile" />
+        <item
+            android:id="@+id/drawerMenuNotification"
+            android:icon="@drawable/ic_notification_drawer"
+
+            android:title="@string/notifications" />
+        <item
+            android:id="@+id/drawerMenuCalendar"
+            android:icon="@drawable/ic_calendar_drawer"
+            android:title="@string/calendar" />
+        <item
+            android:id="@+id/drawerMenuLogOut"
+            android:icon="@drawable/ic_log_out_drawer"
+            android:title="@string/log_out" />
+    </group>
+</menu>

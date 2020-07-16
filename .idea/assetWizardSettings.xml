@@ -308,7 +308,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/P:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/sports/baseline_sports_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/notifications/baseline_notifications_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -318,7 +318,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_workouts" />
+                            <entry key="outputName" value="ic_notifications_toolbar" />
                             <entry key="sourceFile" value="C:\Users\silit\OneDrive\Desktop\Internship-July20-mobile-green" />
                           </map>
                         </option>
