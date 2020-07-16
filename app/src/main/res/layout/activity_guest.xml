@@ -45,7 +45,8 @@
             android:text="@string/guest_screen_title"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/text_36sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 
@@ -53,10 +54,11 @@
         android:id="@+id/login_btn"
         android:layout_width="@dimen/space_0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_radius_button"
+        android:background="@drawable/btn_rounded_8dp_white"
         android:text="@string/login_txt"
         android:textSize="@dimen/text_12sp"
         android:fontFamily="@font/inter_bold"
+        android:onClick="onClickLoginGuest"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintVertical_bias="0.8"
         app:layout_constraintHorizontal_bias="0.5"
@@ -70,11 +72,12 @@
         android:id="@+id/register_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_radius_black_button"
+        android:background="@drawable/btn_rounded_8dp_black_green"
         android:fontFamily="@font/inter_bold"
         android:text="@string/register_txt"
         android:textColor="@color/cyan"
         android:textSize="@dimen/text_12sp"
+        android:onClick="onClickRegisterGuest"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintTop_toBottomOf="@+id/login_btn"

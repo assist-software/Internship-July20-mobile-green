@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/space_16dp">
+
+    <LinearLayout
+        android:id="@+id/club"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/btn_rounded_4dp_black"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/space_16dp"
+        android:paddingVertical="@dimen/margin_8dp">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/club_name_unknown"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dim_20sp" />
+
+        <Button
+            android:id="@+id/join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_rounded_8dp_black_green"
+            android:fontFamily="@font/inter_bold"
+            android:text="@string/join_txt"
+            android:textColor="@color/cyan" />
+
+    </LinearLayout>
+
+</LinearLayout>
