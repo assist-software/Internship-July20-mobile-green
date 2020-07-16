@@ -24,6 +24,7 @@ import com.example.sportsclubmanagementapp.data.models.FutureEvents;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Future;
 
 public class HomeFragment extends Fragment {
 
@@ -138,9 +139,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void prepareFutureEventsData() {
-        eventList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        eventList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        eventList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new FutureEvents(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new FutureEvents(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new FutureEvents(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
 
         futureEventsAdapter.notifyDataSetChanged();
     }

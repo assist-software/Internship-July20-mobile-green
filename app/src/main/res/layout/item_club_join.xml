@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/btn_rounded_4dp_black"
         android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/space_16dp"
+        android:paddingHorizontal="@dimen/space_8dp"
         android:paddingVertical="@dimen/margin_8dp">
 
         <TextView
