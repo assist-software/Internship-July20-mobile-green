@@ -330,7 +330,11 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
+<<<<<<< HEAD
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/notifications/baseline_notifications_24.xml" />
+=======
                                       <entry key="url" value="jar:file:/P:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/access_time/baseline_access_time_24.xml" />
+>>>>>>> 3d897fe2c3b46c76f6fe163207106af4e6a8622a
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -340,7 +344,11 @@
                         </option>
                         <option name="values">
                           <map>
+<<<<<<< HEAD
+                            <entry key="outputName" value="ic_notifications_toolbar" />
+=======
                             <entry key="outputName" value="ic_time" />
+>>>>>>> 3d897fe2c3b46c76f6fe163207106af4e6a8622a
                             <entry key="sourceFile" value="C:\Users\silit\OneDrive\Desktop\Internship-July20-mobile-green" />
                           </map>
                         </option>
