@@ -82,5 +82,6 @@
     <dimen name="dim_14sp">14sp</dimen>
     <dimen name="margin_4dp">4dp</dimen>
     <dimen name="space_32dp">32dp</dimen>
+    <dimen name="text_24sp">24sp</dimen>
 
 </resources>

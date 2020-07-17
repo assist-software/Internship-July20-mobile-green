@@ -2,38 +2,16 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <device id="pixel_2" />
+        <device id="pixel_3_xl" />
+      </config>
     </shared>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce56d900-1094-4a7e-8be6-93aef20e76d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_exifinterface_exifinterface_1_0_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_annotations_4_11_0_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_disklrucache_4_11_0_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_gifdecoder_4_11_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_glide_4_11_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/img_running-playstore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/data/models/Clubs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/data/models/Event.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/data/models/FutureEvents.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/ClubsAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/EventAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/FutureEventsAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_rounded_4dp_black.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_rounded_4dp_gray.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_default_avatar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_location.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_time.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/img_running.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/surface.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_club_join.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_event.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_future_event.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/img_running.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/img_running.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/img_running.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/img_running.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/img_running.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/image_view_on_click.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/my_profile_image_shape.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -44,47 +22,25 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/Sports_Club_Management_App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Sports_Club_Management_App.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Sports Club Management App-app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Sports Club Management App-app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/guest/GuestActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/guest/GuestActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/login/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/login/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/register/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/register/RegisterActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/black_button.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_rounded_8dp_black.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/border_radius_black_button.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_rounded_8dp_black_green.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/border_radius_button.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/border_radius_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_rounded_8dp_white.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_account_setup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_account_setup.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_guest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_guest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/calendar/CalendarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/calendar/CalendarActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/myprofile/MyProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/myprofile/MyProfileActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/my_profile_toolbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/my_profile_toolbar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_calendar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_calendar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_XL_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_S_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -100,9 +56,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="resourceFile" />
         <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -119,8 +75,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_XL_API_28" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-07-16T11:58:55.550Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Nexus_S_API_28" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-07-17T08:29:26.251Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="P:/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
@@ -220,6 +176,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="574" y="116" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1594892521173" />
+    <state x="467" y="445" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1594922944836">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="467" y="445" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594922944836" />
     <state x="202" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1594894003932">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -228,38 +188,45 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="499" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.864@0.0.1536.864" timestamp="1594831013073" />
-    <state x="349" y="187" key="AndroidCreateResourceDirectoryDialog" timestamp="1594880006672">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="436" y="225" key="AndroidCreateResourceDirectoryDialog" timestamp="1594934268323">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="349" y="187" key="AndroidCreateResourceDirectoryDialog/0.0.1536.864@0.0.1536.864" timestamp="1594880006672" />
-    <state x="224" y="176" key="AndroidCreateResourceFileDialog" timestamp="1594891707920">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="436" y="225" key="AndroidCreateResourceDirectoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594934268323" />
+    <state x="280" y="212" key="AndroidCreateResourceFileDialog" timestamp="1594971838121">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="224" y="176" key="AndroidCreateResourceFileDialog/0.0.1536.864@0.0.1536.864" timestamp="1594891707920" />
-    <state x="605" y="245" key="AndroidCreateXmlResourceDialog" timestamp="1594897362250">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="280" y="212" key="AndroidCreateResourceFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594971838121" />
+    <state x="756" y="295" key="AndroidCreateXmlResourceDialog" timestamp="1594971165047">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="605" y="245" key="AndroidCreateXmlResourceDialog/0.0.1536.864@0.0.1536.864" timestamp="1594897362250" />
+    <state x="756" y="295" key="AndroidCreateXmlResourceDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594971165047" />
     <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1594840863103">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1594840863103" />
-    <state width="1491" height="249" key="GridCell.Tab.0.bottom" timestamp="1594887869125">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1594934369089">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="249" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1594887869125" />
-    <state width="1491" height="249" key="GridCell.Tab.0.center" timestamp="1594887869125">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1594934369089" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1594934369089">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="249" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1594887869125" />
-    <state width="1491" height="249" key="GridCell.Tab.0.left" timestamp="1594887869125">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1594934369089" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1594934369089">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="249" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1594887869125" />
-    <state width="1491" height="249" key="GridCell.Tab.0.right" timestamp="1594887869125">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1594934369089" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1594934369089">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="249" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1594887869125" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1594934369089" />
     <state width="1491" height="249" key="GridCell.Tab.1.bottom" timestamp="1594887867724">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -276,11 +243,11 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="1491" height="249" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1594887867724" />
-    <state x="581" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1594900510670">
+    <state x="581" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1594968743300">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1594879465280" />
-    <state x="581" y="308" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594900510670" />
+    <state x="581" y="308" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594968743300" />
     <state x="407" y="47" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1594897798888">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

@@ -5,8 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -26,5 +30,11 @@ public class CalendarActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void goToNotificationsScreen(View view){
+        view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_view_on_click));
+        Intent intent = new Intent(this, NotificationActivity.class);
+        startActivity(intent);
     }
 }

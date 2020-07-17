@@ -55,6 +55,8 @@
     <string name="club_name_unknown">Club name unknown</string>
     <string name="clubs_txt">Clubs</string>
     <string name="future_events">Future events</string>
+    <string name="save_changes">save changes</string>
+    <string name="jorge_watson">Jorge Watson</string>
 
 
     <string-array name="primarySports">
