@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 
 import com.example.sportsclubmanagementapp.screens.calendar.CalendarActivity;
+import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.clubs.ClubsFragment;
 import com.example.sportsclubmanagementapp.screens.main.fragments.events.EventsFragment;
 

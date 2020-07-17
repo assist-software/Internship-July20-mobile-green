@@ -1,4 +1,5 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -24,6 +25,9 @@ import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.FutureEvents;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
+import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +89,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         displayAvatar();
+
+        View.OnClickListener clubPage = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ClubPageActivity.class));
+            }
+        };
+        getActivity().findViewById(R.id.avatar).setOnClickListener(clubPage);
+
 
         //for events recycler
         recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
@@ -173,5 +186,9 @@ public class HomeFragment extends Fragment {
         workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
 
         WorkoutsAdapter.notifyDataSetChanged();
+    }
+
+    public void goToClubPage(){
+        startActivity(new Intent(getActivity(), ClubPageActivity.class));
     }
 }

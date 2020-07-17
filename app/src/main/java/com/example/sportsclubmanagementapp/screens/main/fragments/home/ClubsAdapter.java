@@ -35,8 +35,8 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
             club_name = itemView.findViewById(R.id.name);
         }
 
-        public void bind(Clubs Clubs) {
-            club_name.setText(Clubs.getName());
+        public void bind(Clubs clubs) {
+            club_name.setText(clubs.getName());
         }
     }
 

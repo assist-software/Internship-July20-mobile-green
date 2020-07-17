@@ -16,6 +16,7 @@
 
             <ImageView
                 android:id="@+id/avatar"
+
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
@@ -123,5 +124,6 @@
                 android:layout_marginBottom="50dp" />
 
         </LinearLayout>
+
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
