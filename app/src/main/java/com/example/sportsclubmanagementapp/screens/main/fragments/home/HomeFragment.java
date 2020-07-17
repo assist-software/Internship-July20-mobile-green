@@ -1,6 +1,17 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,15 +22,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.FutureEvents;
+import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,25 +43,30 @@ import java.util.concurrent.Future;
 
 public class HomeFragment extends Fragment {
 
-    //for events list
+    //for events list recycler
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
     private EventAdapter eventAdapter;
 
-    //for first club fragment
+    //for first club recycler
     private List<Clubs> firstClubList = new ArrayList<>();
     private RecyclerView recyclerViewFirstClub;
     private ClubsAdapter firstClubAdapter;
 
-    //for clubs fragment
+    //for clubs recycler
     private List<Clubs> clubsList = new ArrayList<>();
     private RecyclerView recyclerViewClubs;
     private ClubsAdapter ClubsAdapter;
 
-    //for future events fragment
+    //for future events recycler
     private List<FutureEvents> futureEventsList = new ArrayList<>();
     private RecyclerView recyclerViewFutureEvents;
     private FutureEventsAdapter futureEventsAdapter;
+
+    //for workouts recycler
+    private List<Workouts> workoutsList = new ArrayList<>();
+    private RecyclerView recyclerViewWorkouts;
+    private WorkoutsAdapter WorkoutsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,12 +76,22 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        setToolbar();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     public static HomeFragment newInstance() {
         return  new HomeFragment();
+    }
+
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle("Home");
+        DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle((AppCompatActivity)getActivity(),drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     @Override
@@ -81,7 +111,6 @@ public class HomeFragment extends Fragment {
         firstClubAdapter = new ClubsAdapter(firstClubList, getContext());
         RecyclerView.LayoutManager firstClubLayoutManager = new LinearLayoutManager(firstClubAdapter.getContext());
         recyclerViewFirstClub.setLayoutManager(firstClubLayoutManager);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFirstClub.setAdapter(firstClubAdapter);
 
         //for clubs recycler
@@ -89,7 +118,6 @@ public class HomeFragment extends Fragment {
         ClubsAdapter = new ClubsAdapter(clubsList, getContext());
         RecyclerView.LayoutManager ClubsLayoutManager = new LinearLayoutManager(ClubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(ClubsLayoutManager);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerViewClubs.setAdapter(ClubsAdapter);
 
         //for future events recycler
@@ -97,21 +125,26 @@ public class HomeFragment extends Fragment {
         futureEventsAdapter = new FutureEventsAdapter(futureEventsList, getContext());
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
+
+        //for workouts recycler
+        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+        WorkoutsAdapter = new WorkoutsAdapter(workoutsList, getContext());
+        RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(WorkoutsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewWorkouts.setLayoutManager(workoutsLayoutManager);
+        recyclerViewWorkouts.setAdapter(WorkoutsAdapter);
 
         prepareEventData();
         prepareFirstClubsData();
         prepareClubsData();
         prepareFutureEventsData();
+        prepareWorkoutsData();
     }
 
     private void displayAvatar() {
-        ImageView avatar_icon = (ImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar);
-
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(50));
-        Glide.with(this).load(R.drawable.ic_default_avatar).apply(RequestOptions.bitmapTransform(new RoundedCorners(34))).into(avatar_icon);
+        ImageView avatar_icon = (ImageView) getView().findViewById(R.id.avatar);
+        //Glide.with(this).load(R.drawable.ic_default_avatar).circleCrop().into(avatar_icon);
+        Glide.with(this).load(R.drawable.ic_avatar).apply(RequestOptions.circleCropTransform()).into(avatar_icon);
     }
 
     private void prepareEventData() {
@@ -144,5 +177,13 @@ public class HomeFragment extends Fragment {
         futureEventsList.add(new FutureEvents(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
 
         futureEventsAdapter.notifyDataSetChanged();
+    }
+
+    private void prepareWorkoutsData() {
+        workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
+        workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
+        workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
+
+        WorkoutsAdapter.notifyDataSetChanged();
     }
 }

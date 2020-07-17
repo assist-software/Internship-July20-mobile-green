@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="320dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/surface"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/margin_14dp">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/img_running"
-        android:layout_weight="1"/>
+        android:scaleType="centerCrop"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/margin_16dp">
+        android:paddingVertical="@dimen/margin_16dp"
+        android:paddingStart="@dimen/margin_16dp"
+        android:paddingEnd="@dimen/margin_10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/roboto_regular"
+                android:textStyle="bold"
                 android:text="Title event"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dim_20sp" />
@@ -42,15 +47,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/margin_4dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
                     android:src="@drawable/ic_location" />
 
                 <TextView
                     android:id="@+id/location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Location event"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray6"
                     android:textSize="@dimen/dim_14sp" />
             </LinearLayout>
 
@@ -63,15 +70,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/dim_4dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
                     android:src="@drawable/ic_time" />
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Date event"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray6"
                     android:textSize="@dimen/dim_14sp" />
             </LinearLayout>
 
@@ -80,7 +89,7 @@
         <View
             android:layout_width="@dimen/space_0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/join"

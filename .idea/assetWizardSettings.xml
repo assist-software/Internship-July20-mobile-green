@@ -24,7 +24,31 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\silit\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="C:\Users\silit\AppData\Local\Temp\baseline_account_box_24.xml" />
+                                                <entry key="opacityPercent" value="80" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="clipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="jar:file:/P:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/account_box/baseline_account_box_24.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                                <entry key="opacityPercent" value="60" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -54,6 +78,13 @@
                                       </entry>
                                     </map>
                                   </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="outputName" value="ic_default_avatar" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="6f6f6f" />
+                                    </map>
+                                  </option>
                                 </PersistentState>
                               </value>
                             </entry>
@@ -67,7 +98,19 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\silit\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="color" value="159bd1" />
+                                                <entry key="imagePath" value="C:\Users\silit\AppData\Local\Temp\baseline_home_24.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="foregroundClipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="jar:file:/P:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/home/baseline_home_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -79,7 +122,6 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="T:\Data\FACULTATE\ASSIST - Internship Mobile\Pictures\Running.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -111,7 +153,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="img_running" />
+                                      <entry key="foregroundAssetType" value="CLIP_ART" />
+                                      <entry key="outputName" value="ic_home_selected" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -129,18 +172,6 @@
                                               <map>
                                                 <entry key="color" value="000000" />
                                                 <entry key="imagePath" value="C:\Users\silit\AppData\Local\Temp\ic_android_black_24dp.xml" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="image">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="T:\Data\FACULTATE\ASSIST - Internship Mobile\Pictures\Running.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -168,14 +199,6 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="T:\Data\FACULTATE\ASSIST - Internship Mobile\Pictures\Running.png" />
-                                      <entry key="outputName" value="img_running" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -304,44 +327,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
-                          </map>
-                        </option>
-                      </PersistentState>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </PersistentState>
-          </value>
-        </entry>
-        <entry key="vectorWizard">
-          <value>
-            <PersistentState>
-              <option name="children">
-                <map>
-                  <entry key="vectorAssetStep">
-                    <value>
-                      <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="jar:file:/P:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/access_time/baseline_access_time_24.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputName" value="ic_time" />
-                            <entry key="sourceFile" value="C:\Users\silit\OneDrive\Desktop\Internship-July20-mobile-green" />
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
