@@ -89,6 +89,8 @@
                 android:orientation="horizontal"
                 android:scrollbars="none" />
 
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/join_clubs_recycler_view"
                 android:layout_width="match_parent"
@@ -100,8 +102,27 @@
                 android:id="@+id/future_events_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/workouts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_32dp"
+                android:layout_marginBottom="@dimen/space_24dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="@string/workouts_txt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/workouts_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
                 android:orientation="horizontal"
-                android:scrollbars="none" />
+                android:layout_marginBottom="50dp" />
 
         </LinearLayout>
     </ScrollView>

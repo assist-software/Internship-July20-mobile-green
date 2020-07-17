@@ -55,8 +55,24 @@
     <string name="club_name_unknown">Club name unknown</string>
     <string name="clubs_txt">Clubs</string>
     <string name="future_events">Future events</string>
+
     <string name="save_changes">save changes</string>
     <string name="jorge_watson">Jorge Watson</string>
+
+    <string name="default_day">00</string>
+    <string name="default_month">month</string>
+    <string name="default_day_name">Day</string>
+    <string name="line_separator">-----</string>
+    <string name="default_year">xxxx</string>
+    <string name="distance_txt">distance</string>
+    <string name="hashtag_3">###</string>
+    <string name="km_txt">KM</string>
+    <string name="time_txt">time</string>
+    <string name="min_txt_caps">MIN</string>
+    <string name="calories_txt">calories</string>
+    <string name="bpm_txt_caps">BPM</string>
+    <string name="workouts_txt">Workouts</string>
+
 
 
     <string-array name="primarySports">
