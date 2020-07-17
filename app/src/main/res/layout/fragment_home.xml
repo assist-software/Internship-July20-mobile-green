@@ -1,136 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/margin_16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_default_avatar" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/username"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_24sp" />
+
+            <TextView
+                android:id="@+id/join_first_club"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_24dp"
+                android:layout_marginBottom="@dimen/space_24dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="@string/join_your_first_club"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_18sp" />
+
+            <TextView
+                android:id="@+id/join_first_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_24dp"
+                android:layout_marginBottom="@dimen/space_24dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="@string/join_your_first_event"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_18sp" />
+
+            <TextView
+                android:id="@+id/join_clubs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_32dp"
+                android:layout_marginBottom="@dimen/space_24dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="@string/clubs_txt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_18sp" />
+
+            <TextView
+                android:id="@+id/future_events"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_42dp"
+                android:layout_marginBottom="@dimen/space_24dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="@string/future_events"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/first_club_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
 
-                <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:src="@drawable/ic_avatar"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/events_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
 
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/inter_bold"
-                    android:text="@string/username"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dim_24sp" />
 
-                <TextView
-                    android:id="@+id/join_first_club"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_24dp"
-                    android:layout_marginBottom="@dimen/space_24dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/join_your_first_club"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dim_18sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/first_club_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:orientation="horizontal"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/join_clubs_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
 
-                <TextView
-                    android:id="@+id/join_first_event"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_24dp"
-                    android:layout_marginBottom="@dimen/space_24dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/join_your_first_event"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dim_18sp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/future_events_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:orientation="vertical" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/events_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:scrollbars="none" />
+            <TextView
+                android:id="@+id/workouts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_32dp"
+                android:layout_marginBottom="@dimen/space_24dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="@string/workouts_txt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dim_18sp" />
 
-                <TextView
-                    android:id="@+id/join_clubs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_32dp"
-                    android:layout_marginBottom="@dimen/space_24dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/clubs_txt"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dim_18sp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/workouts_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:orientation="horizontal"
+                android:layout_marginBottom="50dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/join_clubs_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:orientation="horizontal"/>
-
-                <TextView
-                    android:id="@+id/future_events"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_42dp"
-                    android:layout_marginBottom="@dimen/space_24dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/future_events"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dim_18sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/future_events_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:orientation="vertical"/>
-
-                <TextView
-                    android:id="@+id/workouts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_32dp"
-                    android:layout_marginBottom="@dimen/space_24dp"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="@string/workouts_txt"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dim_18sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/workouts_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="50dp"/>
-
-            </LinearLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

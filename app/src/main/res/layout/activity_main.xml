@@ -16,7 +16,8 @@
         <FrameLayout
             android:id="@+id/fragmentsContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_56dp"
             app:layout_constraintBottom_toTopOf="@+id/nav_bar"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,18 +35,18 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="@string/home">
 
-                <ImageButton
-                    android:background="@android:color/transparent"
-                    android:longClickable="true"
+                <ImageView
+                    android:id="@+id/notificationImageView"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_notifications_toolbar"
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/margin_14dp"
+                    android:background="@android:color/transparent"
+                    android:longClickable="true"
                     android:onClick="goToNotificationsScreen"
-                    />
+                    android:src="@drawable/ic_notifications_toolbar" />
             </androidx.appcompat.widget.Toolbar>
 
         </LinearLayout>
@@ -57,8 +58,8 @@
             android:layout_gravity="start"
             android:layout_marginTop="?attr/actionBarSize"
             android:background="@color/black_background"
-            app:headerLayout="@layout/nav_header"
             android:theme="@style/NavigationView"
+            app:headerLayout="@layout/nav_header"
             app:menu="@menu/drawer_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
