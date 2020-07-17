@@ -1,6 +1,7 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,14 @@ import java.util.List;
 
 public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHolder> {
 
-    private List<Clubs> Clubss;
+    private List<Clubs> Clubs;
     private Context context;
+    int layout;
 
-    public ClubsAdapter(List<Clubs> Clubss, Context context) {
-        this.Clubss = Clubss;
+    public ClubsAdapter(List<Clubs> Clubs, Context context, int layout) {
+        this.Clubs = Clubs;
         this.context = context;
+        this.layout = layout;
     }
 
     public class ClubsViewHolder extends RecyclerView.ViewHolder {
@@ -40,18 +43,18 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
     @NonNull
     @Override
     public ClubsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_club_join, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new ClubsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ClubsViewHolder holder, int position) {
-        holder.bind(Clubss.get(position));
+        holder.bind(Clubs.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return this.Clubss.size();
+        return this.Clubs.size();
     }
 
     public Context getContext(){

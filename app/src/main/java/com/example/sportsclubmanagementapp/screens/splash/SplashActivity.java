@@ -3,8 +3,6 @@ package com.example.sportsclubmanagementapp.screens.splash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +26,6 @@ public class SplashActivity extends AppCompatActivity {
                Intent intent = new Intent(SplashActivity.this, GuestActivity.class);
                startActivity(intent);
             }
-        }, 5000);
+        }, 1);
     }
 }

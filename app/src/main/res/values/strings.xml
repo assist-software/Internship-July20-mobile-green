@@ -55,6 +55,10 @@
     <string name="club_name_unknown">Club name unknown</string>
     <string name="clubs_txt">Clubs</string>
     <string name="future_events">Future events</string>
+
+    <string name="save_changes">save changes</string>
+    <string name="jorge_watson">Jorge Watson</string>
+
     <string name="default_day">00</string>
     <string name="default_month">month</string>
     <string name="default_day_name">Day</string>
@@ -68,6 +72,11 @@
     <string name="calories_txt">calories</string>
     <string name="bpm_txt_caps">BPM</string>
     <string name="workouts_txt">Workouts</string>
+    <string name="new_clubs_txt">New Clubs</string>
+    <string name="joined_txt">JOINED</string>
+    <string name="pending_txt_caps">PENDING</string>
+    <string name="pending_clubs_txt">Pending Clubs</string>
+    <string name="joined_clubs_txt">Joined Clubs</string>
 
 
     <string-array name="primarySports">

@@ -1,16 +1,10 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,24 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.FutureEvents;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Future;
+
 
 public class HomeFragment extends Fragment {
 
@@ -108,14 +96,14 @@ public class HomeFragment extends Fragment {
 
         //for first club recycler
         recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
-        firstClubAdapter = new ClubsAdapter(firstClubList, getContext());
+        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), R.layout.item_club_join);
         RecyclerView.LayoutManager firstClubLayoutManager = new LinearLayoutManager(firstClubAdapter.getContext());
         recyclerViewFirstClub.setLayoutManager(firstClubLayoutManager);
         recyclerViewFirstClub.setAdapter(firstClubAdapter);
 
         //for clubs recycler
         recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
-        ClubsAdapter = new ClubsAdapter(clubsList, getContext());
+        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join);
         RecyclerView.LayoutManager ClubsLayoutManager = new LinearLayoutManager(ClubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(ClubsLayoutManager);
         recyclerViewClubs.setAdapter(ClubsAdapter);
