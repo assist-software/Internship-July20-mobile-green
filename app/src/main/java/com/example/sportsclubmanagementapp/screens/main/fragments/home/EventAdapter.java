@@ -48,7 +48,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             date.setText(event.getDate());
             //image = ;
         }
+
+
     }
+
 
     @NonNull
     @Override

@@ -72,17 +72,26 @@
     <string name="calories_txt">calories</string>
     <string name="bpm_txt_caps">BPM</string>
     <string name="workouts_txt">Workouts</string>
+    <string name="today_s_workout">Today\'s Workout</string>
+    <string name="workouts_history">Workouts history</string>
+    <string name="add_workout">Add Workout</string>
+    <string name="duration">Duration</string>
+    <string name="workout_duration">Workout Duration</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="calories">Calories</string>
+    <string name="av_speed">Av. Speed</string>
+    <string name="average_speed">Average Speed</string>
+    <string name="distance">Distance</string>
+    <string name="save">Save</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="past_events">Past Events</string>
+    <string name="event_logo">Event Logo</string>
+    <string name="date_event">Date event</string>
+    <string name="location_event">Location event</string>
+    <string name="title_event">Title Event</string>
+    <string name="location_icon">location icon</string>
+    <string name="date_icon">date icon</string>
+    <string name="pending_events">Pending Events</string>
+    <string name="joined_events">Joined Events</string>
 
-
-
-    <string-array name="primarySports">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-    <string-array name="secondarySports">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
 </resources>

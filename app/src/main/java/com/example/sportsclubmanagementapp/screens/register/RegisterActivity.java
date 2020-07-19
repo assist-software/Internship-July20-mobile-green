@@ -23,7 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
     }
 
-    public void register(View view) {  //onClick(registerButton)
+    public void onClickRegisterBtn(View view) {
         Intent intent = new Intent(this, AccountSetupActivity.class);
         boolean isValid;
 

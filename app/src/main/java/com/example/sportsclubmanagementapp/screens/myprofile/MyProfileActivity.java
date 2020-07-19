@@ -1,5 +1,7 @@
 package com.example.sportsclubmanagementapp.screens.myprofile;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
@@ -13,7 +15,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MyProfileActivity extends AppCompatActivity {
 
@@ -21,7 +27,10 @@ public class MyProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+
         setToolbar();
+        setSpinner(new String[]{"Primary Sport 1","Primary Sport 2","Primary Sport 3","Primary Sport"}, (Spinner)findViewById(R.id.primarySportSpinnerMyProfile));
+        setSpinner(new String[]{"Secondary Sport 1","Secondary Sport 2","Secondary Sport 3","Secondary Sport"}, (Spinner)findViewById(R.id.secondarySportSpinnerMyProfile));
     }
 
     private void setToolbar(){
@@ -41,7 +50,7 @@ public class MyProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void saveChangesBtn(View view){
+    public void onClickSaveChangesBtn(View view){
         boolean isValid;
 
         isValid = isHeightValid();
@@ -76,5 +85,33 @@ public class MyProfileActivity extends AppCompatActivity {
         String ageInput = age.getText().toString().trim();
 
         return Utils.isAgeValid(ageInput,age);
+    }
+
+    private void setSpinner(String[] items, Spinner spinner) {
+        ArrayAdapter<String> workoutEffectivenessAdapter = new ArrayAdapter<String>(this, R.layout.spinner_row) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (position == getCount()) {
+                    ((TextView) v.findViewById(android.R.id.text1)).setText("");
+                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
+                }
+
+                return v;
+            }
+
+            @Override
+            public int getCount() {
+                return super.getCount() - 1;
+            }
+        };
+
+        workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        for (int i = 0; i < items.length; i++) {
+            workoutEffectivenessAdapter.add(items[i]);
+        }
+        spinner.setAdapter(workoutEffectivenessAdapter);
+        spinner.setSelection(workoutEffectivenessAdapter.getCount());
     }
 }

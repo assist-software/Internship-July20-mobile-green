@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.notification.NotificationActivity"/>
+        <activity android:name=".screens.addworkout.AddWorkoutActivity"></activity>
+        <activity android:name=".screens.notification.NotificationActivity" />
         <activity android:name=".screens.myprofile.MyProfileActivity" />
         <activity android:name=".screens.calendar.CalendarActivity" />
         <activity android:name=".screens.accountsetup.AccountSetupActivity" />
