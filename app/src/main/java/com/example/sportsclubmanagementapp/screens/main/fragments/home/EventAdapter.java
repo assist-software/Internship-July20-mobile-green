@@ -54,7 +54,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 join.setVisibility(View.INVISIBLE);
             }
         }
+
+
     }
+
 
     @NonNull
     @Override

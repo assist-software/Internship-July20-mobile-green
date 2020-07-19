@@ -1,34 +1,23 @@
 package com.example.sportsclubmanagementapp.screens.calendar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
-import com.example.sportsclubmanagementapp.data.models.Event;
-import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
-import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -48,7 +37,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        super.onStart();;
+        super.onStart();
 
         //for events recycler
         recyclerViewParent = (RecyclerView) findViewById(R.id.club_events_parent_recycler_view);
@@ -60,7 +49,7 @@ public class CalendarActivity extends AppCompatActivity {
         prepareEventData();
     }
 
-    private void setToolbar(){
+    private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.calendarToolbar);
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -71,8 +60,8 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
-    public void goToNotificationsScreen(View view){
-        view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_view_on_click));
+    public void goToNotificationsScreen(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.image_view_on_click));
         Intent intent = new Intent(this, NotificationActivity.class);
         startActivity(intent);
     }

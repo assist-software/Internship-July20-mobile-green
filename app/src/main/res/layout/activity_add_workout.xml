@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.addworkout.AddWorkoutActivity">
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/myProfileToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/workouts">
+        </androidx.appcompat.widget.Toolbar>
+
+    </LinearLayout>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_56dp"
+
+        android:orientation="vertical"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_30dp"
+            android:paddingStart="@dimen/space_42dp"
+            android:paddingEnd="@dimen/space_42dp">
+
+            <TextView
+                android:id="@+id/addWorkoutTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="@dimen/text_36sp"
+                android:textColor="@color/black"
+                android:text="@string/add_workout" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/eventTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_46dp"
+                android:layout_marginTop="@dimen/margin_56dp"
+                android:background="@drawable/text_input">
+
+                <Spinner
+                    android:id="@+id/eventSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_14dp"
+                    android:drawSelectorOnTop="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/durationTextView"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/duration" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/durationTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/space_46dp"
+                        android:background="@drawable/text_input"
+                        android:layout_marginEnd="@dimen/margin_3dp"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/durationTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/margin_14dp"
+                            android:hint="@string/workout_duration" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="50">
+
+                    <TextView
+                        android:id="@+id/heartRateTextView"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/heart_rate" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/heartRateTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/space_46dp"
+                        android:layout_marginStart="@dimen/margin_3dp"
+                        android:background="@drawable/text_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/heartRateTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/margin_14dp"
+                            android:hint="@string/heart_rate" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/caloriesTextView"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/calories" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/caloriesTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/space_46dp"
+                        android:background="@drawable/text_input"
+                        android:layout_marginEnd="@dimen/margin_3dp"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/caloriesTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/margin_14dp"
+                            android:hint="@string/calories" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="50">
+
+                    <TextView
+                        android:id="@+id/averageSpeedTextView"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/av_speed" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/averageSpeedTextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/space_46dp"
+                        android:layout_marginStart="@dimen/margin_3dp"
+                        android:background="@drawable/text_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/averageSpeedTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/margin_14dp"
+                            android:hint="@string/average_speed" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/distanceTextView"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14sp"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/distance" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/distanceTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_46dp"
+                android:background="@drawable/text_input"
+                android:layout_marginEnd="@dimen/margin_3dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/distanceTextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_14dp"
+                    android:hint="@string/distance" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/workoutEffectivenessTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_46dp"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:background="@drawable/text_input">
+
+                <Spinner
+                    android:id="@+id/workoutEffectivenessSpinner"
+                    android:layout_marginStart="@dimen/margin_14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawSelectorOnTop="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/saveChangeButtonMyProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_42dp"
+                android:layout_marginBottom="@dimen/margin_114dp"
+                android:height="@dimen/space_46dp"
+                android:background="@drawable/btn_rounded_8dp_black"
+                android:text="@string/save"
+                android:onClick="onClickSaveWorkoutBtn"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/inter_bold" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

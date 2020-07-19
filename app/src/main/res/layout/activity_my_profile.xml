@@ -38,6 +38,81 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/primarySportTextInputLayoutMyProfile"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="@dimen/space_42dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:background="@drawable/text_input"
+        app:layout_constraintBottom_toTopOf="@+id/secondarySportTextInputLayoutMyProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.5">
+
+        <Spinner
+            android:id="@+id/primarySportSpinnerMyProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_14dp"
+            android:drawSelectorOnTop="true"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/addPhotoMyProfile"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="@dimen/space_42dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:background="@drawable/text_input"
+        app:layout_constraintBottom_toTopOf="@+id/primarySportTextInputLayoutMyProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.5">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addPhotoTextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_14dp"
+            android:hint="@string/add_photo" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/accountSetupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/jorge_watson"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="@dimen/text_24sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/addPhotoMyProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.9"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="@dimen/space_64dp"
+        android:layout_height="@dimen/space_64dp"
+        app:layout_constraintBottom_toTopOf="@+id/accountSetupTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:civ_shadow_radius="@dimen/space_10dp"
+        app:civ_border_width="@dimen/dim_2dp"
+        app:civ_border_color="@color/colorAccent"
+        app:layout_constraintVertical_bias="0.95"
+        android:src="@drawable/img_running" />
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/secondarySportTextInputLayoutMyProfile"
         android:layout_width="@dimen/margin_0dp"
         android:layout_height="@dimen/space_42dp"
@@ -54,7 +129,7 @@
             android:id="@+id/secondarySportSpinnerMyProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:entries="@array/secondarySports"
+            android:layout_marginStart="@dimen/margin_14dp"
             android:drawSelectorOnTop="true"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -137,85 +212,13 @@
         android:background="@drawable/btn_rounded_8dp_black"
         android:text="@string/save_changes"
         android:textColor="@color/colorAccent"
-        android:onClick="saveChangesBtn"
+        android:fontFamily="@font/inter_bold"
+        android:onClick="onClickSaveChangesBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ageTextInputLayoutMyProfile"
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintHorizontal_bias="0.5"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/primarySportTextInputLayoutMyProfile"
-        android:layout_width="@dimen/margin_0dp"
-        android:layout_height="@dimen/space_42dp"
-        app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/text_input"
-        app:layout_constraintBottom_toTopOf="@+id/secondarySportTextInputLayoutMyProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        app:layout_constraintHorizontal_bias="0.5">
-
-        <Spinner
-            android:id="@+id/primarySportSpinnerMyProfile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:entries="@array/primarySports"
-            android:drawSelectorOnTop="true"
-
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/addPhotoMyProfile"
-        android:layout_width="@dimen/margin_0dp"
-        android:layout_height="@dimen/space_42dp"
-        app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/text_input"
-        app:layout_constraintBottom_toTopOf="@+id/primarySportTextInputLayoutMyProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        app:layout_constraintHorizontal_bias="0.5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/addPhotoTextInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_14dp"
-            android:hint="Add Photo" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/accountSetupTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/jorge_watson"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="@dimen/text_24sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/addPhotoMyProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.9"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/space_64dp"
-        android:layout_height="@dimen/space_64dp"
-        app:layout_constraintBottom_toTopOf="@+id/accountSetupTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.95"
-        android:src="@drawable/my_profile_image_shape" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

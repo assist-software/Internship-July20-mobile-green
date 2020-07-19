@@ -76,7 +76,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:layout_marginTop="?attr/actionBarSize"
-            android:background="@color/black_background"
+            android:background="#66000000"
             android:theme="@style/NavigationView"
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/drawer_menu" />

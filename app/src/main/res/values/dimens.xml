@@ -88,6 +88,12 @@
     <dimen name="dim_22sp">22sp</dimen>
     <dimen name="dim_28sp">28sp</dimen>
     <dimen name="dim_2dp">2dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_18dp">18dp</dimen>
+    <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="margin_74dp">74dp</dimen>
+    <dimen name="margin_3dp">3dp</dimen>
+    <dimen name="margin_114dp">114dp</dimen>
 
 
 </resources>

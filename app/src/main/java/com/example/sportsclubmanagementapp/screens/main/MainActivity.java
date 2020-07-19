@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import com.example.sportsclubmanagementapp.screens.addworkout.AddWorkoutActivity;
 import com.example.sportsclubmanagementapp.screens.calendar.CalendarActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.clubs.ClubsFragment;
@@ -108,4 +109,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(this, NotificationActivity.class);
         startActivity(intent);
     }
+
+    public void goToAddWorkoutScreen(View view){
+        Intent intent = new Intent(this, AddWorkoutActivity.class);
+        startActivity(intent);
+    }
+
 }

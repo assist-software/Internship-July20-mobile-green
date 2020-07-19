@@ -6,6 +6,123 @@
     android:layout_height="match_parent"
     tools:context=".screens.accountsetup.AccountSetupActivity">
 
+    <TextView
+        android:id="@+id/heightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/height"
+        android:fontFamily="@font/inter_semibold"
+        android:textSize="@dimen/text_14sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/heightTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintVertical_bias="0.98"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/secondarySportTextInputLayout"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="@dimen/space_46dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:background="@drawable/text_input"
+        app:layout_constraintBottom_toTopOf="@+id/heightTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.5">
+
+        <Spinner
+            android:id="@+id/secondarySportSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_14dp"
+            android:drawSelectorOnTop="true"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/primarySportTextInputLayout"
+        android:layout_width="@dimen/margin_0dp"
+        android:layout_height="@dimen/space_46dp"
+        app:layout_constraintWidth_percent="0.8"
+        android:background="@drawable/text_input"
+        app:layout_constraintBottom_toTopOf="@+id/secondarySportTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.5">
+
+        <Spinner
+            android:id="@+id/primarySportSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_14dp"
+            android:drawSelectorOnTop="true"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RadioGroup
+        android:id="@+id/genderRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/primarySportTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.15">
+
+        <RadioButton
+            android:id="@+id/femaleRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/female"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <RadioButton
+            android:id="@+id/maleRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/male" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/genderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gender"
+        android:fontFamily="@font/inter_semibold"
+        android:textSize="@dimen/text_14sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintVertical_bias="0.98"/>
+
+    <TextView
+        android:id="@+id/accountSetupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/account_setup"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="@dimen/text_36sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/genderTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintVertical_bias="0.5"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/heightTextInputLayout"
@@ -117,131 +234,13 @@
         android:background="@drawable/btn_rounded_8dp_black"
         android:text="@string/continue_text"
         android:textColor="@color/colorAccent"
-        android:onClick="continueBtn"
+        android:fontFamily="@font/inter_bold"
+        android:onClick="onClickContinueBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ageTextInputLayout"
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintHorizontal_bias="0.5"/>
-
-    <TextView
-        android:id="@+id/heightTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/height"
-        android:fontFamily="@font/inter_semibold"
-        android:textSize="@dimen/text_14sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/heightTextInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintVertical_bias="0.98"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/secondarySportTextInputLayout"
-        android:layout_width="@dimen/margin_0dp"
-        android:layout_height="@dimen/space_46dp"
-        app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/text_input"
-        app:layout_constraintBottom_toTopOf="@+id/heightTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        app:layout_constraintHorizontal_bias="0.5">
-
-       <Spinner
-           android:id="@+id/secondarySportSpinner"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:entries="@array/secondarySports"
-           android:drawSelectorOnTop="true"
-
-           />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/primarySportTextInputLayout"
-        android:layout_width="@dimen/margin_0dp"
-        android:layout_height="@dimen/space_46dp"
-        app:layout_constraintWidth_percent="0.8"
-        android:background="@drawable/text_input"
-        app:layout_constraintBottom_toTopOf="@+id/secondarySportTextInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92"
-        app:layout_constraintHorizontal_bias="0.5">
-
-        <Spinner
-            android:id="@+id/primarySportSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:entries="@array/primarySports"
-            android:drawSelectorOnTop="true"
-
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <RadioGroup
-        android:id="@+id/genderRadioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/primarySportTextInputLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92"
-        app:layout_constraintHorizontal_bias="0.15">
-
-        <RadioButton
-            android:id="@+id/femaleRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/female"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <RadioButton
-            android:id="@+id/maleRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/male" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/genderTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gender"
-        android:fontFamily="@font/inter_semibold"
-        android:textSize="@dimen/text_14sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintVertical_bias="0.98"/>
-
-    <TextView
-        android:id="@+id/accountSetupTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/account_setup"
-        android:fontFamily="@font/inter_semibold"
-        android:textSize="@dimen/text_36sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/genderTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
-        app:layout_constraintVertical_bias="0.5"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
