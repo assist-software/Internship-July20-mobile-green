@@ -24,6 +24,8 @@ import com.example.sportsclubmanagementapp.screens.notification.NotificationActi
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ClubPageActivity extends AppCompatActivity {
 
     //for events list recycler
@@ -50,19 +52,19 @@ public class ClubPageActivity extends AppCompatActivity {
 
         displayAvatar();
 
-        //for events recycler
-        recyclerViewEvents = (RecyclerView) findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, this);
-        RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewEvents.setLayoutManager(eventLayoutManager);
-        recyclerViewEvents.setAdapter(eventAdapter);
-
         //for users recycler
         recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
         userAdapter = new UserAdapter(usersList, this, R.layout.item_member);
         RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
         recyclerViewUsers.setLayoutManager(usersLayoutManager);
         recyclerViewUsers.setAdapter(userAdapter);
+
+        //for events recycler
+        recyclerViewEvents = (RecyclerView) findViewById(R.id.events_recycler_view);
+        eventAdapter = new EventAdapter(eventList, this, 2);
+        RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewEvents.setLayoutManager(eventLayoutManager);
+        recyclerViewEvents.setAdapter(eventAdapter);
 
         prepareEventData();
         prepareUsersData();
@@ -86,9 +88,7 @@ public class ClubPageActivity extends AppCompatActivity {
     }
 
     private void displayAvatar() {
-        ImageView avatar_icon = (ImageView) findViewById(R.id.avatar);
-        //Glide.with(this).load(R.drawable.ic_default_avatar).circleCrop().into(avatar_icon);
-        Glide.with(this).load(R.drawable.ic_avatar).apply(RequestOptions.circleCropTransform()).into(avatar_icon);
+        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into( (CircleImageView) findViewById(R.id.avatar) );
     }
 
     private void prepareEventData() {

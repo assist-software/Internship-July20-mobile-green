@@ -1,6 +1,8 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
@@ -15,6 +18,8 @@ import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.User;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
@@ -29,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
-        private ImageView avatar;
+        private CircleImageView avatar;
         private TextView user_name;
 
         public UserViewHolder(@NonNull View itemView) {
@@ -39,7 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
 
         public void bind(User user) {
-            //avatar.setImageIcon();
+            avatar.setImageResource(R.mipmap.ic_default_avatar);
             user_name.setText(user.getName());
         }
     }

@@ -17,16 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
-import com.example.sportsclubmanagementapp.data.models.Event;
-import com.example.sportsclubmanagementapp.screens.main.fragments.home.ClubsAdapter;
-import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
-import com.example.sportsclubmanagementapp.screens.main.fragments.home.FutureEventsAdapter;
-import com.example.sportsclubmanagementapp.screens.main.fragments.home.WorkoutsAdapter;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EventsFragment extends Fragment {
 
@@ -49,7 +40,7 @@ public class EventsFragment extends Fragment {
     private void setToolbar(){
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Events");
-        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
+        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_default_avatar, null));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

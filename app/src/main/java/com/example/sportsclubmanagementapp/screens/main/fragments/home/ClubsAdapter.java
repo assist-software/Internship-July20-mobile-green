@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHolder> {

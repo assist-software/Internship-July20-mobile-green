@@ -1,10 +1,13 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.clubs;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
-import com.example.sportsclubmanagementapp.data.models.Event;
-import com.example.sportsclubmanagementapp.data.models.FutureEvents;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.ClubsAdapter;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClubsFragment extends Fragment {
 
@@ -61,7 +63,7 @@ public class ClubsFragment extends Fragment {
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Clubs");
-        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
+        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_default_avatar, null));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

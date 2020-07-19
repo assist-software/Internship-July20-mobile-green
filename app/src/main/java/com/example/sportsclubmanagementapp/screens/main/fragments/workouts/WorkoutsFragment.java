@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.workouts;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class WorkoutsFragment extends Fragment {
 
@@ -32,7 +35,7 @@ public class WorkoutsFragment extends Fragment {
     private void setToolbar(){
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Workouts");
-        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(),R.drawable.my_profile_toolbar, null));
+        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_default_avatar, null));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

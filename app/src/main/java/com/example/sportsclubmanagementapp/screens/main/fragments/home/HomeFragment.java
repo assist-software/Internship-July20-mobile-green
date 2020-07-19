@@ -23,14 +23,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
-import com.example.sportsclubmanagementapp.data.models.FutureEvents;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
-import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
-import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class HomeFragment extends Fragment {
@@ -51,9 +51,9 @@ public class HomeFragment extends Fragment {
     private ClubsAdapter ClubsAdapter;
 
     //for future events recycler
-    private List<FutureEvents> futureEventsList = new ArrayList<>();
+    private List<Event> futureEventsList = new ArrayList<>();
     private RecyclerView recyclerViewFutureEvents;
-    private FutureEventsAdapter futureEventsAdapter;
+    private EventAdapter futureEventsAdapter;
 
     //for workouts recycler
     private List<Workouts> workoutsList = new ArrayList<>();
@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
 
         //for events recycler
         recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, getContext());
+        eventAdapter = new EventAdapter(eventList, getContext(), 1);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
 
         //for future events recycler
         recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
-        futureEventsAdapter = new FutureEventsAdapter(futureEventsList, getContext());
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
@@ -143,9 +143,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayAvatar() {
-        ImageView avatar_icon = (ImageView) getView().findViewById(R.id.avatar);
-        //Glide.with(this).load(R.drawable.ic_default_avatar).circleCrop().into(avatar_icon);
-        Glide.with(this).load(R.drawable.ic_avatar).apply(RequestOptions.circleCropTransform()).into(avatar_icon);
+        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into( (CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
     }
 
     private void prepareEventData() {
@@ -173,9 +171,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void prepareFutureEventsData() {
-        futureEventsList.add(new FutureEvents(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new FutureEvents(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new FutureEvents(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
 
         futureEventsAdapter.notifyDataSetChanged();
     }

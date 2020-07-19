@@ -67,11 +67,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/avatar"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:src="@drawable/ic_default_avatar" />
+                            android:src="@mipmap/ic_default_avatar" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -87,8 +87,7 @@
                                 android:fontFamily="@font/inter_regular"
                                 android:text="@string/default_coach_name"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dim_24sp"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/dim_24sp"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
