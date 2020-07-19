@@ -1,16 +1,11 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,24 +17,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
-import com.example.sportsclubmanagementapp.data.models.FutureEvents;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Future;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class HomeFragment extends Fragment {
 
@@ -59,9 +51,9 @@ public class HomeFragment extends Fragment {
     private ClubsAdapter ClubsAdapter;
 
     //for future events recycler
-    private List<FutureEvents> futureEventsList = new ArrayList<>();
+    private List<Event> futureEventsList = new ArrayList<>();
     private RecyclerView recyclerViewFutureEvents;
-    private FutureEventsAdapter futureEventsAdapter;
+    private EventAdapter futureEventsAdapter;
 
     //for workouts recycler
     private List<Workouts> workoutsList = new ArrayList<>();
@@ -98,9 +90,18 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         displayAvatar();
 
+        View.OnClickListener clubPage = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ClubPageActivity.class));
+            }
+        };
+        getActivity().findViewById(R.id.avatar).setOnClickListener(clubPage);
+
+
         //for events recycler
         recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, getContext());
+        eventAdapter = new EventAdapter(eventList, getContext(), 1);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -108,21 +109,21 @@ public class HomeFragment extends Fragment {
 
         //for first club recycler
         recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
-        firstClubAdapter = new ClubsAdapter(firstClubList, getContext());
+        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), R.layout.item_club_join);
         RecyclerView.LayoutManager firstClubLayoutManager = new LinearLayoutManager(firstClubAdapter.getContext());
         recyclerViewFirstClub.setLayoutManager(firstClubLayoutManager);
         recyclerViewFirstClub.setAdapter(firstClubAdapter);
 
         //for clubs recycler
         recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
-        ClubsAdapter = new ClubsAdapter(clubsList, getContext());
+        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join);
         RecyclerView.LayoutManager ClubsLayoutManager = new LinearLayoutManager(ClubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(ClubsLayoutManager);
         recyclerViewClubs.setAdapter(ClubsAdapter);
 
         //for future events recycler
         recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
-        futureEventsAdapter = new FutureEventsAdapter(futureEventsList, getContext());
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
@@ -142,9 +143,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayAvatar() {
-        ImageView avatar_icon = (ImageView) getView().findViewById(R.id.avatar);
-        //Glide.with(this).load(R.drawable.ic_default_avatar).circleCrop().into(avatar_icon);
-        Glide.with(this).load(R.drawable.ic_avatar).apply(RequestOptions.circleCropTransform()).into(avatar_icon);
+        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into( (CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
     }
 
     private void prepareEventData() {
@@ -172,9 +171,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void prepareFutureEventsData() {
-        futureEventsList.add(new FutureEvents(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new FutureEvents(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new FutureEvents(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
 
         futureEventsAdapter.notifyDataSetChanged();
     }
@@ -185,5 +184,9 @@ public class HomeFragment extends Fragment {
         workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
 
         WorkoutsAdapter.notifyDataSetChanged();
+    }
+
+    public void goToClubPage(){
+        startActivity(new Intent(getActivity(), ClubPageActivity.class));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Event {

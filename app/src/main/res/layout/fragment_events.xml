@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/space_16dp">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,9 +29,9 @@
                 android:id="@+id/pastEventsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="@dimen/margin_16dp"
-                android:scrollbars="none"
-                android:orientation="horizontal"/>
+                android:scrollbars="none" />
 
             <TextView
                 android:id="@+id/joinedEventsTextView"
@@ -50,8 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16dp"
-                android:scrollbars="none"
-                android:orientation="horizontal"/>
+                android:scrollbars="none" />
 
             <TextView
                 android:id="@+id/pendingEventsTextView"
@@ -69,14 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16dp"
-                android:scrollbars="none"
-                android:orientation="vertical"/>
+                android:scrollbars="none" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
 

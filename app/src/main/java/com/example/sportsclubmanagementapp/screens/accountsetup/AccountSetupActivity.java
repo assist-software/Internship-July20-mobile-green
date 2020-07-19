@@ -25,8 +25,8 @@ public class AccountSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setup);
 
-        setSpinner(new String[]{"Primary Sport 1","Primary Sport 2","Primary Sport 3","Primary Sport"}, (Spinner)findViewById(R.id.primarySportSpinner));
-        setSpinner(new String[]{"Secondary Sport 1","Secondary Sport 2","Secondary Sport 3","Secondary Sport"}, (Spinner)findViewById(R.id.secondarySportSpinner));
+        setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"}, (Spinner) findViewById(R.id.primarySportSpinner));
+        setSpinner(new String[]{"Secondary Sport 1", "Secondary Sport 2", "Secondary Sport 3", "Secondary Sport"}, (Spinner) findViewById(R.id.secondarySportSpinner));
     }
 
     public void onClickContinueBtn(View view) { //onClick(Continue_btn)
@@ -47,29 +47,29 @@ public class AccountSetupActivity extends AppCompatActivity {
     private boolean isGenderValid() {
         RadioButton radioFemale = findViewById(R.id.femaleRadioButton);
         RadioButton radioMale = findViewById(R.id.maleRadioButton);
-        TextView gender = (TextView)findViewById(R.id.genderTextView);
-        return Utils.isGenderValid(radioFemale,radioMale,gender);
+        TextView gender = (TextView) findViewById(R.id.genderTextView);
+        return Utils.isGenderValid(radioFemale, radioMale, gender);
     }
 
     private boolean isHeightValid() {
         TextInputEditText height = findViewById(R.id.heightTextInputEditText);
         String heightInput = height.getText().toString().trim();
 
-        return Utils.isHeightValid(heightInput,height);
+        return Utils.isHeightValid(heightInput, height);
     }
 
     private boolean isWeightValid() {
         TextInputEditText weight = findViewById(R.id.weightTextInputEditText);
         String weightInput = weight.getText().toString().trim();
 
-        return Utils.isWeightValid(weightInput,weight);
+        return Utils.isWeightValid(weightInput, weight);
     }
 
     private boolean isAgeValid() {
         TextInputEditText age = findViewById(R.id.ageTextInputEditeText);
         String ageInput = age.getText().toString().trim();
 
-        return Utils.isAgeValid(ageInput,age);
+        return Utils.isAgeValid(ageInput, age);
     }
 
     private void setSpinner(String[] items, Spinner spinner) {

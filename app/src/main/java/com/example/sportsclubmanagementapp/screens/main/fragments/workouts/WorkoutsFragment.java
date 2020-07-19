@@ -22,6 +22,7 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class WorkoutsFragment extends Fragment {
 
     //for workouts recycler
@@ -72,9 +73,9 @@ public class WorkoutsFragment extends Fragment {
     }
 
     private void prepareWorkoutsData() {
-        workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
-        workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
-        workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
+        workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
+        workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
+        workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
 
         WorkoutsAdapter.notifyDataSetChanged();
     }

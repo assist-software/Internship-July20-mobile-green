@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/margin_16dp">
@@ -7,19 +9,23 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatar"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="@dimen/space_124dp"
+                android:layout_height="@dimen/space_124dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_default_avatar" />
+                android:layout_marginTop="@dimen/space_16dp"
+                android:src="@mipmap/ic_default_avatar"/>
 
             <TextView
                 android:id="@+id/username"
@@ -42,6 +48,13 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/dim_18sp" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/first_club_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
+
             <TextView
                 android:id="@+id/join_first_event"
                 android:layout_width="wrap_content"
@@ -53,6 +66,13 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/dim_18sp" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/events_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
+
             <TextView
                 android:id="@+id/join_clubs"
                 android:layout_width="wrap_content"
@@ -63,6 +83,13 @@
                 android:text="@string/clubs_txt"
                 android:textColor="@color/black"
                 android:textSize="@dimen/dim_18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/join_clubs_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:scrollbars="none" />
 
             <TextView
                 android:id="@+id/future_events"
@@ -76,34 +103,11 @@
                 android:textSize="@dimen/dim_18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/first_club_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:scrollbars="none" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/events_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:scrollbars="none" />
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/join_clubs_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:scrollbars="none" />
-
-            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/future_events_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:scrollbars="none" />
 
             <TextView
                 android:id="@+id/workouts"
@@ -120,10 +124,11 @@
                 android:id="@+id/workouts_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
+                android:layout_marginBottom="50dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="50dp" />
+                android:scrollbars="none" />
 
         </LinearLayout>
+
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

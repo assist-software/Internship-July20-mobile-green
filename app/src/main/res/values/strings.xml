@@ -53,7 +53,6 @@
     <string name="join_txt">JOIN</string>
     <string name="join_your_first_event">Join your first event</string>
     <string name="club_name_unknown">Club name unknown</string>
-    <string name="clubs_txt">Clubs</string>
     <string name="future_events">Future events</string>
 
     <string name="save_changes">save changes</string>
@@ -72,6 +71,7 @@
     <string name="calories_txt">calories</string>
     <string name="bpm_txt_caps">BPM</string>
     <string name="workouts_txt">Workouts</string>
+
     <string name="today_s_workout">Today\'s Workout</string>
     <string name="workouts_history">Workouts history</string>
     <string name="add_workout">Add Workout</string>
@@ -93,5 +93,22 @@
     <string name="date_icon">date icon</string>
     <string name="pending_events">Pending Events</string>
     <string name="joined_events">Joined Events</string>
+
+    <string name="new_clubs_txt">New Clubs</string>
+    <string name="joined_txt">JOINED</string>
+    <string name="pending_txt_caps">PENDING</string>
+    <string name="pending_clubs_txt">Pending Clubs</string>
+    <string name="joined_clubs_txt">Joined Clubs</string>
+    <string name="default_coach_name">Coach name</string>
+    <string name="default_role_txt">Role</string>
+    <string name="bullet_txt">•</string>
+    <string name="years_txt_caps">YEARS</string>
+    <string name="owned_clubs_txt_caps">OWNED CLUBS</string>
+    <string name="clubs_txt">Clubs</string>
+    <string name="members_txt">Members</string>
+    <string name="events_txt">Events</string>
+    <string name="club_name_txt">Club name</string>
+
+
 
 </resources>
