@@ -48,6 +48,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="imagePath" value="C:\Users\silit\OneDrive\Desktop\ic_default_avatar.png" />
                                                 <entry key="opacityPercent" value="60" />
                                               </map>
                                             </option>
@@ -80,8 +81,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\silit\OneDrive\Desktop\ic_default_avatar.png" />
                                       <entry key="outputName" value="ic_default_avatar" />
-                                      <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="6f6f6f" />
                                     </map>
                                   </option>
@@ -122,6 +124,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="imagePath" value="C:\Users\silit\OneDrive\Desktop\ic_default_avatar.png" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -153,8 +156,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundAssetType" value="CLIP_ART" />
-                                      <entry key="outputName" value="ic_home_selected" />
+                                      <entry key="outputName" value="ic_default_avatar" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -323,11 +325,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,27 +1,28 @@
 package com.example.sportsclubmanagementapp.screens.main;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 
 import com.example.sportsclubmanagementapp.screens.calendar.CalendarActivity;
+import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.clubs.ClubsFragment;
 import com.example.sportsclubmanagementapp.screens.main.fragments.events.EventsFragment;
+
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.HomeFragment;
 import com.example.sportsclubmanagementapp.R;
+
 import com.example.sportsclubmanagementapp.screens.main.fragments.workouts.WorkoutsFragment;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
     BottomNavigationView bottomNavigation;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,5 +108,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(this, NotificationActivity.class);
         startActivity(intent);
     }
-
 }
