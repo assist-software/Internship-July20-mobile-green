@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import com.example.sportsclubmanagementapp.data.retrofit.AppData;
 import com.example.sportsclubmanagementapp.screens.addworkout.AddWorkoutActivity;
 import com.example.sportsclubmanagementapp.screens.calendar.CalendarActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
     BottomNavigationView bottomNavigation;
+
+    public AppData i = new AppData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

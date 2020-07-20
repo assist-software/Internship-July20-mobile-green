@@ -7,9 +7,9 @@ import com.example.sportsclubmanagementapp.data.models.User;
 
 public class AppData {
 
-    private Role roles;
-    private User users;
-    private SportType sportTypes;
-    private Clubs clubs;
+    private static Role roles;
+    private static User users;
+    private static SportType sportTypes;
+    private static Clubs clubs;
 
 }
