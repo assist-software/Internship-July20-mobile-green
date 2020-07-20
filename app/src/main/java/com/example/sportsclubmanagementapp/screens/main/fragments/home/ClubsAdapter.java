@@ -1,10 +1,10 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,33 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHolder> {
 
+    int layout;
     private List<Clubs> Clubs;
     private Context context;
-    int layout;
+    private OnClubItemListener listener;
 
-    public ClubsAdapter(List<Clubs> Clubs, Context context, int layout) {
+    public ClubsAdapter(List<Clubs> Clubs, Context context, int layout, OnClubItemListener listener) {
         this.Clubs = Clubs;
         this.context = context;
         this.layout = layout;
-    }
-
-    public class ClubsViewHolder extends RecyclerView.ViewHolder {
-        private TextView club_name;
-
-        public ClubsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            club_name = itemView.findViewById(R.id.name);
-        }
-
-        public void bind(Clubs clubs) {
-            club_name.setText(clubs.getName());
-        }
+        this.listener = listener;
     }
 
     @NonNull
@@ -59,7 +46,28 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
         return this.Clubs.size();
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return this.context;
+    }
+
+    public class ClubsViewHolder extends RecyclerView.ViewHolder {
+        private TextView club_name;
+        private LinearLayout linearLayout;
+
+        public ClubsViewHolder(@NonNull View itemView) {
+            super(itemView);
+            club_name = itemView.findViewById(R.id.name);
+            linearLayout = itemView.findViewById(R.id.clubItemLayout);
+        }
+
+        public void bind(final Clubs clubs) {
+            club_name.setText(clubs.getName());
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClubsClick(clubs);
+                }
+            });
+        }
     }
 }

@@ -1,31 +1,28 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
-import com.example.sportsclubmanagementapp.data.retrofit.AppData;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
-import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,9 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeFragment extends Fragment {
+
+public class HomeFragment extends Fragment implements OnClubItemListener {
+
 
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
@@ -60,6 +59,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewWorkouts;
     private WorkoutsAdapter WorkoutsAdapter;
 
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,16 +75,12 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    public static HomeFragment newInstance() {
-        return  new HomeFragment();
-    }
-
-    private void setToolbar(){
+    private void setToolbar() {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle((AppCompatActivity)getActivity(),drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle((AppCompatActivity) getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
@@ -109,14 +108,14 @@ public class HomeFragment extends Fragment {
 
         //for first club recycler
         recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
-        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), R.layout.item_club_join);
+        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), R.layout.item_club_join, this);
         RecyclerView.LayoutManager firstClubLayoutManager = new LinearLayoutManager(firstClubAdapter.getContext());
         recyclerViewFirstClub.setLayoutManager(firstClubLayoutManager);
         recyclerViewFirstClub.setAdapter(firstClubAdapter);
 
         //for clubs recycler
         recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
-        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join);
+        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join, this);
         RecyclerView.LayoutManager ClubsLayoutManager = new LinearLayoutManager(ClubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(ClubsLayoutManager);
         recyclerViewClubs.setAdapter(ClubsAdapter);
@@ -143,7 +142,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayAvatar() {
-        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into( (CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
+        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into((CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
     }
 
     private void prepareEventData() {
@@ -179,14 +178,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void prepareWorkoutsData() {
-        workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
-        workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
-        workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true ));
+        workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
+        workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
+        workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
 
         WorkoutsAdapter.notifyDataSetChanged();
     }
 
-    public void goToClubPage(){
+    public void goToClubPage() {
         startActivity(new Intent(getActivity(), ClubPageActivity.class));
+    }
+
+    @Override
+    public void onClubsClick(Clubs club) {
+        Toast.makeText(getContext(), club.getName(), Toast.LENGTH_SHORT).show();
     }
 }
