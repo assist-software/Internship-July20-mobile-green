@@ -1,4 +1,5 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,22 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.data.retrofit.AppData;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class HomeFragment extends Fragment {
 
