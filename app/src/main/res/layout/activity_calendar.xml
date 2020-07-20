@@ -49,6 +49,7 @@
                 android:id="@+id/club_events_parent_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
                 android:paddingHorizontal="@dimen/space_24dp"/>
 

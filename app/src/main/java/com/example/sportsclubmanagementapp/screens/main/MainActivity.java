@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
     BottomNavigationView bottomNavigation;
+    public AppData date;
 
     public AppData i = new AppData();
 

@@ -33,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment implements OnClubItemListener {
 
+
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
