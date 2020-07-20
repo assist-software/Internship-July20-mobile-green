@@ -1,5 +1,4 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,9 +22,7 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
-import com.example.sportsclubmanagementapp.data.retrofit.AppData;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
-import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,14 +106,14 @@ public class HomeFragment extends Fragment {
 
         //for first club recycler
         recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
-        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), R.layout.item_club_join);
+        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), R.layout.item_club);
         RecyclerView.LayoutManager firstClubLayoutManager = new LinearLayoutManager(firstClubAdapter.getContext());
         recyclerViewFirstClub.setLayoutManager(firstClubLayoutManager);
         recyclerViewFirstClub.setAdapter(firstClubAdapter);
 
         //for clubs recycler
         recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
-        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join);
+        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club);
         RecyclerView.LayoutManager ClubsLayoutManager = new LinearLayoutManager(ClubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(ClubsLayoutManager);
         recyclerViewClubs.setAdapter(ClubsAdapter);

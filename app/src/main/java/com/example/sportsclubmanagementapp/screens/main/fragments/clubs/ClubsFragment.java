@@ -73,7 +73,7 @@ public class ClubsFragment extends Fragment {
 
         //for new events recycler
         recyclerViewClubs = (RecyclerView) view.findViewById(R.id.new_clubs_recycler_view);
-        clubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join);
+        clubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club);
         RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(clubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(clubsLayoutManager);
         recyclerViewClubs.setAdapter(clubsAdapter);
