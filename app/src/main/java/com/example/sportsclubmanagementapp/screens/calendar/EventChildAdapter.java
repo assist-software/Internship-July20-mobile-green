@@ -26,7 +26,7 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
         this.activity = activity;
     }
 
-    public class EventViewHolder extends RecyclerView.ViewHolder {
+    public static class EventViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView location;
         private TextView date;

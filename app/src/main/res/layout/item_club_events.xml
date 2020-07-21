@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/club_events_parent_recycler_view"
+    android:id="@+id/club_events_recycler_view_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/space_16dp"
     android:orientation="vertical">
-
 
     <TextView
         android:id="@+id/club_name"
@@ -19,7 +18,6 @@
         android:id="@+id/events_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:nestedScrollingEnabled="false"/>
+        android:scrollbars="none" />
 
 </LinearLayout>

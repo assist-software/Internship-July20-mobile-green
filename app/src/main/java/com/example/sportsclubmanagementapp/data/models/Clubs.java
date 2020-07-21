@@ -1,8 +1,9 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Clubs {
+public class Clubs implements Serializable {
     private long id;
     private long ownerId;
     private String name;

@@ -7,6 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1100a5c-2e68-4b99-a9f0-50a7f0b0695c" name="Default Changelist" comment="">
+<<<<<<< HEAD
+=======
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__de_hdodenhof_circleimageview_3_1_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
@@ -28,16 +30,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/modules/Sports_Club_Management_App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Sports_Club_Management_App.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/Sports Club Management App-app.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
+>>>>>>> 6dc70dbfc6df7bbf42766ad6e76f10f300176b47
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/data/retrofit/AppData.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/data/retrofit/AppData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/clubs/ClubsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/clubs/ClubsFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/main/fragments/home/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/notification/NotificationAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/notification/NotificationAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/splash/SplashActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/splash/SplashActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/my_profile_toolbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/my_profile_toolbar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_calendar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_calendar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_club_join.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_club.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_club_joined.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_club_pending.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,8 +161,17 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="266" y="357" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.864@0.0.1536.864" timestamp="1595226967063" />
+<<<<<<< HEAD
+    <state x="499" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595230193053">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="499" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.864@0.0.1536.864" timestamp="1595230193053" />
+    <state x="624" y="197" width="454" height="469" key="AndroidProcessChooserDialog" timestamp="1595173143576">
+      <screen x="0" y="0" width="1536" height="864" />
+=======
     <state x="780" y="237" width="454" height="469" key="AndroidProcessChooserDialog" timestamp="1595229409980">
       <screen x="0" y="0" width="1920" height="1040" />
+>>>>>>> 6dc70dbfc6df7bbf42766ad6e76f10f300176b47
     </state>
     <state x="624" y="197" width="454" height="469" key="AndroidProcessChooserDialog/0.0.1536.864@0.0.1536.864" timestamp="1595173143576" />
     <state x="780" y="237" key="AndroidProcessChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595229409980" />
@@ -206,6 +214,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1491" height="403" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1595173879751" />
+<<<<<<< HEAD
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1595229680094">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1595229680094" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1595230291492">
+=======
     <state width="1877" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1595229415345" />
     <state x="581" y="308" key="com.intellij.ide.util.TipDialog" timestamp="1595229008430">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -213,8 +228,9 @@
     <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1595225315042" />
     <state x="581" y="308" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595229008430" />
     <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1595227183581">
+>>>>>>> 6dc70dbfc6df7bbf42766ad6e76f10f300176b47
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1595227183581" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1595230291492" />
   </component>
 </project>

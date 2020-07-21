@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/space_16dp">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -16,6 +16,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/new_club"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_8dp"
@@ -32,6 +33,7 @@
                 android:scrollbars="none" />
 
             <TextView
+                android:id="@+id/joined_club"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12dp"
@@ -48,6 +50,7 @@
                 android:scrollbars="none" />
 
             <TextView
+                android:id="@+id/pending_club"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12dp"
@@ -65,5 +68,5 @@
                 android:scrollbars="none" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
