@@ -24,11 +24,7 @@
             app:title="@string/notifications" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/space_16dp" />
-
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -36,13 +32,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notification_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingHorizontal="@dimen/margin_42dp" />
 
-    </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
