@@ -18,11 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.sportsclubmanagementapp.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class HomeFragment extends Fragment implements OnClubItemListener {
+public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
 
     //for events list recycler
@@ -100,7 +102,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
 
         //for events recycler
         recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, getContext(), 1);
+        eventAdapter = new EventAdapter(eventList, getContext(), 1,this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -122,7 +124,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
 
         //for future events recycler
         recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3);
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3,this);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
@@ -192,5 +194,12 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
     @Override
     public void onClubsClick(Clubs club) {
         Toast.makeText(getContext(), club.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEventsClick(Event event) {
+        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+        intent.putExtra("eventObject",event);
+        startActivity(intent);
     }
 }

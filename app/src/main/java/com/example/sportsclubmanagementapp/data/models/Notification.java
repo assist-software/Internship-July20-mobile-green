@@ -1,6 +1,8 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
 
     private String time;
     private String role;
