@@ -94,6 +94,8 @@
     <dimen name="margin_74dp">74dp</dimen>
     <dimen name="margin_3dp">3dp</dimen>
     <dimen name="margin_114dp">114dp</dimen>
+    <dimen name="space_200dp">200dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
 
 
 </resources>

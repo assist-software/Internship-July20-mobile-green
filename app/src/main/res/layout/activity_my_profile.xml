@@ -37,6 +37,35 @@
 
     </LinearLayout>
 
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="@dimen/space_64dp"
+        android:layout_height="@dimen/space_64dp"
+        app:layout_constraintBottom_toTopOf="@+id/accountSetupTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:civ_shadow_radius="@dimen/space_10dp"
+        app:civ_border_width="@dimen/dim_2dp"
+        app:civ_border_color="@color/colorAccent"
+        app:layout_constraintVertical_bias="0.95"
+        android:src="@drawable/img_running" />
+
+    <TextView
+        android:id="@+id/accountSetupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/jorge_watson"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="@dimen/text_24sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/addPhotoMyProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.9"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/primarySportTextInputLayoutMyProfile"
         android:layout_width="@dimen/margin_0dp"
@@ -82,35 +111,6 @@
             android:layout_marginStart="@dimen/margin_14dp"
             android:hint="@string/add_photo" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/accountSetupTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/jorge_watson"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="@dimen/text_24sp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/addPhotoMyProfile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.9"/>
-
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:layout_width="@dimen/space_64dp"
-        android:layout_height="@dimen/space_64dp"
-        app:layout_constraintBottom_toTopOf="@+id/accountSetupTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:civ_shadow_radius="@dimen/space_10dp"
-        app:civ_border_width="@dimen/dim_2dp"
-        app:civ_border_color="@color/colorAccent"
-        app:layout_constraintVertical_bias="0.95"
-        android:src="@drawable/img_running" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/secondarySportTextInputLayoutMyProfile"
