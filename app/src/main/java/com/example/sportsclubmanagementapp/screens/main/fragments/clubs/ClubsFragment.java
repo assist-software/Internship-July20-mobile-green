@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,12 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.ClubsAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnClubItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ClubsFragment extends Fragment implements OnClubItemListener {
 
@@ -58,7 +63,7 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Clubs");
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -72,31 +77,69 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+        
         //for new events recycler
-        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.new_clubs_recycler_view);
-        clubsAdapter = new ClubsAdapter(clubsList, getContext(), R.layout.item_club_join, this);
-        RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(clubsAdapter.getContext());
-        recyclerViewClubs.setLayoutManager(clubsLayoutManager);
-        recyclerViewClubs.setAdapter(clubsAdapter);
-
+        setUpNewEventsRecyclerView(view);
         //for joined events recycler
-        recyclerViewJoinedClubs = (RecyclerView) view.findViewById(R.id.joined_clubs_recycler_view);
-        joinedClubsAdapter = new ClubsAdapter(joinedClubsList, getContext(), R.layout.item_club_joined, this);
-        RecyclerView.LayoutManager joinedClubsLayoutManager = new LinearLayoutManager(joinedClubsAdapter.getContext());
-        recyclerViewJoinedClubs.setLayoutManager(joinedClubsLayoutManager);
-        recyclerViewJoinedClubs.setAdapter(joinedClubsAdapter);
-
+        setUpJoinedEventsRecyclerView(view);
         //for pending events recycler
-        recyclerViewPendingClubs = (RecyclerView) view.findViewById(R.id.pending_clubs_recycler_view);
-        pendingClubsAdapter = new ClubsAdapter(pendingClubsList, getContext(), R.layout.item_club_pending, this);
-        RecyclerView.LayoutManager pendingClubsLayoutManager = new LinearLayoutManager(pendingClubsAdapter.getContext());
-        recyclerViewPendingClubs.setLayoutManager(pendingClubsLayoutManager);
-        recyclerViewPendingClubs.setAdapter(pendingClubsAdapter);
+        setUpPendingEventsRecyclerView(view);
 
         prepareClubsData();
         prepareJoinedClubsData();
         preparePendingClubsData();
+    }
+
+    private void setUpNewEventsRecyclerView(View view) {
+        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.new_clubs_recycler_view);
+        clubsAdapter = new ClubsAdapter(clubsList, getContext(), 1,this);
+        RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(clubsAdapter.getContext());
+        recyclerViewClubs.setLayoutManager(clubsLayoutManager);
+        recyclerViewClubs.setAdapter(clubsAdapter);
+    }
+
+    private void setUpJoinedEventsRecyclerView(View view) {
+        recyclerViewJoinedClubs = (RecyclerView) view.findViewById(R.id.joined_clubs_recycler_view);
+        joinedClubsAdapter = new ClubsAdapter(joinedClubsList, getContext(), 2,this);
+        RecyclerView.LayoutManager joinedClubsLayoutManager = new LinearLayoutManager(joinedClubsAdapter.getContext());
+        recyclerViewJoinedClubs.setLayoutManager(joinedClubsLayoutManager);
+        recyclerViewJoinedClubs.setAdapter(joinedClubsAdapter);
+    }
+
+    private void setUpPendingEventsRecyclerView(View view) {
+        recyclerViewPendingClubs = (RecyclerView) view.findViewById(R.id.pending_clubs_recycler_view);
+        pendingClubsAdapter = new ClubsAdapter(pendingClubsList, getContext(), 3,this);
+        RecyclerView.LayoutManager pendingClubsLayoutManager = new LinearLayoutManager(pendingClubsAdapter.getContext());
+        recyclerViewPendingClubs.setLayoutManager(pendingClubsLayoutManager);
+        recyclerViewPendingClubs.setAdapter(pendingClubsAdapter);
+    }
+
+    @Override
+    public void onClubsClick(Clubs club) {
+        Intent intent = new Intent(getActivity(), ClubPageActivity.class);
+        intent.putExtra("CLUB_EXTRA_SESSION_ID", club);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClubsJoinClick(Clubs club) {
+        //remove the joined club from the list
+        clubsList.remove(club);
+        pendingClubsList.add(club);
+
+        //hide recycler header if the list is empty
+        if( clubsList.isEmpty() ) Objects.requireNonNull(getActivity()).findViewById(R.id.new_club).setVisibility(View.GONE);
+        else Objects.requireNonNull(getActivity()).findViewById(R.id.new_club).setVisibility(View.VISIBLE);
+        if( pendingClubsList.isEmpty() ) Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club).setVisibility(View.GONE);
+        else Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club).setVisibility(View.VISIBLE);
+
+        //notify adapters to delete and add the club from recyclers
+        clubsAdapter.notifyDataSetChanged();
+        joinedClubsAdapter.notifyDataSetChanged();
+        pendingClubsAdapter.notifyDataSetChanged();
+
+        //show message to user with the joined club
+        Toast.makeText(getActivity(), "Joined to " + club.getName(), Toast.LENGTH_SHORT).show();
     }
 
     private void prepareClubsData() {
@@ -121,10 +164,5 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
         pendingClubsList.add(new Clubs(2, 1, "Biking", "Description", 1, 2, 3));
 
         pendingClubsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onClubsClick(Clubs club) {
-        Toast.makeText(getContext(), club.getName(), Toast.LENGTH_SHORT).show();
     }
 }

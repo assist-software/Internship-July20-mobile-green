@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,16 +19,19 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.ClubViewHolder> {
 
     private List<Clubs> clubList;
-    private List<Event> eventList;
+    private List<List<Event>> eventList;
     private Activity activity;
+    LinearLayout item_club_events;
 
-    public EventParentAdapter(List<Clubs> clubList, List<Event> eventList, Activity activity) {
+    public EventParentAdapter(List<Clubs> clubList, List<List<Event>> eventList, Activity activity) {
         this.clubList = clubList;
         this.activity = activity;
         this.eventList = eventList;
@@ -35,12 +39,13 @@ public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.
 
     public class ClubViewHolder extends RecyclerView.ViewHolder {
         private TextView club_name;
-        RecyclerView club_events;
+        private RecyclerView club_events;
 
         public ClubViewHolder(@NonNull View itemView) {
             super(itemView);
             club_name = itemView.findViewById(R.id.club_name);
             club_events = itemView.findViewById(R.id.events_recycler_view);
+            item_club_events = itemView.findViewById(R.id.club_events_recycler_view_layout);
         }
 
         public void bind(Clubs club) {
@@ -59,11 +64,9 @@ public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ClubViewHolder holder, int position) {
-        if (clubList.isEmpty() || eventList.isEmpty()) return;
-
         holder.bind(clubList.get(position));
 
-        EventChildAdapter eventsAdapter = new EventChildAdapter(eventList, activity);
+        EventChildAdapter eventsAdapter = new EventChildAdapter(eventList.get(position), activity);
         LinearLayoutManager eventsLayoutManager = new LinearLayoutManager(activity);
         holder.club_events.setLayoutManager(eventsLayoutManager);
         holder.club_events.setAdapter(eventsAdapter);

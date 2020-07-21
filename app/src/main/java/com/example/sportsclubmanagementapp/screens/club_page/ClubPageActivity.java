@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
@@ -25,6 +26,7 @@ import com.example.sportsclubmanagementapp.screens.notification.NotificationActi
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,6 +36,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
     private EventAdapter eventAdapter;
+    private Clubs club;
 
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
@@ -54,20 +57,13 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
         displayAvatar();
 
-        //for users recycler
-        recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
-        userAdapter = new UserAdapter(usersList, this, R.layout.item_member);
-        RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
-        recyclerViewUsers.setLayoutManager(usersLayoutManager);
-        recyclerViewUsers.setAdapter(userAdapter);
+        getClubFromLastActivity(); //get club object pressed in the last screen
 
-        //for events recycler
-        recyclerViewEvents = (RecyclerView) findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, this, 2,this);
-        RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewEvents.setLayoutManager(eventLayoutManager);
-        recyclerViewEvents.setAdapter(eventAdapter);
+        setUpUsersRecyclerView(); //for users recycler
+        setUpEventsRecyclerView(); //for events recycler
 
+
+        //values for tests
         prepareEventData();
         prepareUsersData();
     }
@@ -91,6 +87,27 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     private void displayAvatar() {
         Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into( (CircleImageView) findViewById(R.id.avatar) );
+    }
+
+    private void getClubFromLastActivity(){
+        club = (Clubs) getIntent().getSerializableExtra("CLUB_EXTRA_SESSION_ID");
+        Toast.makeText(getBaseContext(), String.valueOf(club.getId()), Toast.LENGTH_SHORT).show();
+    }
+
+    private void setUpUsersRecyclerView(){
+        recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
+        userAdapter = new UserAdapter(usersList, this, R.layout.item_member);
+        RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
+        recyclerViewUsers.setLayoutManager(usersLayoutManager);
+        recyclerViewUsers.setAdapter(userAdapter);
+    }
+
+    private void setUpEventsRecyclerView(){
+        recyclerViewEvents = (RecyclerView) findViewById(R.id.events_recycler_view);
+        eventAdapter = new EventAdapter(eventList, this, 2,this);
+        RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewEvents.setLayoutManager(eventLayoutManager);
+        recyclerViewEvents.setAdapter(eventAdapter);
     }
 
     private void prepareEventData() {
