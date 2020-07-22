@@ -1,9 +1,11 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.User;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,22 +24,27 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     private List<User> users;
     private Context context;
-    int layout;
+    int layoutType;
 
-    public UserAdapter(List<User> users, Context context, int layout) {
+    public static int MEMBER_BAR_WITHOUT_CHECK_BOX = 1;
+    public static int MEMBER_BAR_WITH_CHECK_BOX = 2;
+
+    public UserAdapter(List<User> users, Context context, int layoutType) {
         this.users = users;
         this.context = context;
-        this.layout = layout;
+        this.layoutType = layoutType;
     }
 
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView avatar;
         private TextView user_name;
+        private CheckBox checkbox;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.avatar);
             user_name = itemView.findViewById(R.id.name);
+            checkbox = (CheckBox) itemView.findViewById(R.id.checkBox);
         }
 
         public void bind(User user) {
@@ -47,7 +56,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
+
+        if( layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX ) view.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
         return new UserViewHolder(view);
     }
 

@@ -26,14 +26,22 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_medium"
             android:text="@string/club_name_unknown"
             android:textColor="@color/color_white"
             android:textSize="@dimen/dim_24sp"
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginStart="24dp"/>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/color_white"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
