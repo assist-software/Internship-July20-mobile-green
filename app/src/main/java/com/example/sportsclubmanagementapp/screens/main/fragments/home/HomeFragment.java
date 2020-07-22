@@ -38,7 +38,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
-
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
@@ -64,37 +63,19 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     private RecyclerView recyclerViewWorkouts;
     private WorkoutsAdapter WorkoutsAdapter;
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setToolbar();
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        displayAvatar();
+        displayAvatar(); //display avatar as circle view
 
-        //for events recycler
-        setupUpEventsRecyclerView(view);
-        //for first club recycler
-        setupUpFirstClubRecyclerView(view);
-        //for clubs recycler
-        setupUpClubsRecyclerView(view);
-        //for future events recycler
-        setupUpFutureEventsRecyclerView(view);
-        //for workouts recycler
-        setupUpWorkoutsRecyclerView(view);
+        setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
 
+        //data for TESTS
         prepareEventData();
         prepareFirstClubsData();
         prepareClubsData();
@@ -102,9 +83,29 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         prepareWorkoutsData();
     }
 
+    private void setUpAllRecyclerViews(View view) {
+        //for events recycler
+        recyclerViewEvents = view.findViewById(R.id.events_recycler_view);
+        setupUpEventsRecyclerView();
+        //for first club recycler
+        recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
+        setupUpFirstClubRecyclerView();
+        //for clubs recycler
+        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
+        setupUpClubsRecyclerView();
+        //for future events recycler
+        recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
+        setupUpFutureEventsRecyclerView();
+        //for workouts recycler
+        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+        setupUpWorkoutsRecyclerView();
+    }
+
     private void setToolbar() {
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle("Home");
+        toolbar.setTitle(getResources().getText(R.string.home)); //set toolbar name from strings
+
+        //set left side drawer for toolbar
         DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -116,55 +117,45 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into((CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
     }
 
-    private void setupUpEventsRecyclerView(View view) {
-        recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, getContext(), 1, this);
+    private void setupUpEventsRecyclerView() {
+        eventAdapter = new EventAdapter(eventList, getContext(), EventAdapter.HORIZONTAL_BTN_EVENT, this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerViewEvents.setAdapter(eventAdapter);
     }
 
-    private void setupUpFirstClubRecyclerView(View view) {
-        recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
-        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), 1, this);
+    private void setupUpFirstClubRecyclerView() {
+        firstClubAdapter = new ClubsAdapter(firstClubList, getContext(), ClubsAdapter.JOIN_CLUB_LAYOUT, this);
         RecyclerView.LayoutManager firstClubLayoutManager = new LinearLayoutManager(firstClubAdapter.getContext());
         recyclerViewFirstClub.setLayoutManager(firstClubLayoutManager);
         recyclerViewFirstClub.setAdapter(firstClubAdapter);
     }
 
-    private void setupUpClubsRecyclerView(View view) {
-        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
-        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), 1, this);
+    private void setupUpClubsRecyclerView() {
+        ClubsAdapter = new ClubsAdapter(clubsList, getContext(), ClubsAdapter.JOIN_CLUB_LAYOUT, this);
         RecyclerView.LayoutManager ClubsLayoutManager = new LinearLayoutManager(ClubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(ClubsLayoutManager);
         recyclerViewClubs.setAdapter(ClubsAdapter);
     }
 
-    private void setupUpFutureEventsRecyclerView(View view) {
-        recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3, this);
+    private void setupUpFutureEventsRecyclerView() {
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), EventAdapter.VERTICAL_BTN_EVENT, this);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
     }
 
-    private void setupUpWorkoutsRecyclerView(View view) {
-        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+    private void setupUpWorkoutsRecyclerView() {
         WorkoutsAdapter = new WorkoutsAdapter(workoutsList, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(WorkoutsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewWorkouts.setLayoutManager(workoutsLayoutManager);
         recyclerViewWorkouts.setAdapter(WorkoutsAdapter);
     }
 
-    /*public void goToClubPage() {
-        startActivity(new Intent(getActivity(), ClubPageActivity.class));
-    }*/
-
     @Override
     public void onClubsClick(Clubs club) {
         Intent intent = new Intent(getActivity(), ClubPageActivity.class);
-        intent.putExtra("CLUB_EXTRA_SESSION_ID", club);
+        intent.putExtra("CLUB_EXTRA_SESSION_ID", club); //send the clicked club to the next activity (its page)
         startActivity(intent);
     }
 
@@ -190,6 +181,40 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
         //show message to user with the joined club
         Toast.makeText(getActivity(), "Joined to " + club.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEventsClick(Event event) {
+        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+        intent.putExtra("eventObject", event);
+        startActivity(intent);
+    }
+
+    private void filterFutureEvents() {
+        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+        Date now = new Date();
+        String nowStr = sdformat.format(now);
+        Iterator it = futureEventsList.iterator();
+
+        while (it.hasNext()) {
+            Event e = (Event) it.next();
+            String date = e.getDate();
+            try {
+                Date d1 = sdformat.parse(date);
+                Date d2 = sdformat.parse(nowStr);
+                assert d1 != null;
+                if (d1.compareTo(d2) < 0) {
+                    it.remove();
+                }
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
     }
 
     private void prepareEventData() {
@@ -231,38 +256,4 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
         WorkoutsAdapter.notifyDataSetChanged();
     }
-
-    public void goToClubPage() {
-        startActivity(new Intent(getActivity(), ClubPageActivity.class));
-    }
-
-    @Override
-    public void onEventsClick(Event event) {
-        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-        intent.putExtra("eventObject", event);
-        startActivity(intent);
-    }
-
-    private void filterFutureEvents() {
-        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
-        Date now = new Date();
-        String nowStr = sdformat.format(now);
-        Iterator it = futureEventsList.iterator();
-
-        while (it.hasNext()) {
-            Event e = (Event) it.next();
-            String date = e.getDate();
-            try {
-                Date d1 = sdformat.parse(date);
-                Date d2 = sdformat.parse(nowStr);
-                if (d1.compareTo(d2) < 0) {
-                    it.remove();
-                }
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-
-        }
-    }
-
 }

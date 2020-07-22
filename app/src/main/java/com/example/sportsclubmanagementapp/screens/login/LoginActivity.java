@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(View view) {
-
         boolean isValid;
         isValid = isEmailAddressValid();
         isValid = isValid && isPasswordValid();

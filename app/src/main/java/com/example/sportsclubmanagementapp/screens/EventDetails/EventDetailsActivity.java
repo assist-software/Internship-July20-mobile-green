@@ -31,10 +31,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
 
-    BarChart barChart;
+    private BarChart barChart;
+    private List<User> participants = new ArrayList<>();
+    private List<CheckBox> checkBoxes = new ArrayList<>();
+    private int selectedDataForChart;
+    private TextView titleSelectedDataChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,41 +77,84 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
-        setUpChart();
+
+        startChartData(); //function for set up chart and select default data
     }
 
-    private void setUpChart() {
-        barChart = (BarChart) findViewById(R.id.barChart);
+    //function for set up chart and select default data
+    private void startChartData() {
+        setUpCheckBoxes();
+        setUpCheckBoxesListeners();
 
-        BarData barData = new BarData();
+        //set heart rate data by default
+        titleSelectedDataChart.setText(getResources().getText(R.string.heart_rate_txt));
+        checkBoxes.get(0).setChecked(true);
+        selectedDataForChart = 1;
+        setUpChart(1); //set up chart data with heart rate (first)
+    }
+
+    private void setUpCheckBoxesListeners() {
+        String[] titlesForSelectedData = new String[]{
+                (String) getResources().getText(R.string.heart_rate_txt),
+                (String) getResources().getText(R.string.calories_txt1),
+                (String) getResources().getText(R.string.average_speed),
+                (String) getResources().getText(R.string.distance)};
+
+        for( int i=0; i<4; i++ ){
+            int finalI = i;
+            checkBoxes.get(i).setOnClickListener(v -> {
+                if( selectedDataForChart != finalI +1 ){
+                    checkBoxes.get(selectedDataForChart-1).setChecked(false);
+                    selectedDataForChart = finalI +1;
+                    checkBoxes.get(selectedDataForChart-1).setChecked(true);
+                    setUpChart(selectedDataForChart);
+                }
+                else checkBoxes.get(selectedDataForChart-1).setChecked(true);
+                titleSelectedDataChart.setText(titlesForSelectedData[finalI]);
+            });
+        }
+    }
+
+    private void setUpCheckBoxes() {
+        barChart = findViewById(R.id.barChart);
+        titleSelectedDataChart = findViewById(R.id.chartDataSelected);
+        checkBoxes.add(findViewById(R.id.heart_rate));
+        checkBoxes.add(findViewById(R.id.calories));
+        checkBoxes.add(findViewById(R.id.speed));
+        checkBoxes.add(findViewById(R.id.distance));
+    }
+
+    public void setParticipants(){
+        participants = userAdapter.getSelectedUsers();
+        setUpChart(selectedDataForChart);
+    }
+
+    private void setUpChart(int selectedData) {
         List<BarEntry> list = new ArrayList<>();
+        final ArrayList<String> xAxisLabel = new ArrayList<>();
 
-        list.add(new BarEntry(1, 1));
+        list.add(new BarEntry(0, 1));
+        xAxisLabel.add(0, "You");
+
+        for(int i=0; i<participants.size(); i++){
+            list.add(new BarEntry(i+1, 2));
+            xAxisLabel.add(i+1, participants.get(i).getFirst_and_last_name().split(" ")[0]);
+        }
+
+        setAppearanceForChart(xAxisLabel, list);
+    }
+
+    private void setAppearanceForChart(ArrayList<String> xAxisLabel, List<BarEntry> list){
+        BarData barData = new BarData();
         BarDataSet dataSet = new BarDataSet(list, "");
         dataSet.setColor(Color.BLACK);
         dataSet.setValueTextSize(15f);
         barData.addDataSet(dataSet);
 
-        list = new ArrayList<>();
-        list.add(new BarEntry(2, 1));
-        dataSet = new BarDataSet(list, "");
-        dataSet.setColor(Color.BLACK);
-        dataSet.setValueTextSize(15f);
-        barData.addDataSet(dataSet);
-
-        list = new ArrayList<>();
-        list.add(new BarEntry(3, 1));
-        dataSet = new BarDataSet(list, "");
-        dataSet.setColor(Color.BLACK);
-        dataSet.setValueTextSize(15f);
-        barData.addDataSet(dataSet);
-
-        final ArrayList<String> xAxisLabel = new ArrayList<>();
-
-        xAxisLabel.add("Mon");
-        xAxisLabel.add("Tue");
-        xAxisLabel.add("Wed");
-        xAxisLabel.add("Wed");
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setDrawGridLines(false);
+        //xAxis.setLabelRotationAngle(-45);
 
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -114,16 +162,17 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         barChart.getDescription().setEnabled(false);
         barChart.getAxisRight().setEnabled(false);
         barChart.getXAxis().setTextSize(14);
-        barChart.setExtraOffsets(0,0,20,12);
+        barChart.setExtraOffsets(0,0,0,1);
         barChart.getAxisLeft().setTextSize(14);
+
 
         barChart.setData(barData);
         barChart.invalidate();
     }
 
     private void setUpUsersRecyclerView(){
-        recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
-        userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITH_CHECK_BOX);
+        recyclerViewUsers = findViewById(R.id.members_recycler_view);
+        userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITH_CHECK_BOX, EventDetailsActivity.this);
         RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
         recyclerViewUsers.setLayoutManager(usersLayoutManager);
         recyclerViewUsers.setAdapter(userAdapter);

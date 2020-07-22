@@ -8,6 +8,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6b156f6a-6962-4548-bfaf-30c827501839" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/EventDetails/EventDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/EventDetails/EventDetailsActivity.java" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.1.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -32,6 +36,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/club_page/UserAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sportsclubmanagementapp/screens/club_page/UserAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_member.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_member.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+>>>>>>> 42f4473d56dbd4636ee565089ddf2e536f7a6de5
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,14 +151,18 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="574" y="141" key="#com.intellij.ide.util.MemberChooser" timestamp="1595408320650">
+    <state x="574" y="141" key="#com.intellij.ide.util.MemberChooser" timestamp="1595409652253">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
+<<<<<<< HEAD
+    <state x="574" y="141" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1595409652253" />
+=======
     <state x="574" y="141" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1595408320650" />
     <state x="315" y="379" width="581" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1595409674152">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="315" y="379" width="581" height="288" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1595409674152" />
+>>>>>>> 42f4473d56dbd4636ee565089ddf2e536f7a6de5
     <state x="499" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1595401867190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

@@ -7,22 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.User;
+import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
+    EventDetailsActivity activity;
+
     private List<User> users;
+    private List<User> usersSelected = new ArrayList<>();
     private Context context;
     int layoutType;
 
@@ -33,6 +39,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         this.users = users;
         this.context = context;
         this.layoutType = layoutType;
+    }
+
+    public UserAdapter(List<User> users, Context context, int layoutType, EventDetailsActivity activity) {
+        this.users = users;
+        this.context = context;
+        this.layoutType = layoutType;
+        this.activity = activity;
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -66,6 +79,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         holder.bind(users.get(position));
+
+        holder.checkbox.setOnClickListener(view -> {
+            int pos = holder.getAdapterPosition();
+            User selectedUser = users.get(pos);
+            if( usersSelected.indexOf(selectedUser) != -1 ){
+                usersSelected.remove(selectedUser);
+            }
+            else{
+                usersSelected.add(selectedUser);
+            }
+            activity.setParticipants();
+        });
     }
 
     @Override
@@ -75,5 +100,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public Context getContext(){
         return this.context;
+    }
+
+    public List<User> getSelectedUsers(){
+        return usersSelected;
     }
 }

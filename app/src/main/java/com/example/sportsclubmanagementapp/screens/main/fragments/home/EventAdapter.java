@@ -18,6 +18,11 @@ import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
+    public static int HORIZONTAL_BTN_EVENT = 1;
+    public static int HORIZONTAL_NO_BTN_EVENT = 2;
+    public static int VERTICAL_BTN_EVENT = 3;
+    public static int VERTICAL_NO_BTN_EVENT = 4;
+
     private List<Event> events;
     private Context context;
     private int typeLayout;
@@ -45,7 +50,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             date = itemView.findViewById(R.id.date);
             eventLinearLayout = itemView.findViewById(R.id.eventLinearLayout);
             //image = itemView.findViewById(R.id.image);
-            if(typeLayout == 2 || typeLayout == 4){
+            if(typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == VERTICAL_NO_BTN_EVENT){
                 join = itemView.findViewById(R.id.join);
             }
         }
@@ -55,17 +60,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             location.setText(event.getLocation());
             date.setText(event.getDate());
             //image = ;
-            if(typeLayout == 2 || typeLayout == 4){ /*hide the JOIN button for type 2 and 4*/
+            if(typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == VERTICAL_NO_BTN_EVENT){ /*hide the JOIN button for type 2 and 4*/
                 join.setVisibility(View.INVISIBLE);
             }
 
-            eventLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onEventsClick(event);
-                }
-            });
-
+            eventLinearLayout.setOnClickListener(v -> listener.onEventsClick(event));
         }
     }
 
@@ -74,7 +73,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if(typeLayout == 3 || typeLayout == 4){ //for vertical recycler events
+        if(typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == VERTICAL_NO_BTN_EVENT){ //for vertical recycler events
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
         }
         else{ //for horizontal recycler events
