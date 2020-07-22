@@ -23,19 +23,14 @@ public class AddWorkoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_workout);
 
         setToolbar();
-        setSpinner(new String[]{"Low", "Medium", "High", "Workout Effectiveness"}, (Spinner) findViewById(R.id.workoutEffectivenessSpinner));
-        setSpinner(new String[]{"Event 1", "Event 2", "Event 3", "Select Event"}, (Spinner) findViewById(R.id.eventSpinner));
+        setSpinner(new String[]{"Low", "Medium", "High", "Workout Effectiveness"}, findViewById(R.id.workoutEffectivenessSpinner));
+        setSpinner(new String[]{"Event 1", "Event 2", "Event 3", "Select Event"}, findViewById(R.id.eventSpinner));
     }
 
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.myProfileToolbar);
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     private void setSpinner(String[] items, Spinner spinner) {
@@ -59,8 +54,8 @@ public class AddWorkoutActivity extends AppCompatActivity {
         };
 
         workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (int i = 0; i < items.length; i++) {
-            workoutEffectivenessAdapter.add(items[i]);
+        for (String item : items) {
+            workoutEffectivenessAdapter.add(item);
         }
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());

@@ -48,14 +48,12 @@ public class WorkoutsFragment extends Fragment {
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Workouts");
+        toolbar.setTitle(getResources().getText(R.string.workouts)); //set toolbar name from strings
+
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyProfileActivity.class);
-                startActivity(intent);
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -63,11 +61,11 @@ public class WorkoutsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        makeWorkouts(view);
+        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+        makeWorkouts();
         prepareWorkoutsData();
     }
-    private void makeWorkouts(View view){
-        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+    private void makeWorkouts(){
         WorkoutsAdapter = new WorkoutsAdapter(workoutsList, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(WorkoutsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewWorkouts.setLayoutManager(workoutsLayoutManager);

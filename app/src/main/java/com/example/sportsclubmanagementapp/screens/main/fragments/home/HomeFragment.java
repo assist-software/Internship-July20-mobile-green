@@ -87,15 +87,19 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         //for events recycler
         recyclerViewEvents = view.findViewById(R.id.events_recycler_view);
         setupUpEventsRecyclerView();
+
         //for first club recycler
         recyclerViewFirstClub = (RecyclerView) view.findViewById(R.id.first_club_recycler_view);
         setupUpFirstClubRecyclerView();
+
         //for clubs recycler
         recyclerViewClubs = (RecyclerView) view.findViewById(R.id.join_clubs_recycler_view);
         setupUpClubsRecyclerView();
+
         //for future events recycler
         recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
         setupUpFutureEventsRecyclerView();
+
         //for workouts recycler
         recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
         setupUpWorkoutsRecyclerView();
@@ -114,7 +118,11 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void displayAvatar() {
-        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into((CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
+        Glide.with(this)
+                .load(R.mipmap.ic_default_avatar)
+                .centerCrop()
+                .into( (CircleImageView)
+                        Objects.requireNonNull(getView()).findViewById(R.id.avatar));
     }
 
     private void setupUpEventsRecyclerView() {
@@ -139,7 +147,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void setupUpFutureEventsRecyclerView() {
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), EventAdapter.VERTICAL_BTN_EVENT, this);
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), EventAdapter.HORIZONTAL_BTN_EVENT, this);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
@@ -242,9 +250,9 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void prepareFutureEventsData() {
-        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
-        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
-        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "28-07-2020", "10", "Running", 2, 3, 1));
+        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "23-07-2020", "10", "Running", 2, 3, 1));
+        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "24-07-2020", "10", "Running", 2, 3, 1));
+        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "25-07-2020", "10", "Running", 2, 3, 1));
         filterFutureEvents();
         futureEventsAdapter.notifyDataSetChanged();
     }

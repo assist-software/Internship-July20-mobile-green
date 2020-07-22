@@ -22,7 +22,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,15 +34,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Event event;
-    private GoogleMap mMap;
 
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
@@ -53,8 +49,8 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private BarChart barChart;
     private List<User> participants = new ArrayList<>();
     private List<CheckBox> checkBoxes = new ArrayList<>();
-    private int selectedDataForChart;
-    private TextView titleSelectedDataChart;
+    private int selectedDataForChart; //the type of data selected from the check boxes (under chart)
+    private TextView titleSelectedDataChart; //text above the chart
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +62,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         mapFragment.getMapAsync(EventDetailsActivity.this);
 
         setUpUsersRecyclerView(); //for users recycler
-        prepareUsersData();
+        prepareUsersData(); //for TESTS
         TextView title = findViewById(R.id.eventParticipantsTextView);
         title.setText("Participants (" + String.valueOf(usersList.size()) + ")");
 
@@ -88,7 +84,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //set heart rate data by default
         titleSelectedDataChart.setText(getResources().getText(R.string.heart_rate_txt));
-        checkBoxes.get(0).setChecked(true);
+        checkBoxes.get(0).setChecked(true); //auto check the first check box (heart rate)
         selectedDataForChart = 1;
         setUpChart(1); //set up chart data with heart rate (first)
     }
@@ -100,16 +96,17 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
                 (String) getResources().getText(R.string.average_speed),
                 (String) getResources().getText(R.string.distance)};
 
+        //set listeners for the check boxes (under chart)
         for( int i=0; i<4; i++ ){
             int finalI = i;
             checkBoxes.get(i).setOnClickListener(v -> {
-                if( selectedDataForChart != finalI +1 ){
-                    checkBoxes.get(selectedDataForChart-1).setChecked(false);
+                if( selectedDataForChart != finalI +1 ){ //if the selected box is not the current selected
+                    checkBoxes.get(selectedDataForChart-1).setChecked(false); //uncheck the current box
                     selectedDataForChart = finalI +1;
-                    checkBoxes.get(selectedDataForChart-1).setChecked(true);
-                    setUpChart(selectedDataForChart);
+                    checkBoxes.get(selectedDataForChart-1).setChecked(true); //check the selected box
+                    setUpChart(selectedDataForChart); //change the chart according to the new selected data
                 }
-                else checkBoxes.get(selectedDataForChart-1).setChecked(true);
+                else checkBoxes.get(selectedDataForChart-1).setChecked(true); //keep the selected box checked
                 titleSelectedDataChart.setText(titlesForSelectedData[finalI]);
             });
         }
@@ -130,32 +127,36 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void setUpChart(int selectedData) {
-        List<BarEntry> list = new ArrayList<>();
-        final ArrayList<String> xAxisLabel = new ArrayList<>();
+        List<BarEntry> list = new ArrayList<>(); //list of data for every participant
+        final ArrayList<String> xAxisLabel = new ArrayList<>(); //the name of each participant (for x coordinate)
 
+        //set the first date with the current user (logged in the app)
         list.add(new BarEntry(0, 1));
         xAxisLabel.add(0, "You");
 
         for(int i=0; i<participants.size(); i++){
             list.add(new BarEntry(i+1, 2));
+            //take the first name of the user for x coordinate
             xAxisLabel.add(i+1, participants.get(i).getFirst_and_last_name().split(" ")[0]);
         }
 
-        setAppearanceForChart(xAxisLabel, list);
+        setAppearanceForChart(xAxisLabel, list); //set the date in the chart and modify the default appearance
     }
 
     private void setAppearanceForChart(ArrayList<String> xAxisLabel, List<BarEntry> list){
-        BarData barData = new BarData();
-        BarDataSet dataSet = new BarDataSet(list, "");
+        BarData barData = new BarData(); //all the data for chart
+        BarDataSet dataSet = new BarDataSet(list, ""); //data set, which is only one (one of those 4)
         dataSet.setColor(Color.BLACK);
         dataSet.setValueTextSize(15f);
         barData.addDataSet(dataSet);
 
+        //set up the x coordinate
         XAxis xAxis = barChart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setDrawGridLines(false);
         //xAxis.setLabelRotationAngle(-45);
 
+        //modify the default appearance
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getLegend().setEnabled(false);
@@ -164,7 +165,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         barChart.getXAxis().setTextSize(14);
         barChart.setExtraOffsets(0,0,0,1);
         barChart.getAxisLeft().setTextSize(14);
-
 
         barChart.setData(barData);
         barChart.invalidate();
@@ -181,12 +181,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.eventDetailsActivityToolbar);
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     private void setEvent(){
@@ -233,18 +228,18 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
         LatLng assist = new LatLng(47.640121, 26.259330);
-        mMap.addMarker(new MarkerOptions().position(assist).title("ASSIST"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(assist, 17f));
-        Circle circle = mMap.addCircle(new CircleOptions()
+        googleMap.addMarker(new MarkerOptions().position(assist).title("ASSIST"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(assist, 17f));
+
+        googleMap.addCircle(new CircleOptions()
                 .center(assist)
                 .radius(100)
                 .strokeColor(Color.argb(128, 0, 0, 255))
                 .strokeWidth(5f)
                 .fillColor(Color.argb(80, 0, 0, 255)));
-        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 
     private void prepareUsersData(){

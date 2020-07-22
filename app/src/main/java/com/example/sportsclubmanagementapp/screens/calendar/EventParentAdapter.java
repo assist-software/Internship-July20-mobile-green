@@ -2,12 +2,9 @@ package com.example.sportsclubmanagementapp.screens.calendar;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Debug;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,9 +16,6 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.ClubViewHolder> {
@@ -57,7 +51,6 @@ public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.
     @Override
     public ClubViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_club_events, parent, false);
         return new ClubViewHolder(view);
     }
@@ -66,6 +59,7 @@ public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.
     public void onBindViewHolder(@NonNull ClubViewHolder holder, int position) {
         holder.bind(clubList.get(position));
 
+        //for nested recycler view
         EventChildAdapter eventsAdapter = new EventChildAdapter(eventList.get(position), activity);
         LinearLayoutManager eventsLayoutManager = new LinearLayoutManager(activity);
         holder.club_events.setLayoutManager(eventsLayoutManager);
