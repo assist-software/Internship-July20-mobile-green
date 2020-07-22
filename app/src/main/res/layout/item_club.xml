@@ -23,7 +23,7 @@
             android:fontFamily="@font/roboto_regular"
             android:textStyle="bold"
             android:text="@string/club_name_unknown"
-            android:textColor="@color/white"
+            android:textColor="@color/color_white"
             android:textSize="@dimen/dim_20sp" />
 
         <Button

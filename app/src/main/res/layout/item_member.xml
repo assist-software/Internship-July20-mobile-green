@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:layout_marginBottom="@dimen/space_8dp">
+    android:layout_marginBottom="@dimen/space_4dp">
 
     <LinearLayout
         android:id="@+id/club"
@@ -20,7 +21,8 @@
             android:layout_height="40dp"
             android:src="@mipmap/ic_default_avatar"
             android:padding="1dp"
-            android:background="@drawable/my_profile_toolbar"/>
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/color_white" />
 
         <TextView
             android:id="@+id/name"
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_medium"
             android:text="@string/club_name_unknown"
-            android:textColor="@color/white"
+            android:textColor="@color/color_white"
             android:textSize="@dimen/dim_24sp"
             android:layout_gravity="center"
             android:layout_marginStart="24dp"/>

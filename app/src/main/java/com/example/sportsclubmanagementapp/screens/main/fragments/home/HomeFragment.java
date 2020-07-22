@@ -84,15 +84,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         displayAvatar();
 
-        View.OnClickListener clubPage = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ClubPageActivity.class));
-            }
-        };
-
-        Objects.requireNonNull(getActivity()).findViewById(R.id.avatar).setOnClickListener(clubPage); //for testes only
-
         //for events recycler
         setupUpEventsRecyclerView(view);
         //for first club recycler
@@ -112,11 +103,11 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle((AppCompatActivity) getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }

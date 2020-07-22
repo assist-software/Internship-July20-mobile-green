@@ -27,16 +27,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
-            android:layout_gravity="center_horizontal"
-            >
+            android:layout_gravity="center_horizontal">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/space_4dp"
-            android:background="@drawable/workouts_frame"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_sides_bottom"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/space_24dp"
-            android:paddingTop="@dimen/space_8dp">
+            android:paddingTop="@dimen/space_8dp"
+            android:paddingBottom="@dimen/space_42dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

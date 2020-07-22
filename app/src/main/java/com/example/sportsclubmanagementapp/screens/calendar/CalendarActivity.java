@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 
@@ -30,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
+
+    List<Notification> notification = new ArrayList<>();
 
     CalendarView calendar;
     String selectedDate;
@@ -48,6 +52,7 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
         setToolbar();
+        setUpNotifications();
     }
 
     @Override
@@ -56,12 +61,14 @@ public class CalendarActivity extends AppCompatActivity {
 
         calendar = findViewById(R.id.calendar);
         //initialize the current date
-        selectedDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date(calendar.getDate()));
+        selectedDate = new SimpleDateFormat("dd.M.yyyy", Locale.getDefault()).format(new Date(calendar.getDate()));
         //set up calendar buttons
         setOnClickListenerCalendar();
 
         setUpEventsRecyclerView();
         prepareEventData();
+        //show events for the current day without performing any click on calendar
+        findEventsForSelectedDate();
     }
 
     private void setToolbar() {
@@ -75,37 +82,47 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpNotifications() {
+        notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+        ImageView notificationIcon = findViewById(R.id.notificationImageView);
+        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
+    }
+
     private void setOnClickListenerCalendar() {
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 selectedDate = dayOfMonth + "." + (month + 1) + "." + year;
                 //select the events for the selected date
-
-                currentClubsList.clear();
-                currentEventList.clear();
-                List<Event> eventsTmp;
-                boolean atLeastOneEvent = false;
-                for (int i = 0; i < allClubsList.size(); i++) {
-                    eventsTmp = new ArrayList<>();
-                    for (int j = 0; j < allEventList.get(i).size(); j++) {
-                        if (allEventList.get(i).get(j).getDate().equals(selectedDate)) {
-                            eventsTmp.add(allEventList.get(i).get(j));
-                            atLeastOneEvent = true;
-                        }
-                    }
-                    if(!eventsTmp.isEmpty()) {
-                        currentClubsList.add(allClubsList.get(i));
-                        currentEventList.add(eventsTmp);
-                    }
-                }
-                if( atLeastOneEvent)
-                    recyclerViewParent.setVisibility(View.VISIBLE);
-                else
-                    recyclerViewParent.setVisibility(View.GONE);
-                eventParentAdapter.notifyDataSetChanged(); //show events for selected date
+                findEventsForSelectedDate();
             }
         });
+    }
+
+    private void findEventsForSelectedDate(){
+        currentClubsList.clear();
+        currentEventList.clear();
+        List<Event> eventsTmp;
+        boolean atLeastOneEvent = false;
+        for (int i = 0; i < allClubsList.size(); i++) {
+            eventsTmp = new ArrayList<>();
+            for (int j = 0; j < allEventList.get(i).size(); j++) {
+                if (allEventList.get(i).get(j).getDate().equals(selectedDate)) {
+                    eventsTmp.add(allEventList.get(i).get(j));
+                    atLeastOneEvent = true;
+                }
+            }
+            if(!eventsTmp.isEmpty()) {
+                currentClubsList.add(allClubsList.get(i));
+                currentEventList.add(eventsTmp);
+            }
+        }
+        if( atLeastOneEvent)
+            recyclerViewParent.setVisibility(View.VISIBLE);
+        else
+            recyclerViewParent.setVisibility(View.GONE);
+        eventParentAdapter.notifyDataSetChanged(); //show events for selected date
     }
 
     private void setUpEventsRecyclerView() {

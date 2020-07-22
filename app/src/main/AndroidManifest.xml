@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sportsclubmanagementapp">
+    
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <permission
+        android:name="com.pkg.map.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" >
+    </permission>
+    
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -10,6 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- for Google Maps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCqrctnfF6Bsidj-Td50Zjnxqeg-AX61p0"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity android:name=".EventDetails.EventDetailsActivity"/>
         <activity android:name=".screens.addworkout.AddWorkoutActivity" />
         <activity android:name=".screens.club_page.ClubPageActivity" />
