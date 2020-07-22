@@ -22,7 +22,7 @@
         android:fontFamily="@font/inter_bold"
         android:gravity="center"
         android:text="@string/sports_club"
-        android:textColor="@color/white"
+        android:textColor="@color/color_white"
         android:textSize="@dimen/text_22sp" />
 
 </LinearLayout>

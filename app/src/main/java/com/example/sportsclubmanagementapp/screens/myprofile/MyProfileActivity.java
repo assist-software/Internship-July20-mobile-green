@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,11 +17,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyProfileActivity extends AppCompatActivity {
+
+    List<Notification> notification = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,8 @@ public class MyProfileActivity extends AppCompatActivity {
         setToolbar();
         setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"}, (Spinner) findViewById(R.id.primarySportSpinnerMyProfile));
         setSpinner(new String[]{"Secondary Sport 1", "Secondary Sport 2", "Secondary Sport 3", "Secondary Sport"}, (Spinner) findViewById(R.id.secondarySportSpinnerMyProfile));
+
+        setUpNotifications();
     }
 
     private void setToolbar() {
@@ -41,6 +50,13 @@ public class MyProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private void setUpNotifications() {
+        notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+        ImageView notificationIcon = findViewById(R.id.notificationImageView);
+        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
     public void goToNotificationsScreen(View view) {

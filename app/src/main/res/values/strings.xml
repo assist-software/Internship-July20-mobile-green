@@ -87,7 +87,6 @@
     <string name="past_events">Past Events</string>
     <string name="event_logo">Event Logo</string>
     <string name="date_event">Date event</string>
-    <string name="location_event">Location event</string>
     <string name="title_event">Title Event</string>
     <string name="location_icon">location icon</string>
     <string name="date_icon">date icon</string>
@@ -108,7 +107,17 @@
     <string name="members_txt">Members</string>
     <string name="events_txt">Events</string>
     <string name="club_name_txt">Club name</string>
-
+    <string name="running_for_life">Running for Life</string>
+    <string name="joined">Joined</string>
+    <string name="location_event">Location event</string>
+    <string name="time_event">Time Event</string>
+    <string name="description1">description1</string>
+    <string name="description2">description2</string>
+    <string name="location">Location</string>
+    <string name="select_participants_you_want_to_compare">Select participants you want to compare</string>
+    <string name="share_event">Share Event</string>
+    <string name="location_txt">Location</string>
+    <string name="participants">Participants</string>
 
 
 </resources>

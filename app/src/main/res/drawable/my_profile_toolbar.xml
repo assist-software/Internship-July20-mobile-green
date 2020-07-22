@@ -3,7 +3,7 @@
     <item>
         <shape
             android:innerRadius="0dp"
-            android:shape="oval"
+            android:shape="ring"
             android:thicknessRatio="5.0"
             android:useLevel="false">
             <solid android:color="@android:color/transparent" />
@@ -12,5 +12,6 @@
                 android:color="@android:color/white" />
         </shape>
     </item>
+    <item android:drawable="@drawable/avatar"/>
 </layer-list>
 

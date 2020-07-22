@@ -18,9 +18,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.data.models.Role;
+import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 
 import java.util.ArrayList;
@@ -29,7 +31,9 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ClubPageActivity extends AppCompatActivity {
+public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
+
+    List<Notification> notification = new ArrayList<>();
 
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
@@ -58,8 +62,10 @@ public class ClubPageActivity extends AppCompatActivity {
 
         getClubFromLastActivity(); //get club object pressed in the last screen
 
+        setUpNotifications();
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
+
 
         //values for tests
         prepareEventData();
@@ -75,6 +81,13 @@ public class ClubPageActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private void setUpNotifications() {
+        notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+        ImageView notificationIcon = findViewById(R.id.notificationImageView);
+        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
     public void goToNotificationsScreen(View view){
@@ -102,7 +115,7 @@ public class ClubPageActivity extends AppCompatActivity {
 
     private void setUpEventsRecyclerView(){
         recyclerViewEvents = (RecyclerView) findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, this, 2);
+        eventAdapter = new EventAdapter(eventList, this, 2,this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         recyclerViewEvents.setAdapter(eventAdapter);
@@ -124,5 +137,10 @@ public class ClubPageActivity extends AppCompatActivity {
         usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
 
         userAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onEventsClick(Event event) {
+
     }
 }

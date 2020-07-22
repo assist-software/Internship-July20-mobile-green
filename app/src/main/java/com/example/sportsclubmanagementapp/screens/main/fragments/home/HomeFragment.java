@@ -20,11 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.sportsclubmanagementapp.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class HomeFragment extends Fragment implements OnClubItemListener {
+public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
 
     //for events list recycler
@@ -82,15 +84,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         displayAvatar();
 
-        View.OnClickListener clubPage = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ClubPageActivity.class));
-            }
-        };
-
-        Objects.requireNonNull(getActivity()).findViewById(R.id.avatar).setOnClickListener(clubPage); //for testes only
-
         //for events recycler
         setupUpEventsRecyclerView(view);
         //for first club recycler
@@ -110,11 +103,11 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
         DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle((AppCompatActivity) getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
@@ -125,7 +118,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
 
     private void setupUpEventsRecyclerView(View view) {
         recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, getContext(), 1);
+        eventAdapter = new EventAdapter(eventList, getContext(), 1,this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -150,7 +143,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
 
     private void setupUpFutureEventsRecyclerView(View view) {
         recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3);
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3,this);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
@@ -233,5 +226,15 @@ public class HomeFragment extends Fragment implements OnClubItemListener {
         workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
 
         WorkoutsAdapter.notifyDataSetChanged();
+    }
+    public void goToClubPage() {
+        startActivity(new Intent(getActivity(), ClubPageActivity.class));
+    }
+
+    @Override
+    public void onEventsClick(Event event) {
+        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+        intent.putExtra("eventObject",event);
+        startActivity(intent);
     }
 }

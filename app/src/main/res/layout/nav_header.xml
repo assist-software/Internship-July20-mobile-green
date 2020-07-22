@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_22sp"
-        android:textColor="@color/white"
+        android:textColor="@color/color_white"
         android:fontFamily="@font/inter_semibold"
         android:paddingTop="@dimen/space_8dp"
         android:text="@string/sports_club" />

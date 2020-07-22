@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+  <item
+      android:drawable="@drawable/ic_notification_drawer" />
+  <item
+      android:id="@+id/bullet"
+      android:left="14dp"
+      android:right="2dp"
+      android:bottom="14dp"
+      android:top="2dp">
+
+    <shape android:shape="oval">
+      <solid android:color="@color/cyan"/>
+    </shape>
+
+  </item>
+
+</layer-list>

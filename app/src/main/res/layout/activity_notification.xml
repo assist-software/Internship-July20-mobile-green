@@ -26,14 +26,15 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notification_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/margin_42dp" />
+            android:paddingHorizontal="@dimen/margin_42dp"
+            android:paddingTop="@dimen/space_32dp"/>
 
     </androidx.core.widget.NestedScrollView>
 

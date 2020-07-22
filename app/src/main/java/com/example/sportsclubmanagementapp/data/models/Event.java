@@ -1,9 +1,10 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Event {
+public class Event implements Serializable {
     private long id;
     private long clubId;
     private String name;
