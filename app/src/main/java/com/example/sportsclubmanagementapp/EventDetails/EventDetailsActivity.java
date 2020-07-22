@@ -87,6 +87,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     protected void onResume() {
         super.onResume();
         setUpChart();
+
     }
 
     private void setUpChart() {
