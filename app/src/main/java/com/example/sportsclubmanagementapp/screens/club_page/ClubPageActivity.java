@@ -107,7 +107,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     private void setUpUsersRecyclerView(){
         recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
-        userAdapter = new UserAdapter(usersList, this, R.layout.item_member);
+        userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITHOUT_CHECK_BOX);
         RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
         recyclerViewUsers.setLayoutManager(usersLayoutManager);
         recyclerViewUsers.setAdapter(userAdapter);
