@@ -31,6 +31,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -121,7 +123,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private void setUpUsersRecyclerView(){
         recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
-        userAdapter = new UserAdapter(usersList, this, R.layout.item_member);
+        userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITH_CHECK_BOX);
         RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
         recyclerViewUsers.setLayoutManager(usersLayoutManager);
         recyclerViewUsers.setAdapter(userAdapter);
@@ -170,11 +172,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         Button button = findViewById(R.id.eventStatusButton);
         String buttonText = button.getText().toString();
         if (buttonText.toLowerCase().equals("joined")){
-            button.setText("join");
+            button.setText(getResources().getText(R.string.join_txt));
             button.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.btn_rounded_8dp_black,null));
             button.setTextColor(getResources().getColor(R.color.colorAccent));
         } else{
-            button.setText("joined");
+            button.setText(getResources().getText(R.string.joined_txt));
             button.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.btn_rounded_8dp_light_gray,null));
             button.setTextColor(getResources().getColor(R.color.colorPrimary));
         }
@@ -185,7 +187,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         mMap = googleMap;
 
         LatLng assist = new LatLng(47.640121, 26.259330);
-        mMap.addMarker(new MarkerOptions().position(assist).title("Marker near ASSIST"));
+        mMap.addMarker(new MarkerOptions().position(assist).title("ASSIST"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(assist, 17f));
         Circle circle = mMap.addCircle(new CircleOptions()
                 .center(assist)
