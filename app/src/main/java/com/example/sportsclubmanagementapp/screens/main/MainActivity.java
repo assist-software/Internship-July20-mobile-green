@@ -1,5 +1,11 @@
 package com.example.sportsclubmanagementapp.screens.main;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,13 +15,11 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.sportsclubmanagementapp.R;
+import android.widget.ImageView;
+
+import com.example.sportsclubmanagementapp.data.models.Notification;
+
 import com.example.sportsclubmanagementapp.screens.addworkout.AddWorkoutActivity;
 import com.example.sportsclubmanagementapp.screens.calendar.CalendarActivity;
 import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
@@ -27,6 +31,9 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             };
     private DrawerLayout drawer;
 
+    List<Notification> notification = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +72,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        setUpNotifications();
+
         //Bottom NavBar
         bottomNavigation = findViewById(R.id.nav_bar);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         openFragment(HomeFragment.newInstance());
+    }
+
+    private void setUpNotifications() {
+        notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+        ImageView notificationIcon = findViewById(R.id.notificationImageView);
+        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
     @Override
@@ -101,11 +120,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
     }
 
+
     public void goToNotificationsScreen(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.image_view_on_click));
         Intent intent = new Intent(this, NotificationActivity.class);
         startActivity(intent);
     }
+
 
     public void goToAddWorkoutScreen(View view) {
         Intent intent = new Intent(this, AddWorkoutActivity.class);

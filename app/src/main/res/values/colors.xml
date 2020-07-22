@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#1A1A1A</color>
     <color name="colorPrimaryDark">#B3000000</color>
     <color name="colorAccent">#44DABD</color>
     <color name="color_white">#FFFFFF</color>
-    <color name="black_background">#B3000000</color>
     <color name="cyan">#44DAB0</color>
-    <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="gray3">#8E9296</color>
-    <color name="gray">#8E9296</color>
+
+    <color name="black_background">#B3000000</color>
     <color name="avatar_icon_background">#666666</color>
+
+    <color name="gray">#8E9296</color>
+    <color name="gray1">#323232</color>
+    <color name="gray3">#8E9296</color>
     <color name="gray4">#97A2AF</color>
     <color name="gray5">#97A2AF</color>
     <color name="gray6">#848484</color>
-    <color name="gray1">#323232</color>
 
 </resources>

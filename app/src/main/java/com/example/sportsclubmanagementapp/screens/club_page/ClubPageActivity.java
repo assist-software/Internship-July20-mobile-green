@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.data.models.Role;
@@ -31,6 +32,8 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
+
+    List<Notification> notification = new ArrayList<>();
 
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
@@ -59,6 +62,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
         getClubFromLastActivity(); //get club object pressed in the last screen
 
+        setUpNotifications();
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
 
@@ -77,6 +81,13 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
                 onBackPressed();
             }
         });
+    }
+
+    private void setUpNotifications() {
+        notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+        ImageView notificationIcon = findViewById(R.id.notificationImageView);
+        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
     public void goToNotificationsScreen(View view){
