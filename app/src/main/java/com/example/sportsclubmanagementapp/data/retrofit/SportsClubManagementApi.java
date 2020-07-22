@@ -23,6 +23,10 @@ public interface SportsClubManagementApi {
     @GET("users") //get all users
     Call <List<User>> getUsers();
 
+    @POST("user/register/")  //register activity
+    Call <User> createPostUserRegister(@Body User userRegister);
 
+    @POST("user/signin/") //login activity
+    Call <User> createPostUserLogIn(@Body User userLogIn);
 
 }

@@ -11,7 +11,7 @@ public class ApiHelper {
         if (sportsClubManagementApi == null) {
             Retrofit retrofit;
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://my-json-server.typicode.com/IonutDoroftei/FakeServer/")
+                    .baseUrl("http://192.168.149.51:8002/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

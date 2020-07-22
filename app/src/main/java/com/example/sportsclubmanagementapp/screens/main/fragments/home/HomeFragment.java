@@ -2,11 +2,9 @@ package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,10 +24,12 @@ import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
-import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
-import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private void setupUpEventsRecyclerView(View view) {
         recyclerViewEvents = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, getContext(), 1,this);
+        eventAdapter = new EventAdapter(eventList, getContext(), 1, this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private void setupUpFutureEventsRecyclerView(View view) {
         recyclerViewFutureEvents = (RecyclerView) view.findViewById(R.id.future_events_recycler_view);
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3,this);
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), 3, this);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
@@ -175,10 +175,14 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         clubsList.remove(club);
 
         //hide recycler header if the list is empty
-        if( firstClubList.isEmpty() ) Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
-        else Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
-        if( clubsList.isEmpty() ) Objects.requireNonNull(getActivity()).findViewById(R.id.join_clubs).setVisibility(View.GONE);
-        else Objects.requireNonNull(getActivity()).findViewById(R.id.join_clubs).setVisibility(View.VISIBLE);
+        if (firstClubList.isEmpty())
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
+        else
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
+        if (clubsList.isEmpty())
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_clubs).setVisibility(View.GONE);
+        else
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_clubs).setVisibility(View.VISIBLE);
 
         //notify adapters to delete the club from recyclers
         firstClubAdapter.notifyDataSetChanged();
@@ -213,10 +217,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void prepareFutureEventsData() {
-        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-
+        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "28-07-2020", 10, "Running", 2, 3, 1));
+        filterFutureEvents();
         futureEventsAdapter.notifyDataSetChanged();
     }
 
@@ -227,6 +231,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
         WorkoutsAdapter.notifyDataSetChanged();
     }
+
     public void goToClubPage() {
         startActivity(new Intent(getActivity(), ClubPageActivity.class));
     }
@@ -234,7 +239,30 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     @Override
     public void onEventsClick(Event event) {
         Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-        intent.putExtra("eventObject",event);
+        intent.putExtra("eventObject", event);
         startActivity(intent);
     }
+
+    private void filterFutureEvents() {
+        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+        Date now = new Date();
+        String nowStr = sdformat.format(now);
+        Iterator it = futureEventsList.iterator();
+
+        while (it.hasNext()) {
+            Event e = (Event) it.next();
+            String date = e.getDate();
+            try {
+                Date d1 = sdformat.parse(date);
+                Date d2 = sdformat.parse(nowStr);
+                if (d1.compareTo(d2) < 0) {
+                    it.remove();
+                }
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
 }

@@ -22,7 +22,11 @@ import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdap
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,6 +61,12 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        /* retrieve token
+        SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.MY_PREFS_NAME),Context.MODE_PRIVATE);
+        String token = prefs.getString(getString(R.string.user_token),"no name defined");
+        Toast.makeText(getActivity(),"token is : " + token,Toast.LENGTH_LONG).show(); */
     }
 
     @Override
@@ -99,12 +109,11 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     private void preparePastEventsData() {
-        pastEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "28.07.2020", 10, "Running", 2, 3, 1));
-        pastEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        pastEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        pastEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-
-        deleteFutureEvents(pastEventsList); // delete all future events from list
+        pastEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "28-07-2020", 10, "Running", 2, 3, 1));
+        pastEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
+        pastEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
+        pastEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
+        filterPastEventsList();
         pastEventsAdapter.notifyDataSetChanged();
     }
 
@@ -184,7 +193,25 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
     }
 
-    private void deleteFutureEvents(List<Event> list) {
+    private void filterPastEventsList() {
+        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+        Date now = new Date();
+        String nowStr = sdformat.format(now);
+        Iterator it = pastEventsList.iterator();
 
+        while (it.hasNext()) {
+            Event e = (Event) it.next();
+            String date = e.getDate();
+            try {
+                Date d1 = sdformat.parse(date);
+                Date d2 = sdformat.parse(nowStr);
+                if (d1.compareTo(d2) >= 0) {
+                    it.remove();
+                }
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+
+        }
     }
 }

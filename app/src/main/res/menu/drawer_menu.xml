@@ -8,7 +8,6 @@
         <item
             android:id="@+id/drawerMenuNotification"
             android:icon="@drawable/ic_notification_drawer"
-
             android:title="@string/notifications" />
         <item
             android:id="@+id/drawerMenuCalendar"
