@@ -22,12 +22,15 @@ import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdap
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,15 +75,13 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Events");
+        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getText(R.string.events)); //set toolbar name from strings
+
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyProfileActivity.class);
-                startActivity(intent);
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -88,16 +89,12 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        makePastEvents(view);
-
-        makeJoinedEvents(view);
-
-
-        makePendingEvents(view);
-
-        //get events from api
-        //getAllEvents();
-
+        recyclerViewPastEvents = (RecyclerView) view.findViewById(R.id.pastEventsRecyclerView);
+        makePastEvents();
+        recyclerViewJoinedEvents = (RecyclerView) view.findViewById(R.id.joinedEvetsRecyclerView);
+        makeJoinedEvents();
+        recyclerViewPendingEvents = (RecyclerView) view.findViewById(R.id.pendingEventsRecyclerView);
+        makePendingEvents();
     }
 
     private void preparePastEventsData() {
@@ -127,30 +124,30 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         pendingEventsAdapter.notifyDataSetChanged();
     }
 
-    private void makePastEvents(View view) {
-        recyclerViewPastEvents = (RecyclerView) view.findViewById(R.id.pastEventsRecyclerView);
-        pastEventsAdapter = new EventAdapter(pastEventsList, getContext(), 2, this);
+    private void makePastEvents() {
+        pastEventsAdapter = new EventAdapter(pastEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
         RecyclerView.LayoutManager pastEventsLayoutManager = new LinearLayoutManager(pastEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPastEvents.setLayoutManager(pastEventsLayoutManager);
         recyclerViewPastEvents.setAdapter(pastEventsAdapter);
+
         preparePastEventsData();
     }
 
-    private void makeJoinedEvents(View view) {
-        recyclerViewJoinedEvents = (RecyclerView) view.findViewById(R.id.joinedEvetsRecyclerView);
-        joinedEventsAdapter = new EventAdapter(joinedEventsList, getContext(), 2, this);
+    private void makeJoinedEvents() {
+        joinedEventsAdapter = new EventAdapter(joinedEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
         RecyclerView.LayoutManager joinedEventsLayoutManager = new LinearLayoutManager(joinedEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewJoinedEvents.setLayoutManager(joinedEventsLayoutManager);
         recyclerViewJoinedEvents.setAdapter(joinedEventsAdapter);
+
         prepareJoinedEventsData();
     }
 
-    private void makePendingEvents(View view) {
-        recyclerViewPendingEvents = (RecyclerView) view.findViewById(R.id.pendingEventsRecyclerView);
-        pendingEventsAdapter = new EventAdapter(pendingEventsList, getContext(), 4, this);
+    private void makePendingEvents() {
+        pendingEventsAdapter = new EventAdapter(pendingEventsList, getContext(), EventAdapter.VERTICAL_NO_BTN_EVENT, this);
         RecyclerView.LayoutManager pendingEventsLayoutManager = new LinearLayoutManager(pendingEventsAdapter.getContext());
         recyclerViewPendingEvents.setLayoutManager(pendingEventsLayoutManager);
         recyclerViewPendingEvents.setAdapter(pendingEventsAdapter);
+
         preparePendingEventsData();
     }
 
@@ -158,7 +155,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         Call<List<Event>> call = ApiHelper.getApi().getEvents();
         call.enqueue(new Callback<List<Event>>() {
             @Override
-            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+            public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
@@ -167,7 +164,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
                 setAllEvents(response.body());
             }
             @Override
-            public void onFailure(Call<List<Event>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
                 Toast.makeText(getActivity(), "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -197,6 +194,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
             String date = e.getDate();
             try {
                 Date d1 = sdformat.parse(date);
+                assert d1 != null;
                 if (d1.compareTo(now) >= 0) {
                     it.remove();
                 }

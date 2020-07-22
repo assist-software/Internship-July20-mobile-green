@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.transform.Templates;
+
 public class ClubsFragment extends Fragment implements OnClubItemListener {
 
     //for new clubs recycler
@@ -46,15 +48,6 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     private RecyclerView recyclerViewPendingClubs;
     private ClubsAdapter pendingClubsAdapter;
 
-    public static ClubsFragment newInstance() {
-        return new ClubsFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,51 +57,50 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle("Clubs");
+        toolbar.setTitle(getResources().getText(R.string.clubs)); //get the toolbar name from strings
+
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyProfileActivity.class);
-                startActivity(intent);
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+            startActivity(intent);
         });
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        
         //for new events recycler
-        setUpNewEventsRecyclerView(view);
+        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.new_clubs_recycler_view);
+        setUpNewEventsRecyclerView();
+
         //for joined events recycler
-        setUpJoinedEventsRecyclerView(view);
+        recyclerViewJoinedClubs = (RecyclerView) view.findViewById(R.id.joined_clubs_recycler_view);
+        setUpJoinedEventsRecyclerView();
+
         //for pending events recycler
-        setUpPendingEventsRecyclerView(view);
+        recyclerViewPendingClubs = (RecyclerView) view.findViewById(R.id.pending_clubs_recycler_view);
+        setUpPendingEventsRecyclerView();
 
         prepareClubsData();
         prepareJoinedClubsData();
         preparePendingClubsData();
     }
 
-    private void setUpNewEventsRecyclerView(View view) {
-        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.new_clubs_recycler_view);
-        clubsAdapter = new ClubsAdapter(clubsList, getContext(), 1,this);
+    private void setUpNewEventsRecyclerView() {
+        clubsAdapter = new ClubsAdapter(clubsList, getContext(), ClubsAdapter.JOIN_CLUB_LAYOUT,this);
         RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(clubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(clubsLayoutManager);
         recyclerViewClubs.setAdapter(clubsAdapter);
     }
 
-    private void setUpJoinedEventsRecyclerView(View view) {
-        recyclerViewJoinedClubs = (RecyclerView) view.findViewById(R.id.joined_clubs_recycler_view);
-        joinedClubsAdapter = new ClubsAdapter(joinedClubsList, getContext(), 2,this);
+    private void setUpJoinedEventsRecyclerView() {
+        joinedClubsAdapter = new ClubsAdapter(joinedClubsList, getContext(), ClubsAdapter.JOINED_CLUB_LAYOUT,this);
         RecyclerView.LayoutManager joinedClubsLayoutManager = new LinearLayoutManager(joinedClubsAdapter.getContext());
         recyclerViewJoinedClubs.setLayoutManager(joinedClubsLayoutManager);
         recyclerViewJoinedClubs.setAdapter(joinedClubsAdapter);
     }
 
-    private void setUpPendingEventsRecyclerView(View view) {
-        recyclerViewPendingClubs = (RecyclerView) view.findViewById(R.id.pending_clubs_recycler_view);
-        pendingClubsAdapter = new ClubsAdapter(pendingClubsList, getContext(), 3,this);
+    private void setUpPendingEventsRecyclerView() {
+        pendingClubsAdapter = new ClubsAdapter(pendingClubsList, getContext(), ClubsAdapter.PENDING_CLUB_LAYOUT,this);
         RecyclerView.LayoutManager pendingClubsLayoutManager = new LinearLayoutManager(pendingClubsAdapter.getContext());
         recyclerViewPendingClubs.setLayoutManager(pendingClubsLayoutManager);
         recyclerViewPendingClubs.setAdapter(pendingClubsAdapter);
@@ -117,7 +109,7 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     @Override
     public void onClubsClick(Clubs club) {
         Intent intent = new Intent(getActivity(), ClubPageActivity.class);
-        intent.putExtra("CLUB_EXTRA_SESSION_ID", club);
+        intent.putExtra("CLUB_EXTRA_SESSION_ID", club); //send the clicked club to the next activity (its page)
         startActivity(intent);
     }
 
@@ -128,10 +120,14 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
         pendingClubsList.add(club);
 
         //hide recycler header if the list is empty
-        if( clubsList.isEmpty() ) Objects.requireNonNull(getActivity()).findViewById(R.id.new_club).setVisibility(View.GONE);
-        else Objects.requireNonNull(getActivity()).findViewById(R.id.new_club).setVisibility(View.VISIBLE);
-        if( pendingClubsList.isEmpty() ) Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club).setVisibility(View.GONE);
-        else Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club).setVisibility(View.VISIBLE);
+        if( clubsList.isEmpty() )
+            Objects.requireNonNull(getActivity()).findViewById(R.id.new_club).setVisibility(View.GONE);
+        else
+            Objects.requireNonNull(getActivity()).findViewById(R.id.new_club).setVisibility(View.VISIBLE);
+        if( pendingClubsList.isEmpty() )
+            Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club).setVisibility(View.GONE);
+        else
+            Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club).setVisibility(View.VISIBLE);
 
         //notify adapters to delete and add the club from recyclers
         clubsAdapter.notifyDataSetChanged();
@@ -140,6 +136,10 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
 
         //show message to user with the joined club
         Toast.makeText(getActivity(), "Joined to " + club.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    public static ClubsFragment newInstance() {
+        return new ClubsFragment();
     }
 
     private void prepareClubsData() {
