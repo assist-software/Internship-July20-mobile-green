@@ -1,25 +1,35 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 public class Event implements Serializable {
-    private long id;
+
+    @SerializedName("club")
     private long clubId;
+    @SerializedName("name")
     private String name;
+    @SerializedName("description")
     private String description;
+    @SerializedName("location")
     private String location;
-    private String date;
-    private int radius;
+    @SerializedName("radius")
+    private String radius;
+    @SerializedName("sport")
     private String sportType;
+
+    private long id;       
+    private String date;
     private long invites_id;
     private long requests_id;
     private long members_id;
 
 
-    public Event(long id, long clubId, String name, String description, String location, String date, int radius, String sportType, long invites_id, long requests_id, long members_id ) {
-        this.id = id;
+    public Event(long id, long clubId, String name, String description, String location, String date, String radius, String sportType, long invites_id, long requests_id, long members_id ) {
+        this.id=id;
         this.clubId = clubId;
         this.name = name;
         this.description = description;
@@ -30,6 +40,15 @@ public class Event implements Serializable {
         this.invites_id = invites_id;
         this.requests_id = requests_id;
         this.members_id = members_id;
+    }
+
+    public Event(long clubId, String name, String description, String location, String radius, String sportType){
+        this.clubId=clubId;
+        this.name=name;
+        this.description=description;
+        this.location=location;
+        this.radius=radius;
+        this.sportType=sportType;
     }
 
     public String getDate() {
@@ -96,11 +115,11 @@ public class Event implements Serializable {
         this.clubId = clubId;
     }
 
-    public int getRadius() {
+    public String getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius) {
+    public void setRadius(String radius) {
         this.radius = radius;
     }
 

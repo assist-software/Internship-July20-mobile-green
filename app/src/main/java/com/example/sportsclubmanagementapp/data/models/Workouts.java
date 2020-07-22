@@ -1,22 +1,33 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Workouts {
-    private long id;
+
+    @SerializedName("owner")
     private long ownerId;
     private String name;
+    @SerializedName("description")
     private String description;
-    private String sportType;
-    private String location;
+    @SerializedName("lat")
+    private double latitude;
+    @SerializedName("lng")
+    private double longitude;
     private double radius;
-    private int duration;
+    private double duration;
+    @SerializedName("distance")
     private double distance;
     private double average_hr;
     private double calories_burned;
     private double average_speed;
     private boolean workout_effectiveness;
 
+    private long id;
+    private String sportType;
+    private String location;
+
     public Workouts(long id, long ownerId, String name, String description, String sportType, String location, double radius,
-                    int duration, double distance, double average_hr, double calories_burned, double average_speed, boolean workout_effectiveness) {
+                    double duration, double distance, double average_hr, double calories_burned, double average_speed, boolean workout_effectiveness) {
         this.id = id;
         this.ownerId = ownerId;
         this.name = name;
@@ -30,6 +41,23 @@ public class Workouts {
         this.calories_burned = calories_burned;
         this.average_speed = average_speed;
         this.workout_effectiveness = workout_effectiveness;
+    }
+
+    public Workouts(long ownerId, String name, String description, double latitude, double longitude, double radius, double duration, double distance, double average_hr,
+                    double calories_burned, double average_speed, boolean workout_effectiveness) {  //API
+        this.ownerId = ownerId;
+        this.name = name;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
+        this.duration = duration;
+        this.distance = distance;
+        this.average_hr = average_hr;
+        this.calories_burned = calories_burned;
+        this.average_speed = average_speed;
+        this.workout_effectiveness = workout_effectiveness;
+
     }
 
     public long getId() {
@@ -80,6 +108,14 @@ public class Workouts {
         this.location = location;
     }
 
+    public double getLatitude() { return latitude; }
+
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+
+    public double getLongitude() { return longitude; }
+
+    public void setLongitude(double longitude) { this.longitude = longitude; }
+
     public double getRadius() {
         return radius;
     }
@@ -88,9 +124,11 @@ public class Workouts {
         this.radius = radius;
     }
 
-    public int getDuration() {
+    public double getDuration() {
         return duration;
     }
+
+    public void setDuration(double duration) { this.duration = duration; }
 
     public void setDuration(int duration) {
         this.duration = duration;
@@ -116,9 +154,7 @@ public class Workouts {
         return calories_burned;
     }
 
-    public void setCalories_burned(double calories_burned) {
-        this.calories_burned = calories_burned;
-    }
+    public void setCalories_burned(double calories_burned) { this.calories_burned = calories_burned; }
 
     public double getAverage_speed() {
         return average_speed;
@@ -132,7 +168,5 @@ public class Workouts {
         return workout_effectiveness;
     }
 
-    public void setWorkout_effectiveness(boolean workout_effectiveness) {
-        this.workout_effectiveness = workout_effectiveness;
-    }
+    public void setWorkout_effectiveness(boolean workout_effectiveness) { this.workout_effectiveness = workout_effectiveness; }
 }
