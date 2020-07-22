@@ -1,16 +1,12 @@
 package com.example.sportsclubmanagementapp.screens.calendar;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
@@ -21,13 +17,11 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
-import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -74,51 +68,51 @@ public class CalendarActivity extends AppCompatActivity {
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.calendarToolbar);
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     private void setUpNotifications() {
+        //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
-        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
+        if( notification.isEmpty() ) notificationIcon.setImageDrawable(
+                ResourcesCompat.getDrawable(getResources(),
+                        R.drawable.ic_notifications_toolbar, null));
+        else notificationIcon.setImageDrawable(
+                ResourcesCompat.getDrawable(getResources(),
+                        R.drawable.ic_notifications_toolbar_news, null));
     }
 
     private void setOnClickListenerCalendar() {
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedDate = dayOfMonth + "." + (month + 1) + "." + year;
-                //select the events for the selected date
-                findEventsForSelectedDate();
-            }
+        calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            selectedDate = dayOfMonth + "." + (month + 1) + "." + year; //(m+1) fix the problem with the calendar (1 month behind)
+            //select the events for the selected date
+            findEventsForSelectedDate();
         });
     }
 
     private void findEventsForSelectedDate(){
         currentClubsList.clear();
         currentEventList.clear();
-        List<Event> eventsTmp;
-        boolean atLeastOneEvent = false;
+        List<Event> eventsTmp; //store the events for each club
+
+        boolean atLeastOneEvent = false; //find at least one event for selected date for a club (if not, the club is hidden)
         for (int i = 0; i < allClubsList.size(); i++) {
-            eventsTmp = new ArrayList<>();
+            eventsTmp = new ArrayList<>(); //reset the list for the next club
             for (int j = 0; j < allEventList.get(i).size(); j++) {
-                if (allEventList.get(i).get(j).getDate().equals(selectedDate)) {
+                if (allEventList.get(i).get(j).getDate().equals(selectedDate)) { //the event date is the same with the selected one
                     eventsTmp.add(allEventList.get(i).get(j));
                     atLeastOneEvent = true;
                 }
             }
-            if(!eventsTmp.isEmpty()) {
+            if(!eventsTmp.isEmpty()) { //add the clubs with at least one event in the selected date
                 currentClubsList.add(allClubsList.get(i));
                 currentEventList.add(eventsTmp);
             }
         }
-        if( atLeastOneEvent)
+        //hide the recycler view if there are no events in the selected date
+        if(atLeastOneEvent)
             recyclerViewParent.setVisibility(View.VISIBLE);
         else
             recyclerViewParent.setVisibility(View.GONE);
@@ -127,7 +121,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void setUpEventsRecyclerView() {
         //for events recycler
-        recyclerViewParent = (RecyclerView) findViewById(R.id.club_events_parent_recycler_view);
+        recyclerViewParent = findViewById(R.id.club_events_parent_recycler_view);
         eventParentAdapter = new EventParentAdapter(currentClubsList, currentEventList, this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventParentAdapter.getActivity());
         recyclerViewParent.setLayoutManager(eventLayoutManager);

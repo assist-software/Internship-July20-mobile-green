@@ -118,7 +118,11 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void displayAvatar() {
-        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into((CircleImageView) Objects.requireNonNull(getView()).findViewById(R.id.avatar));
+        Glide.with(this)
+                .load(R.mipmap.ic_default_avatar)
+                .centerCrop()
+                .into( (CircleImageView)
+                        Objects.requireNonNull(getView()).findViewById(R.id.avatar));
     }
 
     private void setupUpEventsRecyclerView() {

@@ -1,13 +1,11 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +14,6 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +21,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
+    public static int MEMBER_BAR_WITHOUT_CHECK_BOX = 1;
+    public static int MEMBER_BAR_WITH_CHECK_BOX = 2;
+
     EventDetailsActivity activity;
 
     private List<User> users;
     private List<User> usersSelected = new ArrayList<>();
     private Context context;
     int layoutType;
-
-    public static int MEMBER_BAR_WITHOUT_CHECK_BOX = 1;
-    public static int MEMBER_BAR_WITH_CHECK_BOX = 2;
 
     public UserAdapter(List<User> users, Context context, int layoutType) {
         this.users = users;
@@ -57,7 +53,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             super(itemView);
             avatar = itemView.findViewById(R.id.avatar);
             user_name = itemView.findViewById(R.id.name);
-            checkbox = (CheckBox) itemView.findViewById(R.id.checkBox);
+            checkbox = itemView.findViewById(R.id.checkBox);
         }
 
         public void bind(User user) {
@@ -71,7 +67,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
 
-        if( layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX ) view.findViewById(R.id.checkBox).setVisibility(View.GONE);
+        if( layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX )
+            view.findViewById(R.id.checkBox).setVisibility(View.GONE);
 
         return new UserViewHolder(view);
     }
@@ -80,16 +77,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         holder.bind(users.get(position));
 
+        //listener for every participant check box
         holder.checkbox.setOnClickListener(view -> {
             int pos = holder.getAdapterPosition();
-            User selectedUser = users.get(pos);
+            User selectedUser = users.get(pos); //get the selected user
+
             if( usersSelected.indexOf(selectedUser) != -1 ){
+                //if the user is already in list, the check box is unchecked and the user is removed from the list
                 usersSelected.remove(selectedUser);
             }
             else{
+                //the user is selected and added in the list
                 usersSelected.add(selectedUser);
             }
-            activity.setParticipants();
+            activity.setParticipants(); //send the selected participants to activity (to set their dates in chart)
         });
     }
 

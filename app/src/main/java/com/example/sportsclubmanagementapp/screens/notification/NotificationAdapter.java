@@ -38,6 +38,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         public void bind(Notification notify) {
             time.setText(notify.getTime());
+
+            //set the notification text as HTML (for colors and styles)
             Spanned notify_text = Html.fromHtml(
                     "<font color=#848484>" + notify.getRole() + " " +
                             "</font><font color=#FFFFFF><b>" + notify.getName() + " " +
