@@ -21,7 +21,11 @@ import java.util.List;
 
 public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHolder> {
 
-    int layoutType;
+    public static int JOIN_CLUB_LAYOUT = 1;
+    public static int JOINED_CLUB_LAYOUT = 2;
+    public static int PENDING_CLUB_LAYOUT = 3;
+
+    private int layoutType;
     private List<Clubs> Clubs;
     private Context context;
     private OnClubItemListener listener;
@@ -71,33 +75,23 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
         public void bind(final Clubs club) {
             club_name.setText(club.getName());
 
-            if(layoutType == 1){
+            if(layoutType == JOIN_CLUB_LAYOUT){
                 join.setVisibility(View.VISIBLE);
                 textUnderButton.setVisibility(View.GONE);
-                join.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onClubsJoinClick(club);
-                    }
-                });
+                join.setOnClickListener(v -> listener.onClubsJoinClick(club));
             }
-            else if (layoutType == 2){
+            else if (layoutType == JOINED_CLUB_LAYOUT){
                 join.setVisibility(View.GONE);
                 textUnderButton.setVisibility(View.VISIBLE);
                 textUnderButton.setText(getContext().getResources().getText(R.string.joined_txt));
             }
-            else if(layoutType == 3){
+            else if(layoutType == PENDING_CLUB_LAYOUT){
                 join.setVisibility(View.GONE);
                 textUnderButton.setVisibility(View.VISIBLE);
                 textUnderButton.setText(getContext().getResources().getText(R.string.pending_txt_caps));
             }
 
-            linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onClubsClick(club);
-                }
-            });
+            linearLayout.setOnClickListener(v -> listener.onClubsClick(club));
         }
     }
 }
