@@ -25,19 +25,15 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(getString(R.string.MY_PREFS_NAME),MODE_PRIVATE);
         String token = prefs.getString(getString(R.string.user_token),"no token");
-        //Toast.makeText(this,"token is : " + token,Toast.LENGTH_LONG).show();
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (token.equals("no token")){
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);  //should be changed
-                    startActivity(intent);
-                }
-                else{
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
+        handler.postDelayed(() -> {
+            if (token.equals("no token")){
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);  //should be changed
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         }, 3000);
     }

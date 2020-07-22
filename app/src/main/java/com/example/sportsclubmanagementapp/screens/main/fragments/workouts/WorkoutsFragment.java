@@ -62,16 +62,17 @@ public class WorkoutsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //for workouts recycler
+
+        makeWorkouts(view);
+        prepareWorkoutsData();
+    }
+    private void makeWorkouts(View view){
         recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
         WorkoutsAdapter = new WorkoutsAdapter(workoutsList, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(WorkoutsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewWorkouts.setLayoutManager(workoutsLayoutManager);
         recyclerViewWorkouts.setAdapter(WorkoutsAdapter);
-
-        prepareWorkoutsData();
     }
-
     private void prepareWorkoutsData() {
         workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
         workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));

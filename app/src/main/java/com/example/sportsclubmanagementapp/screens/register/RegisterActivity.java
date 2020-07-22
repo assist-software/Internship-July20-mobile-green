@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         isValid = isValid && isEmailAddressValid();
         isValid = isValid && isPasswordValid();
 
-
         if (isValid) {
             createUserRegister();
         }
@@ -84,12 +83,10 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-
                 if (!response.isSuccessful()) {
                     Toast.makeText(RegisterActivity.this, "Error response: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 if (response.code() == 200) {
                     Toast.makeText(RegisterActivity.this, "User successfully created! ", Toast.LENGTH_LONG).show();
 

@@ -25,7 +25,7 @@ public class AccountSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setup);
 
-        setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"}, (Spinner) findViewById(R.id.primarySportSpinner));
+        setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"}, (Spinner) findViewById(R.id.primarySportSpinner)); //should be taken from APi
         setSpinner(new String[]{"Secondary Sport 1", "Secondary Sport 2", "Secondary Sport 3", "Secondary Sport"}, (Spinner) findViewById(R.id.secondarySportSpinner));
     }
 
@@ -37,8 +37,6 @@ public class AccountSetupActivity extends AppCompatActivity {
         isValid = isValid && isHeightValid();
         isValid = isValid && isWeightValid();
         isValid = isValid && isAgeValid();
-
-
         if (isValid) {
             startActivity(intent);
         }
@@ -82,10 +80,8 @@ public class AccountSetupActivity extends AppCompatActivity {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
-
                 return v;
             }
-
             @Override
             public int getCount() {
                 return super.getCount() - 1;

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.sportsclubmanagementapp.EventDetails.EventDetailsActivity;
+import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
@@ -193,10 +193,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void prepareEventData() {
-        eventList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        eventList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        eventList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        eventList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        eventList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        eventList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        eventList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        eventList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
 
         eventAdapter.notifyDataSetChanged();
     }
@@ -217,9 +217,9 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void prepareFutureEventsData() {
-        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
-        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "28-07-2020", 10, "Running", 2, 3, 1));
+        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
+        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
+        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "28-07-2020", "10", "Running", 2, 3, 1));
         filterFutureEvents();
         futureEventsAdapter.notifyDataSetChanged();
     }

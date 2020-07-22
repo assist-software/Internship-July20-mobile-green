@@ -1,5 +1,7 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     private long id;
     private String email;
