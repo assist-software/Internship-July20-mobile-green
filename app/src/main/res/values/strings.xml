@@ -119,4 +119,7 @@
     <string name="share_event">Share Event</string>
 
 
+
+    <string name="MY_PREFS_NAME">MyPrefsFile</string>
+    <string name="user_token">user_token</string>
 </resources>

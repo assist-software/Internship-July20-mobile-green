@@ -1,20 +1,15 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.User;
 
 import java.util.List;
@@ -45,7 +40,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         public void bind(User user) {
             avatar.setImageResource(R.mipmap.ic_default_avatar);
-            user_name.setText(user.getName());
+            user_name.setText(user.getFirst_and_last_name());
         }
     }
 
