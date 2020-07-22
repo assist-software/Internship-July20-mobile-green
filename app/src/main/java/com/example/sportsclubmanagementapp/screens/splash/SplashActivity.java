@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (token.equals("no token")){
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);  //should be changed
+                Intent intent = new Intent(SplashActivity.this, GuestActivity.class);  //should be changed
                 startActivity(intent);
             }
             else{

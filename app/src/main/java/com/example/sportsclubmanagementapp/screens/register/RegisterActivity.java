@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.User;
+import com.example.sportsclubmanagementapp.data.models.UserRegister;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.accountsetup.AccountSetupActivity;
 import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
@@ -69,6 +69,34 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createUserRegister() {
+        UserRegister userRegister = getUserDetails();
+        Call<Void> call = ApiHelper.getApi().createPostUserRegister(userRegister);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (response.code() == 202) {
+                    Toast.makeText(RegisterActivity.this, "Set up your account, to create your user!", Toast.LENGTH_LONG).show();
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        navigateAccountSetupActivity(userRegister.getFirst_and_last_name(),userRegister.getEmail(),userRegister.getPassword());
+                    }, 3);
+                } else {
+                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private UserRegister getUserDetails(){
         TextInputEditText firstAndLastName = (TextInputEditText) findViewById(R.id.firstAndLastNameTextInputEditText);
         String firstAndLastNameInput = firstAndLastName.getText().toString().trim();
         TextInputEditText emailAddress = (TextInputEditText) findViewById(R.id.emailAdDressTextInputEditText);
@@ -78,36 +106,14 @@ public class RegisterActivity extends AppCompatActivity {
         String passwordInput = password.getText().toString().trim();
         String confirmPasswordInput = confirmPassword.getText().toString().trim();
 
-        User userRegister = new User(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
-        Call<User> call = ApiHelper.getApi().createPostUserRegister(userRegister);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Error response: " + response.code(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (response.code() == 200) {
-                    Toast.makeText(RegisterActivity.this, "User successfully created! ", Toast.LENGTH_LONG).show();
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        navigateAccountSetupActivity();
-                    }, 3);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in.", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Error1: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        return new UserRegister(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
     }
+    private void navigateAccountSetupActivity(String firstAndLastName, String emailAddress, String password) {
 
-    private void navigateAccountSetupActivity() {
         Intent intent = new Intent(RegisterActivity.this, AccountSetupActivity.class);
+        intent.putExtra("name", firstAndLastName);
+        intent.putExtra("email", emailAddress);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
 }

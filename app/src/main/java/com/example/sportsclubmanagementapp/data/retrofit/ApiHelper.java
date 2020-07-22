@@ -7,11 +7,11 @@ public class ApiHelper {
 
     private static SportsClubManagementApi sportsClubManagementApi = null;
 
-    public static SportsClubManagementApi getApi(){
+    public static SportsClubManagementApi getApi() {
         if (sportsClubManagementApi == null) {
             Retrofit retrofit;
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.149.51:8002/")
+                    .baseUrl("http://192.168.149.51:8001/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
