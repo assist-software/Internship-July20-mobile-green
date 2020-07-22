@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EventDetails.EventDetailsActivity">
+    tools:context=".screens.EventDetails.EventDetailsActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -186,12 +186,102 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graphics_txt"
+                android:textSize="@dimen/dim_24sp"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/space_16dp"/>
+
+            <TextView
+                android:id="@+id/chartDataSelected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dim_14sp"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="@dimen/space_24dp"/>
+
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp">
 
             </com.github.mikephil.charting.charts.BarChart>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="@string/participants"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginTop="@dimen/space_8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/chart_select_to_compare_txt"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/gray"
+                android:layout_marginTop="@dimen/space_16dp"
+                android:layout_marginBottom="@dimen/space_12dp"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <CheckBox
+                        android:id="@+id/heart_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/heart_rate_txt"
+                        android:textSize="@dimen/text_18sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_medium"
+                        android:layout_marginEnd="@dimen/space_84dp"/>
+
+                    <CheckBox
+                        android:id="@+id/calories"
+                        android:text="@string/calories_txt1"
+                        android:textSize="@dimen/text_18sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <CheckBox
+                        android:id="@+id/speed"
+                        android:text="@string/avg_speed_txt"
+                        android:textSize="@dimen/text_18sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space_84dp"/>
+
+                    <CheckBox
+                        android:id="@+id/distance"
+                        android:text="@string/distance"
+                        android:textSize="@dimen/text_18sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
+            </TableLayout>
 
             <Button
                 android:id="@+id/shareEventButton"
@@ -202,8 +292,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:textSize="@dimen/text_12sp"
                 android:background="@drawable/btn_rounded_8dp_black"
-                android:textColor="@color/colorAccent"
-                />
+                android:textColor="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/addWorkoutButton"

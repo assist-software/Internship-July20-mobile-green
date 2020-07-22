@@ -146,15 +146,15 @@ public class CalendarActivity extends AppCompatActivity {
         allClubsList.add(new Clubs(3, 1, "Biking", "Description", 1, 2, 3));
 
         List<Event> events = new ArrayList<>();
-        events.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.7.2020", 10, "Running", 2, 3, 1));
+        events.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
         allEventList.add(events);
 
         events = new ArrayList<>();
-        events.add(new Event(2, 2, "Running for Life", "Description", "Suceava", "21.7.2020", 10, "Running", 2, 3, 1));
+        events.add(new Event(2, 2, "Running for Life", "Description", "Suceava", "21.7.2020", "10", "Running", 2, 3, 1));
         allEventList.add(events);
 
         events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "21.7.2020", 10, "Running", 2, 3, 1));
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "21.7.2020", "10", "Running", 2, 3, 1));
         allEventList.add(events);
 
         eventParentAdapter.notifyDataSetChanged();

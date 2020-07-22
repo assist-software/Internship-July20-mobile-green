@@ -61,12 +61,6 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        /* retrieve token
-        SharedPreferences prefs = getActivity().getSharedPreferences(getString(R.string.MY_PREFS_NAME),Context.MODE_PRIVATE);
-        String token = prefs.getString(getString(R.string.user_token),"no name defined");
-        Toast.makeText(getActivity(),"token is : " + token,Toast.LENGTH_LONG).show(); */
     }
 
     @Override
@@ -94,13 +88,11 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //for past events recycler
         makePastEvents(view);
 
-        //for joined events recycler
         makeJoinedEvents(view);
 
-        //for pending events recycler
+
         makePendingEvents(view);
 
         //get events from api
@@ -109,28 +101,28 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     private void preparePastEventsData() {
-        pastEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "28-07-2020", 10, "Running", 2, 3, 1));
-        pastEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
-        pastEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
-        pastEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16-07-2020", 10, "Running", 2, 3, 1));
+        pastEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "28-07-2020", "10", "Running", 2, 3, 1));
+        pastEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
+        pastEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
+        pastEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
         filterPastEventsList();
         pastEventsAdapter.notifyDataSetChanged();
     }
 
     private void prepareJoinedEventsData() {
-        joinedEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        joinedEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        joinedEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        joinedEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        joinedEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        joinedEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        joinedEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        joinedEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
 
         joinedEventsAdapter.notifyDataSetChanged();
     }
 
     private void preparePendingEventsData() {
-        pendingEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        pendingEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        pendingEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
-        pendingEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", 10, "Running", 2, 3, 1));
+        pendingEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        pendingEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        pendingEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
+        pendingEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
 
         pendingEventsAdapter.notifyDataSetChanged();
     }
@@ -168,18 +160,15 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 //success
                 setAllEvents(response.body());
-
             }
-
             @Override
             public void onFailure(Call<List<Event>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -198,14 +187,17 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         Date now = new Date();
         String nowStr = sdformat.format(now);
         Iterator it = pastEventsList.iterator();
-
+        try {
+            now = sdformat.parse(nowStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         while (it.hasNext()) {
             Event e = (Event) it.next();
             String date = e.getDate();
             try {
                 Date d1 = sdformat.parse(date);
-                Date d2 = sdformat.parse(nowStr);
-                if (d1.compareTo(d2) >= 0) {
+                if (d1.compareTo(now) >= 0) {
                     it.remove();
                 }
             } catch (ParseException ex) {

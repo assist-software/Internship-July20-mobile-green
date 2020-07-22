@@ -59,13 +59,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 join.setVisibility(View.INVISIBLE);
             }
 
-            eventLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onEventsClick(event);
-                }
-            });
-
+            eventLinearLayout.setOnClickListener(v -> listener.onEventsClick(event));
         }
     }
 
