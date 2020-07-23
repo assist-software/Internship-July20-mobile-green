@@ -73,11 +73,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if(typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == HORIZONTAL_BTN_EVENT){ //for vertical recycler events
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
-        }
-        else{ //for horizontal recycler events
+        if(typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == HORIZONTAL_BTN_EVENT){ //for horizontal recycler events
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
+        }
+        else{ //for vertical recycler events
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
         }
         return new EventViewHolder(view);
 }

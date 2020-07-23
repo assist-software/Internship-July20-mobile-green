@@ -4,8 +4,7 @@
     android:layout_width="250dp"
     android:layout_height="235dp"
     android:layout_marginEnd="@dimen/space_8dp"
-    android:elevation="@dimen/dim_2dp"
-    android:background="@drawable/shadow_sides_bottom"
+    android:background="@drawable/btn_rounded_8dp_light_gray_border"
     android:orientation="vertical">
 
     <LinearLayout

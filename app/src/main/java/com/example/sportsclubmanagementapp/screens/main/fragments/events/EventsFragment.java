@@ -38,10 +38,6 @@ import retrofit2.Response;
 
 public class EventsFragment extends Fragment implements OnEventItemListener {
 
-
-    //all events
-    private List<Event> allEvents;
-
     //for past events recycler
     private List<Event> pastEventsList = new ArrayList<>();
     private RecyclerView recyclerViewPastEvents;
@@ -75,7 +71,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getText(R.string.events)); //set toolbar name from strings
 
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
@@ -89,11 +85,11 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerViewPastEvents = (RecyclerView) view.findViewById(R.id.pastEventsRecyclerView);
+        recyclerViewPastEvents = view.findViewById(R.id.pastEventsRecyclerView);
         makePastEvents();
-        recyclerViewJoinedEvents = (RecyclerView) view.findViewById(R.id.joinedEvetsRecyclerView);
+        recyclerViewJoinedEvents = view.findViewById(R.id.joinedEvetsRecyclerView);
         makeJoinedEvents();
-        recyclerViewPendingEvents = (RecyclerView) view.findViewById(R.id.pendingEventsRecyclerView);
+        recyclerViewPendingEvents = view.findViewById(R.id.pendingEventsRecyclerView);
         makePendingEvents();
     }
 
@@ -126,7 +122,8 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
     private void makePastEvents() {
         pastEventsAdapter = new EventAdapter(pastEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager pastEventsLayoutManager = new LinearLayoutManager(pastEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager pastEventsLayoutManager =
+                new LinearLayoutManager(pastEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPastEvents.setLayoutManager(pastEventsLayoutManager);
         recyclerViewPastEvents.setAdapter(pastEventsAdapter);
 
@@ -135,7 +132,8 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
     private void makeJoinedEvents() {
         joinedEventsAdapter = new EventAdapter(joinedEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager joinedEventsLayoutManager = new LinearLayoutManager(joinedEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager joinedEventsLayoutManager =
+                new LinearLayoutManager(joinedEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewJoinedEvents.setLayoutManager(joinedEventsLayoutManager);
         recyclerViewJoinedEvents.setAdapter(joinedEventsAdapter);
 
@@ -144,7 +142,8 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
     private void makePendingEvents() {
         pendingEventsAdapter = new EventAdapter(pendingEventsList, getContext(), EventAdapter.VERTICAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager pendingEventsLayoutManager = new LinearLayoutManager(pendingEventsAdapter.getContext());
+        RecyclerView.LayoutManager pendingEventsLayoutManager =
+                new LinearLayoutManager(pendingEventsAdapter.getContext());
         recyclerViewPendingEvents.setLayoutManager(pendingEventsLayoutManager);
         recyclerViewPendingEvents.setAdapter(pendingEventsAdapter);
 
@@ -171,7 +170,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     private void setAllEvents(List<Event> l) {
-        this.allEvents = l;
+        //all events
     }
 
     @Override
