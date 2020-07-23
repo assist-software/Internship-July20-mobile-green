@@ -10,10 +10,10 @@ public class UserAccountSetup {
     private String password;
     private double height;
     private double weight;
-    private String primary_sport;
-    private String secondary_sport;
+    private int primary_sport;
+    private int secondary_sport;
 
-    public UserAccountSetup(String email, String first_name, String last_name, int gender, int role, int age, String password, double height, double weight, String primary_sport, String secondary_sport) {
+    public UserAccountSetup(String email, String first_name, String last_name, int gender, int role, int age, String password, double height, double weight, int primary_sport, int secondary_sport) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -99,19 +99,19 @@ public class UserAccountSetup {
         this.weight = weight;
     }
 
-    public String getPrimary_sport() {
+    public int getPrimary_sport() {
         return primary_sport;
     }
 
-    public void setPrimary_sport(String primary_sport) {
+    public void setPrimary_sport(int primary_sport) {
         this.primary_sport = primary_sport;
     }
 
-    public String getSecondary_sport() {
+    public int getSecondary_sport() {
         return secondary_sport;
     }
 
-    public void setSecondary_sport(String secondary_sport) {
+    public void setSecondary_sport(int secondary_sport) {
         this.secondary_sport = secondary_sport;
     }
 }
