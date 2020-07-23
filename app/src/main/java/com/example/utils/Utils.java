@@ -81,8 +81,8 @@ public class Utils {
             return false;
         }
         try {
-            int heightNumber = Integer.parseInt(heightInput);
-            if (heightNumber < 80) {
+            double heightNumber = Double.parseDouble(heightInput);
+            if (heightNumber < 80.0) {
                 height.setError("Height is not valid! Please enter your height in cm.");
                 return false;
             }
@@ -101,7 +101,7 @@ public class Utils {
         }
 
         try {
-            int weightNumber = Integer.parseInt(weightInput);
+            double weightNumber = Double.parseDouble(weightInput);
         } catch (NumberFormatException e) {
             weight.setError("Weight is not valid! Please enter your weight in kg.");
             return false;

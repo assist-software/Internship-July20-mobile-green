@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.User;
+import com.example.sportsclubmanagementapp.data.models.UserRegister;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.accountsetup.AccountSetupActivity;
 import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
@@ -73,6 +73,28 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createUserRegister() {
+        UserRegister userRegister = getUserDetails();
+        Call<Void> call = ApiHelper.getApi().createPostUserRegister(userRegister);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Set up your account, to create your user!", Toast.LENGTH_LONG).show();
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword()), 3);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private UserRegister getUserDetails() {
         TextInputEditText firstAndLastName = findViewById(R.id.firstAndLastNameTextInputEditText);
         String firstAndLastNameInput = Objects.requireNonNull(firstAndLastName.getText()).toString().trim();
         TextInputEditText emailAddress = findViewById(R.id.emailAdDressTextInputEditText);
@@ -82,34 +104,15 @@ public class RegisterActivity extends AppCompatActivity {
         String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
         String confirmPasswordInput = Objects.requireNonNull(confirmPassword.getText()).toString().trim();
 
-        User userRegister = new User(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
-        Call<User> call = ApiHelper.getApi().createPostUserRegister(userRegister);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(@NotNull Call<User> call, @NotNull Response<User> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Error response: " + response.code(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (response.code() == 200) {
-                    Toast.makeText(RegisterActivity.this, "User successfully created! ", Toast.LENGTH_LONG).show();
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> navigateAccountSetupActivity(), 3);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in.", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<User> call, @NotNull Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Error1: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        return new UserRegister(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
     }
 
-    private void navigateAccountSetupActivity() {
+    private void navigateAccountSetupActivity(String firstAndLastName, String emailAddress, String password) {
+
         Intent intent = new Intent(RegisterActivity.this, AccountSetupActivity.class);
+        intent.putExtra("name", firstAndLastName);
+        intent.putExtra("email", emailAddress);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
 }

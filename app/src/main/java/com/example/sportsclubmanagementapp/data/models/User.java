@@ -1,11 +1,10 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
 public class User {
+    private String username;
+
     private long id;
     private String email;
-    private String username;
     private String token;
     private String first_and_last_name;
     private String password;
@@ -30,14 +29,14 @@ public class User {
         this.age = age;
     }
 
-    public User (String email, String first_and_last_name, String password, String confirm_password) { // for register activity
+    public User(String email, String first_and_last_name, String password, String confirm_password) { // for register activity
         this.email = email;
         this.first_and_last_name = first_and_last_name;
         this.password = password;
         this.confirm_password = confirm_password;
     }
 
-    public User (String username, String password){  // for login activity
+    public User(String username, String password) {  // for login activity
         this.username = username;
         this.email = username;
         this.password = password;
@@ -83,5 +82,7 @@ public class User {
         return age;
     }
 
-    public String getToken(){return token;}
+    public String getToken() {
+        return token;
+    }
 }
