@@ -1,19 +1,23 @@
 package com.example.sportsclubmanagementapp.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
-public class Clubs implements Serializable { //hardcoded data
-    private long id;
+public class Club implements Serializable { //hardcoded data & api
+    private int id;
+    @SerializedName("owner")
     private long ownerId;
     private String name;
+
     private String description;
     private long invites_id;
     private long requests_id;
     private long members_id;
 
-    public Clubs(long id, long ownerId, String name, String description, long invites_id, long requests_id, long members_id) {
+    public Club(int id, long ownerId, String name, String description, long invites_id, long requests_id, long members_id) {
         this.id = id;
-        this.name = name + " Club";
+        this.name = name;
         this.description = description;
         this.invites_id = invites_id;
         this.requests_id = requests_id;
@@ -48,9 +52,7 @@ public class Clubs implements Serializable { //hardcoded data
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
     public long getOwnerId() {
         return ownerId;

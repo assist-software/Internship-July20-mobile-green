@@ -1,6 +1,6 @@
 package com.example.sportsclubmanagementapp.data.retrofit;
 
-import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Sport;
 import com.example.sportsclubmanagementapp.data.models.User;
@@ -11,15 +11,14 @@ import com.example.sportsclubmanagementapp.data.models.UserRegister;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 import java.util.List;
 
 public interface SportsClubManagementApi {
-
-
-    @GET("clubs/")  //get all clubs
-    Call <List<Clubs>> getClubs();
 
     @GET("events/") //get all events
     Call <List<Event>> getEvents();
@@ -30,6 +29,9 @@ public interface SportsClubManagementApi {
     @GET("sports/") //get all sports
     Call <List<Sport>> getSports();
 
+    @GET("/api/clubs/") //get all clubs
+    Call <List<Club>> getClubs();
+
     @POST("user/register/validate/")  //register activity
     Call <Void> createPostUserRegister(@Body UserRegister userRegister);
 
@@ -38,4 +40,7 @@ public interface SportsClubManagementApi {
 
     @POST("user/register/") //accountsetup activity
     Call <Void> createPostUserAccountSetup(@Body UserAccountSetup userAccountSetup);
+
+    @POST("api/clubs/join/{id}/")
+    Call <Void> createPostUserJoinClub(@Header ("Authorization") String token, @Path ("id") int id);
 }

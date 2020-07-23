@@ -134,16 +134,16 @@ public class AccountSetupActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(AccountSetupActivity.this, "Data is not valid!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AccountSetupActivity.this, R.string.account_setup_not_successful, Toast.LENGTH_LONG).show();
                 else {
-                    Toast.makeText(AccountSetupActivity.this, "User has been created!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AccountSetupActivity.this, R.string.account_setup_successful, Toast.LENGTH_LONG).show();
                     new Handler().postDelayed(() -> goToLogInActivity(), 2000);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
-                Toast.makeText(AccountSetupActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AccountSetupActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -217,7 +217,7 @@ public class AccountSetupActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<List<Sport>> call, @NotNull Response<List<Sport>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(AccountSetupActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountSetupActivity.this, getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
                 else {
                     sports = response.body();
                     setSpinner(Objects.requireNonNull(sports), primarySportSpinner);
@@ -227,7 +227,7 @@ public class AccountSetupActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<List<Sport>> call, @NotNull Throwable t) {
-                Toast.makeText(AccountSetupActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountSetupActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

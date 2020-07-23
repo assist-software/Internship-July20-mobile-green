@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.data.models.Role;
@@ -36,7 +36,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
     private EventAdapter eventAdapter;
-    private Clubs club;
+    private Club club;
 
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
@@ -97,7 +97,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void getClubFromLastActivity() {
-        club = (Clubs) getIntent().
+        club = (Club) getIntent().
                 getSerializableExtra("CLUB_EXTRA_SESSION_ID"); //get the club object from the last screen
     }
 

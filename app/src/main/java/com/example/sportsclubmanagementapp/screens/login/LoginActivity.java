@@ -72,17 +72,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<UserLogIn> call, @NotNull Response<UserLogIn> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(LoginActivity.this, "Your email or password is incorrect! If you don't have an account then create one!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.log_in_not_successful, Toast.LENGTH_LONG).show();
                 else {
                     sharePreferencesToken(Objects.requireNonNull(response.body()).getToken());
-                    Toast.makeText(LoginActivity.this, "Log in is successful!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.log_in_successful, Toast.LENGTH_LONG).show();
                     new Handler().postDelayed(() -> goToMainScreen(), 2000);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<UserLogIn> call, @NotNull Throwable t) {
-                Toast.makeText(LoginActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, getString(R.string.api_failure) + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

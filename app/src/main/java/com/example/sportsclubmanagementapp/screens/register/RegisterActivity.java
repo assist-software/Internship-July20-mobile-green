@@ -81,16 +81,16 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, R.string.register_not_successful, Toast.LENGTH_LONG).show();
                 else {
-                    Toast.makeText(RegisterActivity.this, "Set up your account, to create your user!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, R.string.register_successful, Toast.LENGTH_LONG).show();
                     new Handler().postDelayed(() -> navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword()), 2000);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
