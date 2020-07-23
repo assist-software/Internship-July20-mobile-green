@@ -8,6 +8,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (token.equals("no token")){
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);  //should be changed
+                Intent intent = new Intent(SplashActivity.this, GuestActivity.class);
                 startActivity(intent);
             }
             else{

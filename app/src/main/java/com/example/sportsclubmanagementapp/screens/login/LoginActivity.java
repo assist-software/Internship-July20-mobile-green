@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.User;
+import com.example.sportsclubmanagementapp.data.models.UserLogIn;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.register.RegisterActivity;
@@ -67,29 +67,24 @@ public class LoginActivity extends AppCompatActivity {
         TextInputEditText password = findViewById(R.id.password);
         String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
 
-        User userLogIn = new User(emailAddressInput, passwordInput);
-        Call<User> call = ApiHelper.getApi().createPostUserLogIn(userLogIn);
-        call.enqueue(new Callback<User>() {
+        UserLogIn userLogIn = new UserLogIn(emailAddressInput, passwordInput);
+        Call<UserLogIn> call = ApiHelper.getApi().createPostUserLogIn(userLogIn);
+        call.enqueue(new Callback<UserLogIn>() {
             @Override
-            public void onResponse(@NotNull Call<User> call, @NotNull Response<User> response) {
+            public void onResponse(@NotNull Call<UserLogIn> call, @NotNull Response<UserLogIn> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Your email or password is incorrect! If you don't have an account then create one!", Toast.LENGTH_LONG).show();
-                    return;
                 }
-
-                if (response.code() == 200) {
-                    assert response.body() != null;
-                    sharePreferencesToken(response.body().getToken());
-
+                else{
+                    sharePreferencesToken(Objects.requireNonNull(response.body()).getToken());
                     Toast.makeText(LoginActivity.this, "Log in is successful!", Toast.LENGTH_LONG).show();
-
                     Handler handler = new Handler();
                     handler.postDelayed(() -> goToMainScreen(), 3);
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<User> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<UserLogIn> call, @NotNull Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
