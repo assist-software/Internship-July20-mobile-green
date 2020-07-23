@@ -47,7 +47,7 @@ public class WorkoutsFragment extends Fragment {
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getText(R.string.workouts)); //set toolbar name from strings
 
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
@@ -61,7 +61,7 @@ public class WorkoutsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+        recyclerViewWorkouts = view.findViewById(R.id.workouts_recycler_view);
         makeWorkouts();
         prepareWorkoutsData();
     }

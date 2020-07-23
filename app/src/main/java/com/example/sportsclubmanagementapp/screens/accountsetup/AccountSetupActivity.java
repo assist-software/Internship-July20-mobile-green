@@ -34,6 +34,7 @@ import java.util.Objects;
 
 public class AccountSetupActivity extends AppCompatActivity {
 
+    private List <Sport> sports;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,8 @@ public class AccountSetupActivity extends AppCompatActivity {
         boolean isValid;
 
         isValid = isGenderValid();
+        isValid = isPrimarySportValid();
+        isValid = isSecondarySportValid();
         isValid = isValid && isHeightValid();
         isValid = isValid && isWeightValid();
         isValid = isValid && isAgeValid();
@@ -61,6 +64,16 @@ public class AccountSetupActivity extends AppCompatActivity {
         RadioButton radioMale = findViewById(R.id.maleRadioButton);
         TextView gender = findViewById(R.id.genderTextView);
         return Utils.isGenderValid(radioFemale, radioMale, gender);
+    }
+
+    private boolean isPrimarySportValid(){
+        Spinner spinner = findViewById(R.id.primarySportSpinner);
+        return Utils.isPrimarySportValid(spinner);
+    }
+
+    private boolean isSecondarySportValid(){
+        Spinner spinner = findViewById(R.id.secondarySportSpinner);
+        return Utils.isSecondarySportValid(spinner);
     }
 
     private boolean isHeightValid() {
@@ -148,8 +161,8 @@ public class AccountSetupActivity extends AppCompatActivity {
         int age = getAge();
         double weight = getWeight();
         double height = getHeight();
-        String primarySport = getPrimarySport();
-        String secondarySport = getSecondarySport();
+        int primarySport = getPrimarySport();
+        int secondarySport = getSecondarySport();
         return new UserAccountSetup(email, firstName, lastName, gender, role, age, password, height, weight, primarySport, secondarySport);
     }
 
@@ -174,14 +187,30 @@ public class AccountSetupActivity extends AppCompatActivity {
         return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
     }
 
-    private String getPrimarySport() {
+    private int getPrimarySport() {
         Spinner spinner = findViewById(R.id.primarySportSpinner);
-        return spinner.getSelectedItem().toString();
+        String choice = spinner.getSelectedItem().toString();
+        int sportId = 0;
+        for (Sport sport : sports){
+            if (choice.equals(sport.getSportName())){
+                sportId = sport.getId();
+                break;
+            }
+        }
+        return sportId;
     }
 
-    private String getSecondarySport() {
+    private int getSecondarySport() {
         Spinner spinner = findViewById(R.id.secondarySportSpinner);
-        return spinner.getSelectedItem().toString();
+        String choice = spinner.getSelectedItem().toString();
+        int sportId = 0;
+        for (Sport sport : sports){
+            if (choice.equals(sport.getSportName())){
+                sportId = sport.getId();
+                break;
+            }
+        }
+        return sportId;
     }
 
     private void goToLogInActivity() {
@@ -198,7 +227,7 @@ public class AccountSetupActivity extends AppCompatActivity {
                     Toast.makeText(AccountSetupActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                List<Sport> sports = response.body();
+                sports = response.body();
                 setSpinner(Objects.requireNonNull(sports), findViewById(R.id.primarySportSpinner));
                 setSpinner(sports, findViewById(R.id.secondarySportSpinner));
             }

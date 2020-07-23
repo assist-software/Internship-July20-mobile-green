@@ -2,6 +2,7 @@ package com.example.utils;
 
 import android.util.Patterns;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -75,9 +76,28 @@ public class Utils {
         return true;
     }
 
+    public static boolean isPrimarySportValid (Spinner spinner){
+        String choice = spinner.getSelectedItem().toString();
+        if (choice.equals("Select your favorite sport:")){
+            TextView errorText = (TextView) spinner.getSelectedView();
+            errorText.setError("Select your primary sport!");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isSecondarySportValid (Spinner spinner){
+        String choice = spinner.getSelectedItem().toString();
+        if (choice.equals("Select your favorite sport:")){
+            TextView errorText = (TextView) spinner.getSelectedView();
+            errorText.setError("Select your secondary sport!");
+            return false;
+        }
+        return true;
+    }
     public static boolean isHeightValid(String heightInput, TextInputEditText height) {
         if (heightInput.isEmpty()) {
-            height.setError("Field can't be empty");
+            height.setError("Field can't be empty!");
             return false;
         }
         try {
@@ -96,7 +116,7 @@ public class Utils {
 
     public static boolean isWeightValid(String weightInput, TextInputEditText weight) {
         if (weightInput.isEmpty()) {
-            weight.setError("Field can't be empty");
+            weight.setError("Field can't be empty!");
             return false;
         }
 
@@ -113,7 +133,7 @@ public class Utils {
     public static boolean isAgeValid(String ageInput, TextInputEditText age) {
 
         if (ageInput.isEmpty()) {
-            age.setError("Field can't be empty");
+            age.setError("Field can't be empty!");
             return false;
         }
 
