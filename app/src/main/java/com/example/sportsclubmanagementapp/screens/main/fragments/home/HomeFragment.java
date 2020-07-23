@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void setupUpFutureEventsRecyclerView() {
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), EventAdapter.HORIZONTAL_BTN_EVENT, this);
+        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), EventAdapter.VERTICAL_BTN_EVENT, this);
         RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
         recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
         recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
