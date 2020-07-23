@@ -1,6 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-public class UserLogIn {
+public class UserLogIn { //api data
     String username;
     String password;
     String token;

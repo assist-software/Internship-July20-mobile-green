@@ -1,8 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-import java.util.Objects;
-
-public class Role {
+public class Role { //hardcoded data
     private boolean admin;
     private boolean coach;
     private boolean athlete;

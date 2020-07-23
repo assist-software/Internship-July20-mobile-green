@@ -26,17 +26,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    private TextInputEditText emailAddress;
+    private TextInputEditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        initComponents();
+    }
+
+    private void initComponents() {
+        emailAddress = findViewById(R.id.email);
+        password = findViewById(R.id.password);
     }
 
     public void onClickLogin(View view) {
-        boolean isValid;
-        isValid = isEmailAddressValid();
-        isValid = isValid && isPasswordValid();
+        boolean isValid = isEmailAddressValid() && isPasswordValid();
 
         if (isValid) {
             checkUserExists();
@@ -44,16 +50,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isEmailAddressValid() {
-        TextInputEditText emailAddress = findViewById(R.id.email);
         String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-
         return Utils.isEmailAddressValid(emailAddressInput, emailAddress);
     }
 
     private boolean isPasswordValid() {
-        TextInputEditText password = findViewById(R.id.password);
         String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
-
         return Utils.isPasswordValid(passwordInput, password);
     }
 
@@ -62,24 +64,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserExists() {
-        TextInputEditText emailAddress = findViewById(R.id.email);
         String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-        TextInputEditText password = findViewById(R.id.password);
         String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
-
         UserLogIn userLogIn = new UserLogIn(emailAddressInput, passwordInput);
         Call<UserLogIn> call = ApiHelper.getApi().createPostUserLogIn(userLogIn);
         call.enqueue(new Callback<UserLogIn>() {
             @Override
             public void onResponse(@NotNull Call<UserLogIn> call, @NotNull Response<UserLogIn> response) {
-                if (!response.isSuccessful()) {
+                if (!response.isSuccessful())
                     Toast.makeText(LoginActivity.this, "Your email or password is incorrect! If you don't have an account then create one!", Toast.LENGTH_LONG).show();
-                }
-                else{
+                else {
                     sharePreferencesToken(Objects.requireNonNull(response.body()).getToken());
                     Toast.makeText(LoginActivity.this, "Log in is successful!", Toast.LENGTH_LONG).show();
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> goToMainScreen(), 3);
+                    new Handler().postDelayed(() -> goToMainScreen(), 2000);
                 }
             }
 
@@ -90,13 +87,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void goToMainScreen(){
+    private void goToMainScreen() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
-    private void sharePreferencesToken(String token){
-        SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME),MODE_PRIVATE).edit();
-        editor.putString(getString(R.string.user_token),token);
+
+    private void sharePreferencesToken(String token) {
+        SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE).edit();
+        editor.putString(getString(R.string.user_token), token);
         editor.apply();
     }
 }

@@ -2,7 +2,7 @@ package com.example.sportsclubmanagementapp.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Workouts {
+public class Workouts { //hardcoded data
 
     @SerializedName("owner")
     private long ownerId;

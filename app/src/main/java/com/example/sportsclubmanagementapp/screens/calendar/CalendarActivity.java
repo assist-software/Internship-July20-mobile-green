@@ -28,10 +28,8 @@ import java.util.Locale;
 public class CalendarActivity extends AppCompatActivity {
 
     List<Notification> notification = new ArrayList<>();
-
     CalendarView calendar;
     String selectedDate;
-
     //for parent list recycler
     private List<Clubs> allClubsList = new ArrayList<>();
     private List<Clubs> currentClubsList = new ArrayList<>();
@@ -52,13 +50,11 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         calendar = findViewById(R.id.calendar);
         //initialize the current date
         selectedDate = new SimpleDateFormat("dd.M.yyyy", Locale.getDefault()).format(new Date(calendar.getDate()));
         //set up calendar buttons
         setOnClickListenerCalendar();
-
         setUpEventsRecyclerView();
         prepareEventData();
         //show events for the current day without performing any click on calendar

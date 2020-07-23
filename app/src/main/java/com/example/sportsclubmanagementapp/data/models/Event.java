@@ -3,10 +3,8 @@ package com.example.sportsclubmanagementapp.data.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
 
-public class Event implements Serializable {
+public class Event implements Serializable { //hardcoded data
 
     @SerializedName("club")
     private long clubId;
@@ -21,15 +19,15 @@ public class Event implements Serializable {
     @SerializedName("sport")
     private String sportType;
 
-    private long id;       
+    private long id;
     private String date;
     private long invites_id;
     private long requests_id;
     private long members_id;
 
 
-    public Event(long id, long clubId, String name, String description, String location, String date, String radius, String sportType, long invites_id, long requests_id, long members_id ) {
-        this.id=id;
+    public Event(long id, long clubId, String name, String description, String location, String date, String radius, String sportType, long invites_id, long requests_id, long members_id) {
+        this.id = id;
         this.clubId = clubId;
         this.name = name;
         this.description = description;
@@ -42,13 +40,13 @@ public class Event implements Serializable {
         this.members_id = members_id;
     }
 
-    public Event(long clubId, String name, String description, String location, String radius, String sportType){
-        this.clubId=clubId;
-        this.name=name;
-        this.description=description;
-        this.location=location;
-        this.radius=radius;
-        this.sportType=sportType;
+    public Event(long clubId, String name, String description, String location, String radius, String sportType) {
+        this.clubId = clubId;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.radius = radius;
+        this.sportType = sportType;
     }
 
     public String getDate() {

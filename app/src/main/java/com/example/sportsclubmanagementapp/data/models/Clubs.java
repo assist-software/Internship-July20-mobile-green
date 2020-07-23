@@ -1,9 +1,8 @@
 package com.example.sportsclubmanagementapp.data.models;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-public class Clubs implements Serializable {
+public class Clubs implements Serializable { //hardcoded data
     private long id;
     private long ownerId;
     private String name;
@@ -12,7 +11,7 @@ public class Clubs implements Serializable {
     private long requests_id;
     private long members_id;
 
-    public Clubs(long id, long ownerId, String name, String description, long invites_id, long requests_id, long members_id ) {
+    public Clubs(long id, long ownerId, String name, String description, long invites_id, long requests_id, long members_id) {
         this.id = id;
         this.name = name + " Club";
         this.description = description;

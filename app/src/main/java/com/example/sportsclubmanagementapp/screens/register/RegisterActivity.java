@@ -25,46 +25,48 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
+    private TextInputEditText firstAndLastName;
+    private TextInputEditText emailAddress;
+    private TextInputEditText password;
+    private TextInputEditText confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        initComponents();
+    }
+
+    private void initComponents() {
+        firstAndLastName = findViewById(R.id.firstAndLastNameTextInputEditText);
+        emailAddress = findViewById(R.id.emailAdDressTextInputEditText);
+        password = findViewById(R.id.passwordTextInputEditText);
+        confirmPassword = findViewById(R.id.confirmPasswordTextInputEditText);
     }
 
     public void onClickRegisterBtn(View view) {
 
         boolean isValid;
-        isValid = isFirstAndLastNameValid();
-        isValid = isValid && isEmailAddressValid();
-        isValid = isValid && isPasswordValid();
-
+        isValid = isFirstAndLastNameValid() && isEmailAddressValid() && isPasswordValid();
         if (isValid) {
             createUserRegister();
         }
     }
 
     private boolean isFirstAndLastNameValid() {
-        TextInputEditText firstAndLastName = findViewById(R.id.firstAndLastNameTextInputEditText);
         String firstAndLastNameInput = Objects.requireNonNull(firstAndLastName.getText()).toString().trim();
-
         return Utils.isFirstAndLastNameValid(firstAndLastNameInput, firstAndLastName);
     }
 
     private boolean isEmailAddressValid() {
-        TextInputEditText emailAddress = findViewById(R.id.emailAdDressTextInputEditText);
         String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-
         return Utils.isEmailAddressValid(emailAddressInput, emailAddress);
     }
 
     private boolean isPasswordValid() {
-        TextInputEditText password = findViewById(R.id.passwordTextInputEditText);
-        TextInputEditText confirmPassword = findViewById(R.id.confirmPasswordTextInputEditText);
         String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
         String confirmPasswordInput = Objects.requireNonNull(confirmPassword.getText()).toString().trim();
-
         return Utils.isPasswordValid(passwordInput, confirmPasswordInput, password, confirmPassword);
     }
 
@@ -78,12 +80,11 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
-                if (!response.isSuccessful()) {
+                if (!response.isSuccessful())
                     Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
-                } else {
+                else {
                     Toast.makeText(RegisterActivity.this, "Set up your account, to create your user!", Toast.LENGTH_LONG).show();
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword()), 3);
+                    new Handler().postDelayed(() -> navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword()), 2000);
                 }
             }
 
@@ -95,20 +96,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private UserRegister getUserDetails() {
-        TextInputEditText firstAndLastName = findViewById(R.id.firstAndLastNameTextInputEditText);
         String firstAndLastNameInput = Objects.requireNonNull(firstAndLastName.getText()).toString().trim();
-        TextInputEditText emailAddress = findViewById(R.id.emailAdDressTextInputEditText);
         String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-        TextInputEditText password = findViewById(R.id.passwordTextInputEditText);
-        TextInputEditText confirmPassword = findViewById(R.id.confirmPasswordTextInputEditText);
         String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
         String confirmPasswordInput = Objects.requireNonNull(confirmPassword.getText()).toString().trim();
-
         return new UserRegister(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
     }
 
     private void navigateAccountSetupActivity(String firstAndLastName, String emailAddress, String password) {
-
         Intent intent = new Intent(RegisterActivity.this, AccountSetupActivity.class);
         intent.putExtra("name", firstAndLastName);
         intent.putExtra("email", emailAddress);
