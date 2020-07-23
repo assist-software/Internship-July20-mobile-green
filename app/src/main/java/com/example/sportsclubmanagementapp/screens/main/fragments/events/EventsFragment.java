@@ -63,8 +63,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setToolbar();
         return inflater.inflate(R.layout.fragment_events, container, false);
 
@@ -73,7 +72,6 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     private void setToolbar() {
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getText(R.string.events)); //set toolbar name from strings
-
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
         toolbar.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MyProfileActivity.class);
@@ -84,7 +82,6 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerViewPastEvents = view.findViewById(R.id.pastEventsRecyclerView);
         makePastEvents();
         recyclerViewJoinedEvents = view.findViewById(R.id.joinedEvetsRecyclerView);
@@ -116,37 +113,30 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         pendingEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
         pendingEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
         pendingEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-
         pendingEventsAdapter.notifyDataSetChanged();
     }
 
     private void makePastEvents() {
         pastEventsAdapter = new EventAdapter(pastEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager pastEventsLayoutManager =
-                new LinearLayoutManager(pastEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager pastEventsLayoutManager = new LinearLayoutManager(pastEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPastEvents.setLayoutManager(pastEventsLayoutManager);
         recyclerViewPastEvents.setAdapter(pastEventsAdapter);
-
         preparePastEventsData();
     }
 
     private void makeJoinedEvents() {
         joinedEventsAdapter = new EventAdapter(joinedEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager joinedEventsLayoutManager =
-                new LinearLayoutManager(joinedEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager joinedEventsLayoutManager = new LinearLayoutManager(joinedEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewJoinedEvents.setLayoutManager(joinedEventsLayoutManager);
         recyclerViewJoinedEvents.setAdapter(joinedEventsAdapter);
-
         prepareJoinedEventsData();
     }
 
     private void makePendingEvents() {
         pendingEventsAdapter = new EventAdapter(pendingEventsList, getContext(), EventAdapter.VERTICAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager pendingEventsLayoutManager =
-                new LinearLayoutManager(pendingEventsAdapter.getContext());
+        RecyclerView.LayoutManager pendingEventsLayoutManager = new LinearLayoutManager(pendingEventsAdapter.getContext());
         recyclerViewPendingEvents.setLayoutManager(pendingEventsLayoutManager);
         recyclerViewPendingEvents.setAdapter(pendingEventsAdapter);
-
         preparePendingEventsData();
     }
 

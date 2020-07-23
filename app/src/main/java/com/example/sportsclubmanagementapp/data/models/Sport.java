@@ -2,7 +2,7 @@ package com.example.sportsclubmanagementapp.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Sport {
+public class Sport { //api data
     private int id;
     @SerializedName("type")
     private String sportName;

@@ -43,7 +43,6 @@ public class AddWorkoutActivity extends AppCompatActivity {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
-
                 return v;
             }
 
@@ -52,7 +51,6 @@ public class AddWorkoutActivity extends AppCompatActivity {
                 return super.getCount() - 1;
             }
         };
-
         workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (String item : items) {
             workoutEffectivenessAdapter.add(item);

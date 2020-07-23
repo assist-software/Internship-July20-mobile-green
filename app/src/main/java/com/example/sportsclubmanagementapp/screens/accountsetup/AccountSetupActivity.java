@@ -26,74 +26,76 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.Objects;
 
 
 public class AccountSetupActivity extends AppCompatActivity {
+    private RadioButton radioFemale;
+    private RadioButton radioMale;
+    private Spinner primarySportSpinner;
+    private Spinner secondarySportSpinner;
+    private TextInputEditText height;
+    private TextInputEditText weight;
+    private TextInputEditText age;
+    private List<Sport> sports;
 
-    private List <Sport> sports;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setup);
 
-
+        initComponents();
         getApiSports();
+    }
+
+    private void initComponents() {
+        radioFemale = findViewById(R.id.femaleRadioButton);
+        radioMale = findViewById(R.id.maleRadioButton);
+        primarySportSpinner = findViewById(R.id.primarySportSpinner);
+        secondarySportSpinner = findViewById(R.id.secondarySportSpinner);
+        height = findViewById(R.id.heightTextInputEditText);
+        weight = findViewById(R.id.weightTextInputEditText);
+        age = findViewById(R.id.ageTextInputEditeText);
     }
 
 
     public void onClickContinueBtn(View view) {
         boolean isValid;
-
-        isValid = isGenderValid();
-        isValid = isPrimarySportValid();
-        isValid = isSecondarySportValid();
-        isValid = isValid && isHeightValid();
-        isValid = isValid && isWeightValid();
-        isValid = isValid && isAgeValid();
+        isValid = isGenderValid() && isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
         if (isValid) {
             createUserAccountSetup();
         }
     }
 
     private boolean isGenderValid() {
-        RadioButton radioFemale = findViewById(R.id.femaleRadioButton);
-        RadioButton radioMale = findViewById(R.id.maleRadioButton);
         TextView gender = findViewById(R.id.genderTextView);
         return Utils.isGenderValid(radioFemale, radioMale, gender);
     }
 
-    private boolean isPrimarySportValid(){
-        Spinner spinner = findViewById(R.id.primarySportSpinner);
-        return Utils.isPrimarySportValid(spinner);
+    private boolean isPrimarySportValid() {
+        return Utils.isPrimarySportValid(primarySportSpinner);
     }
 
-    private boolean isSecondarySportValid(){
-        Spinner spinner = findViewById(R.id.secondarySportSpinner);
-        return Utils.isSecondarySportValid(spinner);
+    private boolean isSecondarySportValid() {
+        return Utils.isSecondarySportValid(secondarySportSpinner);
     }
 
     private boolean isHeightValid() {
-        TextInputEditText height = findViewById(R.id.heightTextInputEditText);
         String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
-
         return Utils.isHeightValid(heightInput, height);
     }
 
     private boolean isWeightValid() {
-        TextInputEditText weight = findViewById(R.id.weightTextInputEditText);
         String weightInput = Objects.requireNonNull(weight.getText()).toString().trim();
-
         return Utils.isWeightValid(weightInput, weight);
     }
 
     private boolean isAgeValid() {
-        TextInputEditText age = findViewById(R.id.ageTextInputEditeText);
         String ageInput = Objects.requireNonNull(age.getText()).toString().trim();
-
         return Utils.isAgeValid(ageInput, age);
     }
 
@@ -119,7 +121,6 @@ public class AccountSetupActivity extends AppCompatActivity {
         workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (int i = 0; i < items.size(); i++) {
             workoutEffectivenessAdapter.add(items.get(i).getSportName());
-
         }
         workoutEffectivenessAdapter.add("Select your favorite sport:");
         spinner.setAdapter(workoutEffectivenessAdapter);
@@ -132,18 +133,17 @@ public class AccountSetupActivity extends AppCompatActivity {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(AccountSetupActivity.this, "Data is not valid!", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(AccountSetupActivity.this, "User has been created!", Toast.LENGTH_LONG).show();
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> goToLogInActivity(), 3);
+                if (!response.isSuccessful())
+                    Toast.makeText(AccountSetupActivity.this, R.string.account_setup_not_successful, Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(AccountSetupActivity.this, R.string.account_setup_successful, Toast.LENGTH_LONG).show();
+                    new Handler().postDelayed(() -> goToLogInActivity(), 2000);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
-                Toast.makeText(AccountSetupActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AccountSetupActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -167,32 +167,27 @@ public class AccountSetupActivity extends AppCompatActivity {
     }
 
     private int getGender() {
-        RadioButton radioFemale = findViewById(R.id.femaleRadioButton);
         if (radioFemale.isChecked()) return 1;
         return 0;
     }
 
     private int getAge() {
-        TextInputEditText age = findViewById(R.id.ageTextInputEditeText);
         return Integer.parseInt(Objects.requireNonNull(age.getText()).toString().trim());
     }
 
     private double getWeight() {
-        TextInputEditText weight = findViewById(R.id.weightTextInputEditText);
         return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
     }
 
     private double getHeight() {
-        TextInputEditText weight = findViewById(R.id.heightTextInputEditText);
         return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
     }
 
     private int getPrimarySport() {
-        Spinner spinner = findViewById(R.id.primarySportSpinner);
-        String choice = spinner.getSelectedItem().toString();
+        String choice = primarySportSpinner.getSelectedItem().toString();
         int sportId = 0;
-        for (Sport sport : sports){
-            if (choice.equals(sport.getSportName())){
+        for (Sport sport : sports) {
+            if (choice.equals(sport.getSportName())) {
                 sportId = sport.getId();
                 break;
             }
@@ -201,11 +196,10 @@ public class AccountSetupActivity extends AppCompatActivity {
     }
 
     private int getSecondarySport() {
-        Spinner spinner = findViewById(R.id.secondarySportSpinner);
-        String choice = spinner.getSelectedItem().toString();
+        String choice = secondarySportSpinner.getSelectedItem().toString();
         int sportId = 0;
-        for (Sport sport : sports){
-            if (choice.equals(sport.getSportName())){
+        for (Sport sport : sports) {
+            if (choice.equals(sport.getSportName())) {
                 sportId = sport.getId();
                 break;
             }
@@ -214,8 +208,7 @@ public class AccountSetupActivity extends AppCompatActivity {
     }
 
     private void goToLogInActivity() {
-        Intent intent = new Intent(AccountSetupActivity.this, LoginActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(AccountSetupActivity.this, LoginActivity.class));
     }
 
     private void getApiSports() {
@@ -223,21 +216,19 @@ public class AccountSetupActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Sport>>() {
             @Override
             public void onResponse(@NotNull Call<List<Sport>> call, @NotNull Response<List<Sport>> response) {
-                if (!response.isSuccessful()) {
-                    Toast.makeText(AccountSetupActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
-                    return;
+                if (!response.isSuccessful())
+                    Toast.makeText(AccountSetupActivity.this, getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                else {
+                    sports = response.body();
+                    setSpinner(Objects.requireNonNull(sports), primarySportSpinner);
+                    setSpinner(sports, secondarySportSpinner);
                 }
-                sports = response.body();
-                setSpinner(Objects.requireNonNull(sports), findViewById(R.id.primarySportSpinner));
-                setSpinner(sports, findViewById(R.id.secondarySportSpinner));
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Sport>> call, @NotNull Throwable t) {
-                Toast.makeText(AccountSetupActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountSetupActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }
