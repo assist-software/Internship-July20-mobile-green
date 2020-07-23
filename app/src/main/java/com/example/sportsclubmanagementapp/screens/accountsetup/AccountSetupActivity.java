@@ -79,7 +79,7 @@ public class AccountSetupActivity extends AppCompatActivity {
         return Utils.isAgeValid(ageInput, age);
     }
 
-    private void setSpinner(List <Sport> items, Spinner spinner) {
+    private void setSpinner(List<Sport> items, Spinner spinner) {
         ArrayAdapter<String> workoutEffectivenessAdapter = new ArrayAdapter<String>(this, R.layout.spinner_row) {
             @NonNull
             @Override
@@ -116,15 +116,12 @@ public class AccountSetupActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     Toast.makeText(AccountSetupActivity.this, "Data is not valid!", Toast.LENGTH_LONG).show();
                     return;
-                }
-                if (response.code() == 201) {
+                } else {
                     Toast.makeText(AccountSetupActivity.this, "User has been created!", Toast.LENGTH_LONG).show();
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
                         goToLogInActivity();
                     }, 3);
-                } else {
-                    Toast.makeText(AccountSetupActivity.this, "Data is not valid!", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -189,18 +186,18 @@ public class AccountSetupActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void getApiSports(){
-        Call <List<Sport>> call = ApiHelper.getApi().getSports() ;
+    private void getApiSports() {
+        Call<List<Sport>> call = ApiHelper.getApi().getSports();
         call.enqueue(new Callback<List<Sport>>() {
             @Override
             public void onResponse(Call<List<Sport>> call, Response<List<Sport>> response) {
-                if (!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     Toast.makeText(AccountSetupActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                List<Sport>  sports= response.body();
-                setSpinner(sports,findViewById(R.id.primarySportSpinner));
-                setSpinner(sports,findViewById(R.id.secondarySportSpinner));
+                List<Sport> sports = response.body();
+                setSpinner(sports, findViewById(R.id.primarySportSpinner));
+                setSpinner(sports, findViewById(R.id.secondarySportSpinner));
             }
 
             @Override

@@ -77,15 +77,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
                     return;
-                }
-                if (response.code() == 202) {
+                } else {
                     Toast.makeText(RegisterActivity.this, "Set up your account, to create your user!", Toast.LENGTH_LONG).show();
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
-                        navigateAccountSetupActivity(userRegister.getFirst_and_last_name(),userRegister.getEmail(),userRegister.getPassword());
+                        navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword());
                     }, 3);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "User already exists! Please log in or choose a new email.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -96,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private UserRegister getUserDetails(){
+    private UserRegister getUserDetails() {
         TextInputEditText firstAndLastName = (TextInputEditText) findViewById(R.id.firstAndLastNameTextInputEditText);
         String firstAndLastNameInput = firstAndLastName.getText().toString().trim();
         TextInputEditText emailAddress = (TextInputEditText) findViewById(R.id.emailAdDressTextInputEditText);
@@ -108,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         return new UserRegister(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
     }
+
     private void navigateAccountSetupActivity(String firstAndLastName, String emailAddress, String password) {
 
         Intent intent = new Intent(RegisterActivity.this, AccountSetupActivity.class);

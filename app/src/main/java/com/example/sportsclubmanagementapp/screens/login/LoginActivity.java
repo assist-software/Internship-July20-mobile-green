@@ -75,8 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Your email or password is incorrect! If you don't have an account then create one!", Toast.LENGTH_LONG).show();
                     return;
                 }
-
-                if (response.code() == 200) {
+                else{
                     sharePreferencesToken(response.body().getToken());
 
                     Toast.makeText(LoginActivity.this, "Log in is successful!", Toast.LENGTH_LONG).show();
