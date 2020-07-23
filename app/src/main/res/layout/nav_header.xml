@@ -7,9 +7,9 @@
     android:padding="@dimen/space_16dp">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_foreground" />
+        android:layout_width="@dimen/space_140dp"
+        android:layout_height="@dimen/space_140dp"
+        android:src="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:layout_width="wrap_content"

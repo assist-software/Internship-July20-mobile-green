@@ -1,6 +1,7 @@
 package com.example.sportsclubmanagementapp.screens.myprofile;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
@@ -25,15 +29,20 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class MyProfileActivity extends AppCompatActivity {
 
     List<Notification> notification = new ArrayList<>();
+    private List<Drawable> avatars; //for TESTS
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+
+        prepareAvatars(); //set random avatar for TESTS
+        displayAvatar();
 
         setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"},
                 findViewById(R.id.primarySportSpinnerMyProfile));
@@ -49,6 +58,13 @@ public class MyProfileActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
+    private void displayAvatar() {
+        Glide.with(this)
+                .load(avatars.get(new Random().nextInt(5)))
+                .apply(new RequestOptions().circleCrop())
+                .into((ImageView) findViewById(R.id.avatar));
+    }
+
 
     private void setUpNotifications() {
         //for TESTS
@@ -133,5 +149,14 @@ public class MyProfileActivity extends AppCompatActivity {
         }
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());
+    }
+
+    private void prepareAvatars() {
+        avatars = new ArrayList<>();
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_1));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_2));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_3));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_4));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_5));
     }
 }

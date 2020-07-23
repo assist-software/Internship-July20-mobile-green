@@ -39,7 +39,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/space_24dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -78,30 +79,36 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_events" />
+                    android:src="@drawable/ic_events"
+                    android:layout_marginEnd="@dimen/space_4dp"
+                    android:layout_gravity="center"/>
 
                 <TextView
                     android:id="@+id/dateEventTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/inter_regular"
                     android:text="@string/date_event"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dim_14sp" />
+                    android:textSize="@dimen/dim_14sp"
+                    android:layout_gravity="center"/>
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_16dp"
-                    android:src="@drawable/ic_time" />
+                    android:src="@drawable/ic_time"
+                    android:layout_marginEnd="@dimen/dim_4dp"
+                    android:layout_gravity="center"/>
                 <TextView
                     android:id="@+id/timeEventTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/inter_regular"
                     android:text="@string/time_event"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dim_14sp" />
+                    android:textSize="@dimen/dim_14sp"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
 
@@ -113,24 +120,28 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_location"/>
+                    android:src="@drawable/ic_location"
+                    android:layout_marginEnd="@dimen/dim_4dp"
+                    android:layout_gravity="center"/>
 
                 <TextView
                     android:id="@+id/eventLocationTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/inter_regular"
                     android:text="@string/location_event"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dim_14sp" />
+                    android:textSize="@dimen/dim_14sp"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_height="@dimen/space_200dp"
                 android:elevation="-10dp"
-                android:src="@drawable/img_running" />
+                android:layout_marginTop="@dimen/space_16dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
