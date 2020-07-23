@@ -224,3 +224,4 @@ fabric.properties
 /.idea/gradle.xml
 /.idea/workspace.xml
 /local.properties
+/.idea
