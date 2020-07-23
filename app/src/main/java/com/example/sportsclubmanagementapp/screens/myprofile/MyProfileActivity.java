@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MyProfileActivity extends AppCompatActivity {
 
@@ -34,29 +35,34 @@ public class MyProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
-        setToolbar();
-        setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"}, (Spinner) findViewById(R.id.primarySportSpinnerMyProfile));
-        setSpinner(new String[]{"Secondary Sport 1", "Secondary Sport 2", "Secondary Sport 3", "Secondary Sport"}, (Spinner) findViewById(R.id.secondarySportSpinnerMyProfile));
+        setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"},
+                findViewById(R.id.primarySportSpinnerMyProfile));
+        setSpinner(new String[]{"Secondary Sport 1", "Secondary Sport 2", "Secondary Sport 3", "Secondary Sport"},
+                findViewById(R.id.secondarySportSpinnerMyProfile));
 
+        setToolbar();
         setUpNotifications();
     }
 
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.myProfileToolbar);
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     private void setUpNotifications() {
+        //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
-        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
+        if( notification.isEmpty() )
+            notificationIcon.setImageDrawable(
+                    ResourcesCompat.getDrawable(getResources(),
+                            R.drawable.ic_notifications_toolbar, null));
+        else
+            notificationIcon.setImageDrawable(
+                    ResourcesCompat.getDrawable(getResources(),
+                            R.drawable.ic_notifications_toolbar_news, null));
     }
 
     public void goToNotificationsScreen(View view) {
@@ -82,21 +88,21 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private boolean isHeightValid() {
         TextInputEditText height = findViewById(R.id.heightTextInputEditTextMyProfile);
-        String heightInput = height.getText().toString().trim();
+        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
 
         return Utils.isHeightValid(heightInput, height);
     }
 
     private boolean isWeightValid() {
         TextInputEditText weight = findViewById(R.id.weightTextInputEditTextMyProfile);
-        String weightInput = weight.getText().toString().trim();
+        String weightInput = Objects.requireNonNull(weight.getText()).toString().trim();
 
         return Utils.isWeightValid(weightInput, weight);
     }
 
     private boolean isAgeValid() {
         TextInputEditText age = findViewById(R.id.ageTextInputEditeTextMyProfile);
-        String ageInput = age.getText().toString().trim();
+        String ageInput = Objects.requireNonNull(age.getText()).toString().trim();
 
         return Utils.isAgeValid(ageInput, age);
     }
@@ -122,8 +128,8 @@ public class MyProfileActivity extends AppCompatActivity {
         };
 
         workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (int i = 0; i < items.length; i++) {
-            workoutEffectivenessAdapter.add(items[i]);
+        for (String item : items) {
+            workoutEffectivenessAdapter.add(item);
         }
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());

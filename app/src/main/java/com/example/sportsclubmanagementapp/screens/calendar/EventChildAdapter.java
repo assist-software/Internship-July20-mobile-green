@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,7 +49,6 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
-        //view.findViewById(R.id.join).setVisibility(View.GONE);
         return new EventViewHolder(view);
 }
 

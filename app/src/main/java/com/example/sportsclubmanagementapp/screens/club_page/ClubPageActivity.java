@@ -11,10 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Clubs;
 import com.example.sportsclubmanagementapp.data.models.Event;
@@ -27,7 +25,6 @@ import com.example.sportsclubmanagementapp.screens.notification.NotificationActi
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -66,8 +63,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
 
-
-        //values for tests
+        //values for TESTS
         prepareEventData();
         prepareUsersData();
     }
@@ -75,18 +71,16 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     private void setToolbar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     private void setUpNotifications() {
+        //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
+
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        if( notification.isEmpty() )
+            notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
         else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
@@ -97,28 +91,39 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void displayAvatar() {
-        Glide.with(this).load(R.mipmap.ic_default_avatar).centerCrop().into( (CircleImageView) findViewById(R.id.avatar) );
+        Glide.with(this)
+                .load(R.mipmap.ic_default_avatar)
+                .centerCrop()
+                .into( (CircleImageView)
+                        findViewById(R.id.avatar) );
     }
 
     private void getClubFromLastActivity(){
-        club = (Clubs) getIntent().getSerializableExtra("CLUB_EXTRA_SESSION_ID");
-        Toast.makeText(getBaseContext(), String.valueOf(club.getId()), Toast.LENGTH_SHORT).show();
+        club = (Clubs) getIntent().
+                getSerializableExtra("CLUB_EXTRA_SESSION_ID"); //get the club object from the last screen
     }
 
     private void setUpUsersRecyclerView(){
-        recyclerViewUsers = (RecyclerView) findViewById(R.id.members_recycler_view);
+        recyclerViewUsers = findViewById(R.id.members_recycler_view);
         userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITHOUT_CHECK_BOX);
-        RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());
+        RecyclerView.LayoutManager usersLayoutManager =
+                new LinearLayoutManager(userAdapter.getContext());
         recyclerViewUsers.setLayoutManager(usersLayoutManager);
         recyclerViewUsers.setAdapter(userAdapter);
     }
 
     private void setUpEventsRecyclerView(){
-        recyclerViewEvents = (RecyclerView) findViewById(R.id.events_recycler_view);
+        recyclerViewEvents = findViewById(R.id.events_recycler_view);
         eventAdapter = new EventAdapter(eventList, this, 2,this);
-        RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager eventLayoutManager =
+                new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         recyclerViewEvents.setAdapter(eventAdapter);
+    }
+
+    @Override
+    public void onEventsClick(Event event) {
+
     }
 
     private void prepareEventData() {
@@ -137,10 +142,5 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
 
         userAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onEventsClick(Event event) {
-
     }
 }

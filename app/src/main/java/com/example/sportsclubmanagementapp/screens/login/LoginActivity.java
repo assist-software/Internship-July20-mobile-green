@@ -1,6 +1,5 @@
 package com.example.sportsclubmanagementapp.screens.login;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,13 +10,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.data.models.UserLogIn;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.register.RegisterActivity;
 import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(View view) {
-
         boolean isValid;
         isValid = isEmailAddressValid();
         isValid = isValid && isPasswordValid();
@@ -44,14 +45,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isEmailAddressValid() {
         TextInputEditText emailAddress = findViewById(R.id.email);
-        String emailAddressInput = emailAddress.getText().toString().trim();
+        String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
 
         return Utils.isEmailAddressValid(emailAddressInput, emailAddress);
     }
 
     private boolean isPasswordValid() {
         TextInputEditText password = findViewById(R.id.password);
-        String passwordInput = password.getText().toString().trim();
+        String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
 
         return Utils.isPasswordValid(passwordInput, password);
     }
@@ -62,33 +63,28 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkUserExists() {
         TextInputEditText emailAddress = findViewById(R.id.email);
-        String emailAddressInput = emailAddress.getText().toString().trim();
+        String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
         TextInputEditText password = findViewById(R.id.password);
-        String passwordInput = password.getText().toString().trim();
+        String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
 
         UserLogIn userLogIn = new UserLogIn(emailAddressInput, passwordInput);
         Call<UserLogIn> call = ApiHelper.getApi().createPostUserLogIn(userLogIn);
         call.enqueue(new Callback<UserLogIn>() {
             @Override
-            public void onResponse(Call<UserLogIn> call, Response<UserLogIn> response) {
+            public void onResponse(@NotNull Call<UserLogIn> call, @NotNull Response<UserLogIn> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Your email or password is incorrect! If you don't have an account then create one!", Toast.LENGTH_LONG).show();
-                    return;
                 }
                 else{
-                    sharePreferencesToken(response.body().getToken());
-
+                    sharePreferencesToken(Objects.requireNonNull(response.body()).getToken());
                     Toast.makeText(LoginActivity.this, "Log in is successful!", Toast.LENGTH_LONG).show();
-
                     Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        goToMainScreen();
-                    }, 3);
+                    handler.postDelayed(() -> goToMainScreen(), 3);
                 }
             }
 
             @Override
-            public void onFailure(Call<UserLogIn> call, Throwable t) {
+            public void onFailure(@NotNull Call<UserLogIn> call, @NotNull Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

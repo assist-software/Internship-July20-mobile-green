@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,13 +21,13 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void redirectToGuestScreen() {
-
-        SharedPreferences prefs = getSharedPreferences(getString(R.string.MY_PREFS_NAME),MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE);
         String token = prefs.getString(getString(R.string.user_token),"no token");
+
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (token.equals("no token")){
-                Intent intent = new Intent(SplashActivity.this, GuestActivity.class);  //should be changed
+                Intent intent = new Intent(SplashActivity.this, GuestActivity.class);
                 startActivity(intent);
             }
             else{

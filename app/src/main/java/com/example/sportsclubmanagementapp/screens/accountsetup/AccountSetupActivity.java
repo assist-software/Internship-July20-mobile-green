@@ -23,11 +23,14 @@ import com.example.sportsclubmanagementapp.screens.login.LoginActivity;
 import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.util.Objects;
+
 
 public class AccountSetupActivity extends AppCompatActivity {
 
@@ -36,8 +39,10 @@ public class AccountSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setup);
 
+
         getApiSports();
     }
+
 
     public void onClickContinueBtn(View view) {
         boolean isValid;
@@ -54,27 +59,27 @@ public class AccountSetupActivity extends AppCompatActivity {
     private boolean isGenderValid() {
         RadioButton radioFemale = findViewById(R.id.femaleRadioButton);
         RadioButton radioMale = findViewById(R.id.maleRadioButton);
-        TextView gender = (TextView) findViewById(R.id.genderTextView);
+        TextView gender = findViewById(R.id.genderTextView);
         return Utils.isGenderValid(radioFemale, radioMale, gender);
     }
 
     private boolean isHeightValid() {
         TextInputEditText height = findViewById(R.id.heightTextInputEditText);
-        String heightInput = height.getText().toString().trim();
+        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
 
         return Utils.isHeightValid(heightInput, height);
     }
 
     private boolean isWeightValid() {
         TextInputEditText weight = findViewById(R.id.weightTextInputEditText);
-        String weightInput = weight.getText().toString().trim();
+        String weightInput = Objects.requireNonNull(weight.getText()).toString().trim();
 
         return Utils.isWeightValid(weightInput, weight);
     }
 
     private boolean isAgeValid() {
         TextInputEditText age = findViewById(R.id.ageTextInputEditeText);
-        String ageInput = age.getText().toString().trim();
+        String ageInput = Objects.requireNonNull(age.getText()).toString().trim();
 
         return Utils.isAgeValid(ageInput, age);
     }
@@ -101,6 +106,7 @@ public class AccountSetupActivity extends AppCompatActivity {
         workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (int i = 0; i < items.size(); i++) {
             workoutEffectivenessAdapter.add(items.get(i).getSportName());
+
         }
         workoutEffectivenessAdapter.add("Select your favorite sport:");
         spinner.setAdapter(workoutEffectivenessAdapter);
@@ -112,21 +118,18 @@ public class AccountSetupActivity extends AppCompatActivity {
         Call<Void> call = ApiHelper.getApi().createPostUserAccountSetup(userAccountSetup);
         call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(AccountSetupActivity.this, "Data is not valid!", Toast.LENGTH_LONG).show();
-                    return;
                 } else {
                     Toast.makeText(AccountSetupActivity.this, "User has been created!", Toast.LENGTH_LONG).show();
                     Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        goToLogInActivity();
-                    }, 3);
+                    handler.postDelayed(() -> goToLogInActivity(), 3);
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 Toast.makeText(AccountSetupActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -134,9 +137,9 @@ public class AccountSetupActivity extends AppCompatActivity {
 
 
     private UserAccountSetup getUserDetails() {
-        String email = getIntent().getExtras().getString("email");
+        String email = Objects.requireNonNull(getIntent().getExtras()).getString("email");
         String firstAndLastName = getIntent().getExtras().getString("name");
-        String[] name = firstAndLastName.split(" ");
+        String[] name = Objects.requireNonNull(firstAndLastName).split(" ");
         String firstName = name[0];
         String lastName = name[1];
         String password = getIntent().getExtras().getString("password");
@@ -158,17 +161,17 @@ public class AccountSetupActivity extends AppCompatActivity {
 
     private int getAge() {
         TextInputEditText age = findViewById(R.id.ageTextInputEditeText);
-        return Integer.parseInt(age.getText().toString().trim());
+        return Integer.parseInt(Objects.requireNonNull(age.getText()).toString().trim());
     }
 
     private double getWeight() {
         TextInputEditText weight = findViewById(R.id.weightTextInputEditText);
-        return Double.parseDouble(weight.getText().toString().trim());
+        return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
     }
 
     private double getHeight() {
         TextInputEditText weight = findViewById(R.id.heightTextInputEditText);
-        return Double.parseDouble(weight.getText().toString().trim());
+        return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
     }
 
     private String getPrimarySport() {
@@ -190,18 +193,18 @@ public class AccountSetupActivity extends AppCompatActivity {
         Call<List<Sport>> call = ApiHelper.getApi().getSports();
         call.enqueue(new Callback<List<Sport>>() {
             @Override
-            public void onResponse(Call<List<Sport>> call, Response<List<Sport>> response) {
+            public void onResponse(@NotNull Call<List<Sport>> call, @NotNull Response<List<Sport>> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(AccountSetupActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<Sport> sports = response.body();
-                setSpinner(sports, findViewById(R.id.primarySportSpinner));
+                setSpinner(Objects.requireNonNull(sports), findViewById(R.id.primarySportSpinner));
                 setSpinner(sports, findViewById(R.id.secondarySportSpinner));
             }
 
             @Override
-            public void onFailure(Call<List<Sport>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Sport>> call, @NotNull Throwable t) {
                 Toast.makeText(AccountSetupActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
