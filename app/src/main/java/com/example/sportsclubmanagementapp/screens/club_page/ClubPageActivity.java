@@ -13,28 +13,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
+import com.example.sportsclubmanagementapp.data.models.Role;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
-import com.example.sportsclubmanagementapp.data.models.Role;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
 
@@ -45,12 +40,13 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
     private EventAdapter eventAdapter;
-    private Clubs club;
 
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
     private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
+
+    private Club club;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +69,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         setUpNotifications();
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
-
         //values for TESTS
         prepareEventData();
         prepareUsersData();
@@ -116,7 +111,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void getClubFromLastActivity() {
-        club = (Clubs) getIntent().
+        club = (Club) getIntent().
                 getSerializableExtra("CLUB_EXTRA_SESSION_ID"); //get the club object from the last screen
     }
 

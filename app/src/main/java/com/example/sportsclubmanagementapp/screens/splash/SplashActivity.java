@@ -11,6 +11,8 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 
+import java.util.Objects;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -22,18 +24,13 @@ public class SplashActivity extends AppCompatActivity {
 
     private void redirectToGuestScreen() {
         SharedPreferences prefs = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE);
-        String token = prefs.getString(getString(R.string.user_token),"no token");
-
+        String token = prefs.getString(getString(R.string.user_token), "no token");
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            if (token.equals("no token")){
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-            else{
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }, 3000);
+            if (Objects.requireNonNull(token).equals("no token"))
+                startActivity(new Intent(SplashActivity.this, GuestActivity.class));
+            else
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        }, 4000);
     }
 }

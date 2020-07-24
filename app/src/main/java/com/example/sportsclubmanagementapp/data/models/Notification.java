@@ -2,7 +2,7 @@ package com.example.sportsclubmanagementapp.data.models;
 
 import java.io.Serializable;
 
-public class Notification implements Serializable {
+public class Notification implements Serializable { //hardcoded data
 
     private String time;
     private String role;

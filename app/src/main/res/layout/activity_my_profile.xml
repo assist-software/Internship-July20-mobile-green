@@ -31,7 +31,8 @@
                 android:background="@android:color/transparent"
                 android:longClickable="true"
                 android:onClick="goToNotificationsScreen"
-                android:src="@drawable/ic_notifications_toolbar" />
+                android:src="@drawable/ic_notifications_toolbar"
+                android:contentDescription="@string/notification_icon" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -192,7 +193,7 @@
         app:layout_constraintHorizontal_bias="0.5">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ageTextInputEditeTextMyProfile"
+            android:id="@+id/ageTextInputEditTextMyProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

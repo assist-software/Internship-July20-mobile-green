@@ -6,16 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
-
-import org.w3c.dom.Text;
+import com.example.sportsclubmanagementapp.data.models.Club;
 
 import java.util.List;
 
@@ -26,12 +23,12 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
     public static int PENDING_CLUB_LAYOUT = 3;
 
     private int layoutType;
-    private List<Clubs> Clubs;
+    private List<Club> Club;
     private Context context;
     private OnClubItemListener listener;
 
-    public ClubsAdapter(List<Clubs> Clubs, Context context, int layoutType, OnClubItemListener listener) {
-        this.Clubs = Clubs;
+    public ClubsAdapter(List<Club> Club, Context context, int layoutType, OnClubItemListener listener) {
+        this.Club = Club;
         this.context = context;
         this.layoutType = layoutType;
         this.listener = listener;
@@ -46,12 +43,12 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ClubsViewHolder holder, int position) {
-        holder.bind(Clubs.get(position));
+        holder.bind(Club.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return this.Clubs.size();
+        return this.Club.size();
     }
 
     public Context getContext() {
@@ -72,7 +69,7 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
             textUnderButton = itemView.findViewById(R.id.textUnderButton);
         }
 
-        public void bind(final Clubs club) {
+        public void bind(final Club club) {
             club_name.setText(club.getName());
 
             if(layoutType == JOIN_CLUB_LAYOUT){

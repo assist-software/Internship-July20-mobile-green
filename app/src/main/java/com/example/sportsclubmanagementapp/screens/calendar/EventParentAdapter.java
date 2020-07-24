@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 
 import java.util.ArrayList;
@@ -24,12 +24,12 @@ import java.util.Objects;
 
 public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.ClubViewHolder> {
 
-    private List<Clubs> clubList;
+    private List<Club> clubList;
     private List<List<Event>> eventList;
     private Activity activity;
     LinearLayout item_club_events;
 
-    public EventParentAdapter(List<Clubs> clubList, List<List<Event>> eventList, Activity activity) {
+    public EventParentAdapter(List<Club> clubList, List<List<Event>> eventList, Activity activity) {
         this.clubList = clubList;
         this.activity = activity;
         this.eventList = eventList;
@@ -46,7 +46,7 @@ public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.
             item_club_events = itemView.findViewById(R.id.club_events_recycler_view_layout);
         }
 
-        public void bind(Clubs club) {
+        public void bind(Club club) {
             club_name.setText(club.getName());
         }
     }

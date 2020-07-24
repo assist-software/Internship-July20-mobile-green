@@ -1,6 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-public class User {
+public class User { //hardcoded data
     private String username;
 
     private long id;

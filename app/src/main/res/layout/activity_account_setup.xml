@@ -144,7 +144,8 @@
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_14dp"
-            android:hint="@string/height" />
+            android:hint="@string/height"
+            android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -183,7 +184,8 @@
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_14dp"
-            android:hint="@string/weight" />
+            android:hint="@string/weight"
+            android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -222,7 +224,8 @@
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_14dp"
-            android:hint="@string/age" />
+            android:hint="@string/age"
+            android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

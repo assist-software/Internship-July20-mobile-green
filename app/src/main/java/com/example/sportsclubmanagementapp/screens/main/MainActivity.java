@@ -35,26 +35,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    BottomNavigationView bottomNavigation;
-
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
-
-    List<Notification> notification = new ArrayList<>();
+    private BottomNavigationView bottomNavigation;
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
+    private List<Notification> notification = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setUpNotifications(); //set up notification icon for top toolbar
-
         //set up left navigation drawer
         NavigationView navigationView = findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
-
         //Bottom NavBar
         setListenerForNavigation(); //set up listener for bottom navigation
-
         openFragment(HomeFragment.newInstance());
     }
 
@@ -63,8 +57,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
 
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if( notification.isEmpty() ) notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
-        else notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
+        if (notification.isEmpty())
+            notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
+        else
+            notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
     private void setListenerForNavigation() {
@@ -105,10 +101,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.drawerMenuLogOut:
-                deteleSharePreferencesToken();
+                deleteSharePreferencesToken();
                 Toast.makeText(this, "Log out successful!", Toast.LENGTH_LONG).show();
-                Handler handler = new Handler();
-                handler.postDelayed(this::goToGuestScreen, 3);
+                new Handler().postDelayed(this::goToGuestScreen, 3);
                 break;
         }
         return false;
@@ -153,11 +148,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-    private void deteleSharePreferencesToken() {
+    private void deleteSharePreferencesToken() {
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE).edit();
         editor.putString(getString(R.string.user_token), "no token");
         editor.apply();
     }
-
-
 }

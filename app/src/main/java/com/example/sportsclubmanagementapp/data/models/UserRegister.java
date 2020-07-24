@@ -1,6 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-public class UserRegister {
+public class UserRegister { //api data
     private String email;
     private String first_and_last_name;
     private String password;

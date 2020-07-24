@@ -21,6 +21,7 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class WorkoutsFragment extends Fragment {
@@ -40,28 +41,22 @@ public class WorkoutsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setToolbar();
         return inflater.inflate(R.layout.fragment_workouts, container, false);
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getText(R.string.workouts)); //set toolbar name from strings
-
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getText(R.string.workouts));
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
-        toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MyProfileActivity.class);
-            startActivity(intent);
-        });
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(getActivity(), MyProfileActivity.class)));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        recyclerViewWorkouts = (RecyclerView) view.findViewById(R.id.workouts_recycler_view);
+        recyclerViewWorkouts = view.findViewById(R.id.workouts_recycler_view);
         makeWorkouts();
         prepareWorkoutsData();
     }
@@ -75,7 +70,6 @@ public class WorkoutsFragment extends Fragment {
         workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
         workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
         workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
-
         WorkoutsAdapter.notifyDataSetChanged();
     }
 

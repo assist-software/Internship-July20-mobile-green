@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,19 +23,32 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Notification;
+import com.example.sportsclubmanagementapp.data.models.Sport;
+import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class MyProfileActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    List<Notification> notification = new ArrayList<>();
+public class MyProfileActivity extends AppCompatActivity {
     private List<Drawable> avatars; //for TESTS
+    List<Notification> notification = new ArrayList<>();
+    private Spinner primarySportSpinner;
+    private Spinner secondarySportSpinner;
+    private TextInputEditText height;
+    private TextInputEditText weight;
+    private TextInputEditText age;
+    private List<Sport> sports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +57,18 @@ public class MyProfileActivity extends AppCompatActivity {
 
         prepareAvatars(); //set random avatar for TESTS
         displayAvatar();
-
-        setSpinner(new String[]{"Primary Sport 1", "Primary Sport 2", "Primary Sport 3", "Primary Sport"},
-                findViewById(R.id.primarySportSpinnerMyProfile));
-        setSpinner(new String[]{"Secondary Sport 1", "Secondary Sport 2", "Secondary Sport 3", "Secondary Sport"},
-                findViewById(R.id.secondarySportSpinnerMyProfile));
-
+        initComponent();
+        getApiSports();
         setToolbar();
         setUpNotifications();
+    }
+
+    private void initComponent() {
+        primarySportSpinner = findViewById(R.id.primarySportSpinnerMyProfile);
+        secondarySportSpinner = findViewById(R.id.secondarySportSpinnerMyProfile);
+        height = findViewById(R.id.heightTextInputEditTextMyProfile);
+        weight = findViewById(R.id.weightTextInputEditTextMyProfile);
+        age = findViewById(R.id.ageTextInputEditTextMyProfile);
     }
 
     private void setToolbar() {
@@ -58,6 +76,7 @@ public class MyProfileActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
+
     private void displayAvatar() {
         Glide.with(this)
                 .load(avatars.get(new Random().nextInt(5)))
@@ -69,31 +88,21 @@ public class MyProfileActivity extends AppCompatActivity {
     private void setUpNotifications() {
         //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
-
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if( notification.isEmpty() )
-            notificationIcon.setImageDrawable(
-                    ResourcesCompat.getDrawable(getResources(),
-                            R.drawable.ic_notifications_toolbar, null));
+        if (notification.isEmpty())
+            notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
         else
-            notificationIcon.setImageDrawable(
-                    ResourcesCompat.getDrawable(getResources(),
-                            R.drawable.ic_notifications_toolbar_news, null));
+            notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
     }
 
     public void goToNotificationsScreen(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.image_view_on_click));
-        Intent intent = new Intent(this, NotificationActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, NotificationActivity.class));
     }
 
     public void onClickSaveChangesBtn(View view) {
         boolean isValid;
-
-        isValid = isHeightValid();
-        isValid = isValid && isWeightValid();
-        isValid = isValid && isAgeValid();
-
+        isValid = isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
         if (isValid) {
             //post request api
         } else {
@@ -102,28 +111,30 @@ public class MyProfileActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isHeightValid() {
-        TextInputEditText height = findViewById(R.id.heightTextInputEditTextMyProfile);
-        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
+    private boolean isPrimarySportValid() {
+        return Utils.isPrimarySportValid(primarySportSpinner);
+    }
 
+    private boolean isSecondarySportValid() {
+        return Utils.isSecondarySportValid(secondarySportSpinner);
+    }
+
+    private boolean isHeightValid() {
+        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
         return Utils.isHeightValid(heightInput, height);
     }
 
     private boolean isWeightValid() {
-        TextInputEditText weight = findViewById(R.id.weightTextInputEditTextMyProfile);
         String weightInput = Objects.requireNonNull(weight.getText()).toString().trim();
-
         return Utils.isWeightValid(weightInput, weight);
     }
 
     private boolean isAgeValid() {
-        TextInputEditText age = findViewById(R.id.ageTextInputEditeTextMyProfile);
         String ageInput = Objects.requireNonNull(age.getText()).toString().trim();
-
         return Utils.isAgeValid(ageInput, age);
     }
 
-    private void setSpinner(String[] items, Spinner spinner) {
+    private void setSpinner(List<Sport> items, Spinner spinner) {
         ArrayAdapter<String> workoutEffectivenessAdapter = new ArrayAdapter<String>(this, R.layout.spinner_row) {
             @NonNull
             @Override
@@ -133,7 +144,6 @@ public class MyProfileActivity extends AppCompatActivity {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
                     ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
                 }
-
                 return v;
             }
 
@@ -144,12 +154,14 @@ public class MyProfileActivity extends AppCompatActivity {
         };
 
         workoutEffectivenessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (String item : items) {
-            workoutEffectivenessAdapter.add(item);
+        for (int i = 0; i < items.size(); i++) {
+            workoutEffectivenessAdapter.add(items.get(i).getSportName());
         }
+        workoutEffectivenessAdapter.add("Select your favorite sport:");
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());
     }
+
 
     private void prepareAvatars() {
         avatars = new ArrayList<>();
@@ -158,5 +170,62 @@ public class MyProfileActivity extends AppCompatActivity {
         avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_3));
         avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_4));
         avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_5));
+    }
+
+    private void getApiSports() {
+        Call<List<Sport>> call = ApiHelper.getApi().getSports();
+        call.enqueue(new Callback<List<Sport>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Sport>> call, @NotNull Response<List<Sport>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(MyProfileActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
+                else {
+                    sports = response.body();
+                    setSpinner(Objects.requireNonNull(sports), primarySportSpinner);
+                    setSpinner(sports, secondarySportSpinner);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Sport>> call, @NotNull Throwable t) {
+                Toast.makeText(MyProfileActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private int getAge() {
+        return Integer.parseInt(Objects.requireNonNull(age.getText()).toString().trim());
+    }
+
+    private double getWeight() {
+        return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
+    }
+
+    private double getHeight() {
+        return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
+    }
+
+    private int getPrimarySport() {
+        String choice = primarySportSpinner.getSelectedItem().toString();
+        int sportId = 0;
+        for (Sport sport : sports) {
+            if (choice.equals(sport.getSportName())) {
+                sportId = sport.getId();
+                break;
+            }
+        }
+        return sportId;
+    }
+
+    private int getSecondarySport() {
+        String choice = secondarySportSpinner.getSelectedItem().toString();
+        int sportId = 0;
+        for (Sport sport : sports) {
+            if (choice.equals(sport.getSportName())) {
+                sportId = sport.getId();
+                break;
+            }
+        }
+        return sportId;
     }
 }

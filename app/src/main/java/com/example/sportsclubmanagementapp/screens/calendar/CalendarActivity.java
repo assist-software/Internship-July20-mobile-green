@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Clubs;
+import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
@@ -28,13 +28,11 @@ import java.util.Locale;
 public class CalendarActivity extends AppCompatActivity {
 
     List<Notification> notification = new ArrayList<>();
-
     CalendarView calendar;
     String selectedDate;
-
     //for parent list recycler
-    private List<Clubs> allClubsList = new ArrayList<>();
-    private List<Clubs> currentClubsList = new ArrayList<>();
+    private List<Club> allClubList = new ArrayList<>();
+    private List<Club> currentClubList = new ArrayList<>();
     private List<List<Event>> allEventList = new ArrayList<>();
     private List<List<Event>> currentEventList = new ArrayList<>();
     private RecyclerView recyclerViewParent;
@@ -52,13 +50,11 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         calendar = findViewById(R.id.calendar);
         //initialize the current date
         selectedDate = new SimpleDateFormat("dd.M.yyyy", Locale.getDefault()).format(new Date(calendar.getDate()));
         //set up calendar buttons
         setOnClickListenerCalendar();
-
         setUpEventsRecyclerView();
         prepareEventData();
         //show events for the current day without performing any click on calendar
@@ -93,12 +89,12 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void findEventsForSelectedDate(){
-        currentClubsList.clear();
+        currentClubList.clear();
         currentEventList.clear();
         List<Event> eventsTmp; //store the events for each club
 
         boolean atLeastOneEvent = false; //find at least one event for selected date for a club (if not, the club is hidden)
-        for (int i = 0; i < allClubsList.size(); i++) {
+        for (int i = 0; i < allClubList.size(); i++) {
             eventsTmp = new ArrayList<>(); //reset the list for the next club
             for (int j = 0; j < allEventList.get(i).size(); j++) {
                 if (allEventList.get(i).get(j).getDate().equals(selectedDate)) { //the event date is the same with the selected one
@@ -107,7 +103,7 @@ public class CalendarActivity extends AppCompatActivity {
                 }
             }
             if(!eventsTmp.isEmpty()) { //add the clubs with at least one event in the selected date
-                currentClubsList.add(allClubsList.get(i));
+                currentClubList.add(allClubList.get(i));
                 currentEventList.add(eventsTmp);
             }
         }
@@ -122,7 +118,7 @@ public class CalendarActivity extends AppCompatActivity {
     private void setUpEventsRecyclerView() {
         //for events recycler
         recyclerViewParent = findViewById(R.id.club_events_parent_recycler_view);
-        eventParentAdapter = new EventParentAdapter(currentClubsList, currentEventList, this);
+        eventParentAdapter = new EventParentAdapter(currentClubList, currentEventList, this);
         RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventParentAdapter.getActivity());
         recyclerViewParent.setLayoutManager(eventLayoutManager);
         recyclerViewParent.setAdapter(eventParentAdapter);
@@ -135,9 +131,9 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void prepareEventData() {
-        allClubsList.add(new Clubs(1, 1, "Running", "Description", 1, 2, 3));
-        allClubsList.add(new Clubs(2, 1, "Football", "Description", 1, 2, 3));
-        allClubsList.add(new Clubs(3, 1, "Biking", "Description", 1, 2, 3));
+        allClubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
+        allClubList.add(new Club(2, 1, "Football", "Description", 1, 2, 3));
+        allClubList.add(new Club(3, 1, "Biking", "Description", 1, 2, 3));
 
         List<Event> events = new ArrayList<>();
         events.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));

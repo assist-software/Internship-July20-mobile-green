@@ -23,7 +23,7 @@
 
     <string name="join_your_first_club">Join your first club</string>
     <string name="home">Home</string>
-    <string name="clubs">Clubs</string>
+    <string name="clubs">Club</string>
     <string name="events">Events</string>
     <string name="workouts">Workouts</string>
     <string name="new_here">New here?</string>
@@ -93,11 +93,11 @@
     <string name="pending_events">Pending Events</string>
     <string name="joined_events">Joined Events</string>
 
-    <string name="new_clubs_txt">New Clubs</string>
+    <string name="new_clubs_txt">New Club</string>
     <string name="joined_txt">JOINED</string>
     <string name="pending_txt_caps">PENDING</string>
-    <string name="pending_clubs_txt">Pending Clubs</string>
-    <string name="joined_clubs_txt">Joined Clubs</string>
+    <string name="pending_clubs_txt">Pending Club</string>
+    <string name="joined_clubs_txt">Joined Club</string>
     <string name="default_coach_name">Coach name</string>
     <string name="default_role_txt">Role</string>
     <string name="bullet_txt">•</string>
@@ -128,4 +128,21 @@
     <string name="heart_rate_txt">Heart Rate</string>
     <string name="calories_txt1">Calories</string>
     <string name="avg_speed_txt">Avg. Speed</string>
+    <string name="splashlogo">Splash Logo</string>
+    <string name="notification_icon">Notification Icon</string>
+    <string name="event_icon">Event Icon</string>
+    <string name="time_icon">Time Icon</string>
+    <string name="event_image">Event Image</string>
+    <string name="bike_icon">Bike Icon</string>
+    <string name="clock_icon">Clock Icon</string>
+    <string name="calories_icon">Calories Icon</string>
+    <string name="bpm_icon">BPM Icon</string>
+    <string name="log_in_not_successful">Your email or password is incorrect! If you don\'t have an account then create one!</string>
+    <string name="log_in_successful">Log in is successful!</string>
+    <string name="api_failure">Error failure: </string>
+    <string name="register_not_successful">User already exists! Please log in or choose a new email.</string>
+    <string name="register_successful">Set up your account, to create your user!</string>
+    <string name="account_setup_not_successful">Data is not valid!</string>
+    <string name="account_setup_successful">User has been created!</string>
+    <string name="api_response_not_successful">Error response: </string>
 </resources>
