@@ -5,19 +5,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.ClubsAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnClubItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
@@ -25,6 +31,9 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ClubsFragment extends Fragment implements OnClubItemListener {
 
@@ -48,17 +57,26 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setToolbar();
         return inflater.inflate(R.layout.fragment_clubs, container, false);
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getText(R.string.clubs)); //get the toolbar name from strings
+        MainActivity mainActivity = (MainActivity) getActivity();
+        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
+        avatar_toolbar.setVisibility(View.VISIBLE);
+        assert mainActivity != null;
+        Glide.with(this)
+                .load(mainActivity.getAvatar())
+                .apply(new RequestOptions().circleCrop())
+                .into(avatar_toolbar);
+        TextView fragment_title = getActivity().findViewById(R.id.fragment_title);
+        fragment_title.setText(getResources().getText(R.string.clubs_txt));
 
-        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
+        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(null);
+        toolbar.setTitle("");
         toolbar.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MyProfileActivity.class);
             startActivity(intent);

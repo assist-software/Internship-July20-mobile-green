@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +30,11 @@ import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.main.MainActivity;
+
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +43,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -145,8 +152,15 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void setToolbar() {
+        CircleImageView avatar_toolbar = getActivity().findViewById(R.id.avatar_toolbar);
+        avatar_toolbar.setVisibility(View.GONE);
+        avatar_toolbar.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_default_avatar));
+        TextView fragment_title = getActivity().findViewById(R.id.fragment_title);
+        fragment_title.setText(getResources().getText(R.string.home));
+
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getText(R.string.home)); //set toolbar name from strings
+        toolbar.setNavigationIcon(null);
+        toolbar.setTitle("");
 
         //set left side drawer for toolbar
         DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
@@ -157,11 +171,14 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void displayAvatar() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
+        mainActivity.setAvatar(avatars.get(new Random().nextInt(5)));
+
         Glide.with(this)
-                .load(avatars.get(new Random().nextInt(5)))
+                .load(mainActivity.getAvatar())
                 .apply(new RequestOptions().circleCrop())
                 .into(avatarImage);
-
     }
 
     private void setupUpEventsRecyclerView() {

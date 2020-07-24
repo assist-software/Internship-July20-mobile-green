@@ -5,19 +5,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
+import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
@@ -32,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,9 +77,20 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     }
 
     private void setToolbar() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
+        avatar_toolbar.setVisibility(View.VISIBLE);
+        assert mainActivity != null;
+        Glide.with(this)
+                .load(mainActivity.getAvatar())
+                .apply(new RequestOptions().circleCrop())
+                .into(avatar_toolbar);
+        TextView fragment_title = getActivity().findViewById(R.id.fragment_title);
+        fragment_title.setText(getResources().getText(R.string.events));
+
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getText(R.string.events)); //set toolbar name from strings
-        toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
+        toolbar.setNavigationIcon(null);
+        toolbar.setTitle("");
         toolbar.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MyProfileActivity.class);
             startActivity(intent);
