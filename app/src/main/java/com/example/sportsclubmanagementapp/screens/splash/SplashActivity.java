@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (Objects.requireNonNull(token).equals("no token"))
-                startActivity(new Intent(SplashActivity.this, GuestActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             else
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
         }, 4000);

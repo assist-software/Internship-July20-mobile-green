@@ -2,6 +2,7 @@ package com.example.sportsclubmanagementapp.screens.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView bottomNavigation;
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
     private List<Notification> notification = new ArrayList<>();
+    private Drawable avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,5 +154,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE).edit();
         editor.putString(getString(R.string.user_token), "no token");
         editor.apply();
+    }
+
+    public void setAvatar(Drawable avatar){
+        this.avatar = avatar;
+    }
+
+    public Drawable getAvatar(){
+        return avatar;
     }
 }
