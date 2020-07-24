@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Club implements Serializable { //hardcoded data & api
     private int id;
     @SerializedName("owner")
-    private long ownerId;
+    private int ownerId;
     private String name;
 
     private String description;
@@ -15,7 +15,7 @@ public class Club implements Serializable { //hardcoded data & api
     private long requests_id;
     private long members_id;
 
-    public Club(int id, long ownerId, String name, String description, long invites_id, long requests_id, long members_id) {
+    public Club(int id, int ownerId, String name, String description, long invites_id, long requests_id, long members_id) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -58,7 +58,7 @@ public class Club implements Serializable { //hardcoded data & api
         return ownerId;
     }
 
-    public void setOwnerId(long ownerId) {
+    public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
     }
 
