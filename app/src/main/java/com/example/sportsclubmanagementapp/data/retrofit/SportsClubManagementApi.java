@@ -32,6 +32,15 @@ public interface SportsClubManagementApi {
     @GET("/api/clubs/") //get all clubs
     Call <List<Club>> getClubs();
 
+    @GET("api/clubs/user/unjoined/")
+    Call <List<Club>> getUnJoinedClubs(@Header ("Authorization") String token);
+
+    @GET("api/clubs/user/joined/")
+    Call <List<Club>> getJoinedClubs(@Header ("Authorization") String token);
+
+    @GET("api/clubs/user/pending/")
+    Call <List<Club>> getPendingClubs(@Header ("Authorization") String token);
+
     @POST("user/register/validate/")  //register activity
     Call <Void> createPostUserRegister(@Body UserRegister userRegister);
 
@@ -43,4 +52,5 @@ public interface SportsClubManagementApi {
 
     @POST("api/clubs/join/{id}/")
     Call <Void> createPostUserJoinClub(@Header ("Authorization") String token, @Path ("id") int id);
+
 }

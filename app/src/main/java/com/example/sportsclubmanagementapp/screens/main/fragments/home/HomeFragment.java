@@ -2,14 +2,15 @@ package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,16 +21,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
+import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +77,8 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     private WorkoutsAdapter WorkoutsAdapter;
 
     private List<Club> clubs; //api clubs;
+    private List<Club> pendingClubs; //clubs to check if user is pending in a club
+    private List<Club> joinedClubs; //clubs to check if user is joined in a club
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -87,13 +94,33 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initComponents(view);
         prepareAvatars(); //set random avatar for TESTS
-        getApiClubs();
+        getApiPendingClubs();
+        getApiJoinedClubs();
+        checkIfJoinedOrPendingFirstClub(); //check if user is joined or pending in a club
         displayAvatar(); //display avatar as circle view
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
+
         //data for TESTS
         prepareEventData();
         prepareFutureEventsData();
         prepareWorkoutsData();
+    }
+
+    private void checkIfJoinedOrPendingFirstClub() {
+        if (joinedClubs == null && pendingClubs == null) {
+            setVisibilityFirstClub(true);
+            getApiClubs(false);
+        } else {
+            setVisibilityFirstClub(false);
+            getApiClubs(true);
+        }
+    }
+
+    private void setVisibilityFirstClub(boolean isVisible) {
+        if (isVisible)
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
+        else
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
     }
 
 
@@ -101,8 +128,49 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         avatarImage = view.findViewById(R.id.avatar);
     }
 
-    private void getApiClubs() {
-        Call<List<Club>> call = ApiHelper.getApi().getClubs();
+    private void getApiPendingClubs() {
+        String token = getToken();
+        Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(token);
+        call.enqueue(new Callback<List<Club>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                else {
+                    pendingClubs = clubs;
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getApiJoinedClubs() {
+        String token = getToken();
+        Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(token);
+        call.enqueue(new Callback<List<Club>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                else {
+                    joinedClubs = clubs;
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getApiClubs(boolean hasJoined) {
+        String token = getToken();
+        Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(token);
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
@@ -110,10 +178,12 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
                 else {
                     clubs = response.body();
-                    setupUpFirstClubRecyclerView();
+                    if (hasJoined) {
+                        setupUpFirstClubRecyclerView();
+                        prepareFirstClubsData();
+                    }
                     setupUpClubsRecyclerView();
                     prepareClubsData();
-                    prepareFirstClubsData();
                 }
             }
 
@@ -128,17 +198,13 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         //for events recycler
         recyclerViewEvents = view.findViewById(R.id.events_recycler_view);
         setupUpEventsRecyclerView(); //hardcoded
-
         //for first club recycler
         recyclerViewFirstClub = view.findViewById(R.id.first_club_recycler_view);
-
         //for clubs recycler
         recyclerViewClubs = view.findViewById(R.id.join_clubs_recycler_view);
-
         //for future events recycler
         recyclerViewFutureEvents = view.findViewById(R.id.future_events_recycler_view);
         setupUpFutureEventsRecyclerView(); //hardcoded
-
         //for workouts recycler
         recyclerViewWorkouts = view.findViewById(R.id.workouts_recycler_view);
         setupUpWorkoutsRecyclerView(); //hardcoded
@@ -214,21 +280,15 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
         //hide recycler header if the list is empty
         if (clubs.isEmpty())
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
-        else
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
-        if (clubs.isEmpty())
             Objects.requireNonNull(getActivity()).findViewById(R.id.join_clubs).setVisibility(View.GONE);
         else
             Objects.requireNonNull(getActivity()).findViewById(R.id.join_clubs).setVisibility(View.VISIBLE);
 
-        //notify adapters to delete the club from recyclers
-        firstClubAdapter.notifyDataSetChanged();
+        //notify adapter to delete the club from recyclers
         ClubsAdapter.notifyDataSetChanged();
 
         //show message to user with the joined club
         Toast.makeText(getActivity(), "Joined to " + club.getName(), Toast.LENGTH_SHORT).show();
-
         clubPutApi((int) club.getId());
     }
 
@@ -303,11 +363,11 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void prepareClubsData() {
-        firstClubAdapter.notifyDataSetChanged();
+        ClubsAdapter.notifyDataSetChanged();
     }
 
     private void prepareFirstClubsData() {
-        ClubsAdapter.notifyDataSetChanged();
+        firstClubAdapter.notifyDataSetChanged();
     }
 
     private void prepareFutureEventsData() {

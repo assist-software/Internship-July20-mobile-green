@@ -1,6 +1,7 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.clubs;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,29 +18,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
+import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.ClubsAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnClubItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ClubsFragment extends Fragment implements OnClubItemListener {
 
     //for new clubs recycler
-    private List<Club> clubList = new ArrayList<>();
+    private List<Club> clubList;
     private RecyclerView recyclerViewClubs;
     private ClubsAdapter clubsAdapter;
 
     //for joined clubs recycler
-    private List<Club> joinedClubList = new ArrayList<>();
+    private List<Club> joinedClubList;
     private RecyclerView recyclerViewJoinedClubs;
     private ClubsAdapter joinedClubsAdapter;
 
     //for pending clubs recycler
-    private List<Club> pendingClubList = new ArrayList<>();
+    private List<Club> pendingClubList;
     private RecyclerView recyclerViewPendingClubs;
     private ClubsAdapter pendingClubsAdapter;
 
@@ -48,14 +55,13 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setToolbar();
         return inflater.inflate(R.layout.fragment_clubs, container, false);
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getText(R.string.clubs)); //get the toolbar name from strings
 
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.my_profile_toolbar, null));
@@ -67,24 +73,94 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        //for new events recycler
-        recyclerViewClubs = (RecyclerView) view.findViewById(R.id.new_clubs_recycler_view);
-        setUpNewEventsRecyclerView();
-
-        //for joined events recycler
-        recyclerViewJoinedClubs = (RecyclerView) view.findViewById(R.id.joined_clubs_recycler_view);
-        setUpJoinedEventsRecyclerView();
-
-        //for pending events recycler
-        recyclerViewPendingClubs = (RecyclerView) view.findViewById(R.id.pending_clubs_recycler_view);
+        geUnJoinedClubsApi();
+        getJoinedClubsApi();
+        getPendingClubsApi();
+        setUpAllRecyclerViews(view);
         setUpPendingEventsRecyclerView();
-
-        prepareClubsData();
-        prepareJoinedClubsData();
-        preparePendingClubsData();
     }
 
-    private void setUpNewEventsRecyclerView() {
+    private void getPendingClubsApi() {
+        String token = getToken();
+        Call<List<Club>> call = ApiHelper.getApi().getPendingClubs(token);
+        call.enqueue(new Callback<List<Club>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                else {
+                    pendingClubList = response.body();
+                    setUpPendingEventsRecyclerView();
+                    preparePendingClubsData();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getJoinedClubsApi() {
+        String token = getToken();
+        Call<List<Club>> call = ApiHelper.getApi().getJoinedClubs(token);
+        call.enqueue(new Callback<List<Club>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                else {
+                    joinedClubList = response.body();
+                    setUpJoinedEventsRecyclerView();
+                    prepareJoinedClubsData();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void geUnJoinedClubsApi() {
+        String token = getToken();
+        Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(token);
+        call.enqueue(new Callback<List<Club>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                else {
+                    clubList = response.body();
+                    setUpNewClubsRecycleView();
+                    prepareClubsData();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private String getToken() {
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), getActivity().MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+    }
+
+    private void setUpAllRecyclerViews(View view) {
+        //for new clubs recycler
+        recyclerViewClubs = view.findViewById(R.id.new_clubs_recycler_view);
+        //for joined events recycler
+        recyclerViewJoinedClubs = view.findViewById(R.id.joined_clubs_recycler_view);
+        //for pending events recycler
+        recyclerViewPendingClubs = view.findViewById(R.id.pending_clubs_recycler_view);
+    }
+
+    private void setUpNewClubsRecycleView() {
         clubsAdapter = new ClubsAdapter(clubList, getContext(), ClubsAdapter.JOIN_CLUB_LAYOUT, this);
         RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(clubsAdapter.getContext());
         recyclerViewClubs.setLayoutManager(clubsLayoutManager);
@@ -135,29 +211,35 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
 
         //show message to user with the joined club
         Toast.makeText(getActivity(), "Joined to " + club.getName(), Toast.LENGTH_SHORT).show();
+        clubPutApi((int) club.getId());
+    }
+
+    private void clubPutApi(int id) {
+        String token = getToken();
+        Call<Void> call = ApiHelper.getApi().createPostUserJoinClub(token, id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void prepareClubsData() {
-        clubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
-        clubList.add(new Club(2, 1, "Tennis", "Description", 1, 2, 3));
-        clubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
-
         clubsAdapter.notifyDataSetChanged();
     }
 
     private void prepareJoinedClubsData() {
-        joinedClubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
-        joinedClubList.add(new Club(2, 1, "Tennis", "Description", 1, 2, 3));
-        joinedClubList.add(new Club(2, 1, "Biking", "Description", 1, 2, 3));
-
         joinedClubsAdapter.notifyDataSetChanged();
     }
 
     private void preparePendingClubsData() {
-        pendingClubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
-        pendingClubList.add(new Club(2, 1, "Tennis", "Description", 1, 2, 3));
-        pendingClubList.add(new Club(2, 1, "Biking", "Description", 1, 2, 3));
-
         pendingClubsAdapter.notifyDataSetChanged();
     }
 }

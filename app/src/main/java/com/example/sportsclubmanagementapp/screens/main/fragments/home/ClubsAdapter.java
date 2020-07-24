@@ -23,12 +23,12 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
     public static int PENDING_CLUB_LAYOUT = 3;
 
     private int layoutType;
-    private List<Club> Club;
+    private List<Club> Clubs;
     private Context context;
     private OnClubItemListener listener;
 
-    public ClubsAdapter(List<Club> Club, Context context, int layoutType, OnClubItemListener listener) {
-        this.Club = Club;
+    public ClubsAdapter(List<Club> Clubs, Context context, int layoutType, OnClubItemListener listener) {
+        this.Clubs = Clubs;
         this.context = context;
         this.layoutType = layoutType;
         this.listener = listener;
@@ -43,12 +43,13 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ClubsViewHolder holder, int position) {
-        holder.bind(Club.get(position));
+        holder.bind(Clubs.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return this.Club.size();
+        if (this.Clubs==null) return 0;
+        return this.Clubs.size();
     }
 
     public Context getContext() {
