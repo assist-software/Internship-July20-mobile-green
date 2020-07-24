@@ -3,6 +3,7 @@ package com.example.sportsclubmanagementapp.screens.myprofile;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -49,6 +50,7 @@ public class MyProfileActivity extends AppCompatActivity {
     private TextInputEditText weight;
     private TextInputEditText age;
     private List<Sport> sports;
+    private long saveChangesBtnLastClickTime = 0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,8 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
     public void onClickSaveChangesBtn(View view) {
+        if (SystemClock.elapsedRealtime() - saveChangesBtnLastClickTime < 1000) return;
+        saveChangesBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
         isValid = isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
         if (isValid) {

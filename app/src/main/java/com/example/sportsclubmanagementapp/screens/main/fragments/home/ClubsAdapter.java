@@ -1,6 +1,7 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
@@ -18,17 +20,17 @@ import java.util.List;
 
 public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHolder> {
 
-    public static int JOIN_CLUB_LAYOUT = 1;
-    public static int JOINED_CLUB_LAYOUT = 2;
-    public static int PENDING_CLUB_LAYOUT = 3;
+    public static final int JOIN_CLUB_LAYOUT = 1;
+    public static final int JOINED_CLUB_LAYOUT = 2;
+    public static final int PENDING_CLUB_LAYOUT = 3;
 
     private int layoutType;
-    private List<Club> Clubs;
+    private List<Club> clubs;
     private Context context;
     private OnClubItemListener listener;
 
     public ClubsAdapter(List<Club> Clubs, Context context, int layoutType, OnClubItemListener listener) {
-        this.Clubs = Clubs;
+        this.clubs = Clubs;
         this.context = context;
         this.layoutType = layoutType;
         this.listener = listener;
@@ -43,17 +45,30 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ClubsViewHolder holder, int position) {
-        holder.bind(Clubs.get(position));
+        holder.bind(clubs.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if (this.Clubs==null) return 0;
-        return this.Clubs.size();
+        if (this.clubs == null) return 0;
+        return this.clubs.size();
     }
 
     public Context getContext() {
         return this.context;
+    }
+
+    public void addClub(Club club) {
+        this.clubs.add(club);
+        notifyDataSetChanged();
+    }
+
+    public void removeClub(Club club) {
+        Club clubToRemove = this.clubs.stream().filter(c -> c.getId() == club.getId()).findFirst().orElse(null);
+        if (clubToRemove != null) {
+            this.clubs.remove(clubToRemove);
+            notifyDataSetChanged();
+        }
     }
 
     public class ClubsViewHolder extends RecyclerView.ViewHolder {
@@ -73,22 +88,19 @@ public class ClubsAdapter extends RecyclerView.Adapter<ClubsAdapter.ClubsViewHol
         public void bind(final Club club) {
             club_name.setText(club.getName());
 
-            if(layoutType == JOIN_CLUB_LAYOUT){
+            if (layoutType == JOIN_CLUB_LAYOUT) {
                 join.setVisibility(View.VISIBLE);
                 textUnderButton.setVisibility(View.GONE);
                 join.setOnClickListener(v -> listener.onClubsJoinClick(club));
-            }
-            else if (layoutType == JOINED_CLUB_LAYOUT){
+            } else if (layoutType == JOINED_CLUB_LAYOUT) {
                 join.setVisibility(View.GONE);
                 textUnderButton.setVisibility(View.VISIBLE);
                 textUnderButton.setText(getContext().getResources().getText(R.string.joined_txt));
-            }
-            else if(layoutType == PENDING_CLUB_LAYOUT){
+            } else if (layoutType == PENDING_CLUB_LAYOUT) {
                 join.setVisibility(View.GONE);
                 textUnderButton.setVisibility(View.VISIBLE);
                 textUnderButton.setText(getContext().getResources().getText(R.string.pending_txt_caps));
             }
-
             linearLayout.setOnClickListener(v -> listener.onClubsClick(club));
         }
     }

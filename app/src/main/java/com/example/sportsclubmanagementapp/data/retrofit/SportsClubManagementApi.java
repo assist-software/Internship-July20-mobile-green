@@ -50,7 +50,7 @@ public interface SportsClubManagementApi {
     @POST("user/register/") //accountsetup activity
     Call <Void> createPostUserAccountSetup(@Body UserAccountSetup userAccountSetup);
 
-    @POST("api/clubs/join/{id}/")
+    @POST("api/clubs/join/{id}/") //user join club
     Call <Void> createPostUserJoinClub(@Header ("Authorization") String token, @Path ("id") int id);
 
 }

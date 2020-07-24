@@ -3,6 +3,7 @@ package com.example.sportsclubmanagementapp.screens.accountsetup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -43,6 +44,7 @@ public class AccountSetupActivity extends AppCompatActivity {
     private TextInputEditText age;
     private List<Sport> sports;
 
+    private long continueBtnLastClickTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,8 @@ public class AccountSetupActivity extends AppCompatActivity {
 
 
     public void onClickContinueBtn(View view) {
+        if (SystemClock.elapsedRealtime() - continueBtnLastClickTime < 2000) return;
+        continueBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
         isValid = isGenderValid() && isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
         if (isValid) {

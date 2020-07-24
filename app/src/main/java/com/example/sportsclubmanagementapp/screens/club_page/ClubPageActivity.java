@@ -138,6 +138,11 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     }
 
+    @Override
+    public void onEventsJoinClick(Event event) {
+
+    }
+
     private void prepareAvatars() {
         avatars = new ArrayList<>();
         avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_1));

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -41,6 +42,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<Notification> notification = new ArrayList<>();
     private Drawable avatar;
 
+    private long addWorkoutBtnClickTime = 0;
+    private long notificationToolbarBtnClickTime = 0;
+    private long notificationDrawerBtnClickTime = 0;
+    private long myProfileToolbarBtnClickTime = 0;
+    private long myProfileDrawerBtnClickTime = 0;
+    private long calendarDrawerBtnClickTime = 0;
+    private long logOutDrawerBtnClickTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setUpNotifications() {
         //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
-
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
         if (notification.isEmpty())
             notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
@@ -120,34 +128,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void goToNotificationsScreen(View view) {
+        if (SystemClock.elapsedRealtime() - notificationToolbarBtnClickTime < 1000) return;
+        notificationToolbarBtnClickTime = SystemClock.elapsedRealtime();
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.image_view_on_click));
-        Intent intent = new Intent(this, NotificationActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, NotificationActivity.class));
     }
 
     public void goToAddWorkoutScreen(View view) {
-        Intent intent = new Intent(this, AddWorkoutActivity.class);
-        startActivity(intent);
+        if (SystemClock.elapsedRealtime() - addWorkoutBtnClickTime < 1000) return;
+        addWorkoutBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, AddWorkoutActivity.class));
     }
 
     private void goToMyProfileScreen() {
-        Intent intent = new Intent(this, MyProfileActivity.class);
-        startActivity(intent);
+        if (SystemClock.elapsedRealtime() - myProfileDrawerBtnClickTime < 1000) return;
+        myProfileDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, MyProfileActivity.class));
+    }
+
+    public void goToMyProfileScreen(View view) {
+        if (SystemClock.elapsedRealtime() - myProfileToolbarBtnClickTime < 1000) return;
+        myProfileToolbarBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, MyProfileActivity.class));
     }
 
     private void goToNotificationsScreen() {
-        Intent intent = new Intent(this, NotificationActivity.class);
-        startActivity(intent);
+        if (SystemClock.elapsedRealtime() - notificationDrawerBtnClickTime < 1000) return;
+        notificationDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, NotificationActivity.class));
     }
 
     private void goToCalendarScreen() {
-        Intent intent = new Intent(this, CalendarActivity.class);
-        startActivity(intent);
+        if (SystemClock.elapsedRealtime() - calendarDrawerBtnClickTime < 1000) return;
+        calendarDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, CalendarActivity.class));
     }
 
     private void goToGuestScreen() {
-        Intent intent = new Intent(this, GuestActivity.class);
-        startActivity(intent);
+        if (SystemClock.elapsedRealtime() - logOutDrawerBtnClickTime < 1000) return;
+        logOutDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, GuestActivity.class));
     }
 
     private void deleteSharePreferencesToken() {
@@ -156,11 +176,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
     }
 
-    public void setAvatar(Drawable avatar){
-        this.avatar = avatar;
+    public Drawable getAvatar() {
+        return avatar;
     }
 
-    public Drawable getAvatar(){
-        return avatar;
+    public void setAvatar(Drawable avatar) {
+        this.avatar = avatar;
     }
 }

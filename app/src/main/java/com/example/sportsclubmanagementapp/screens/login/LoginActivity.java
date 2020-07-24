@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText emailAddress;
     private TextInputEditText password;
 
+    private long logInBtnLastClickTime = 0;
+    private long registerBtnLastClickTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickLogin(View view) {
         boolean isValid = isEmailAddressValid() && isPasswordValid();
-
         if (isValid) {
             checkUserExists();
         }
@@ -60,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickNewHere(View view) {
+        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) return;
+        registerBtnLastClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
@@ -88,8 +92,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToMainScreen() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
+        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 2000) return;
+        logInBtnLastClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
     private void sharePreferencesToken(String token) {

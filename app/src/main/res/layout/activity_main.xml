@@ -44,6 +44,7 @@
                         android:layout_height="@dimen/dim_32dp"
                         android:layout_marginEnd="@dimen/space_24dp"
                         app:civ_border_width="@dimen/border_1dp"
+                        android:onClick="goToMyProfileScreen"
                         app:civ_border_color="@color/color_white" />
 
                     <TextView
