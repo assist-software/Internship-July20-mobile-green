@@ -95,13 +95,8 @@ public class WorkoutsFragment extends Fragment {
 
     private void setTodayWorkout() {
         Date currentDate = Calendar.getInstance().getTime(); //get current date
-
         SimpleDateFormat dateFormated = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()); //format current date
-        String formattedDate = dateFormated.format(currentDate);
-        String[] dateParsed = formattedDate.split("-"); //parse data to char(-)
-        String dayNumberStr = dateParsed[0];
-        String monthStr = dateParsed[1];
-        String yearStr = dateParsed[2];
+        String[] dateParsed = dateFormated.format(currentDate).split("-"); //parse data to char(-)
 
         //get day name
         Calendar calendar = Calendar.getInstance();
@@ -110,13 +105,13 @@ public class WorkoutsFragment extends Fragment {
         String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)];
 
         TextView day_number = activity.findViewById(R.id.dayNumberTodayWorkout);
-        day_number.setText(dayNumberStr);
+        day_number.setText(dateParsed[0]);
         TextView month = activity.findViewById(R.id.monthTodayWorkout);
-        month.setText(monthStr);
+        month.setText(dateParsed[1]);
         TextView day_name = activity.findViewById(R.id.dayNameTodayWorkout);
         day_name.setText(dayNameStr);
         TextView year = activity.findViewById(R.id.yearTodayWorkout);
-        year.setText(yearStr);
+        year.setText(dateParsed[2]);
         TextView distance = activity.findViewById(R.id.distanceTodayWorkout);
         distance.setText(String.format("%.2f", workoutsList.get(0).getDistance()));
         TextView duration = activity.findViewById(R.id.durationTodayWorkout);

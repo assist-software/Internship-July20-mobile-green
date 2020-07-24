@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/margin_16dp">
+    android:paddingHorizontal="@dimen/margin_16dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -33,11 +33,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter_bold"
                 android:text="@string/username"
                 android:textColor="@color/black"
-                android:textSize="@dimen/dim_24sp"
-                android:layout_marginTop="8dp"/>
+                android:textSize="@dimen/dim_24sp" />
 
             <TextView
                 android:id="@+id/join_first_club"
@@ -55,7 +55,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_club" />
 
             <TextView
                 android:id="@+id/join_first_event"
@@ -73,7 +75,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_event" />
 
             <TextView
                 android:id="@+id/join_clubs"
@@ -91,7 +95,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_club" />
 
             <TextView
                 android:id="@+id/future_events"
@@ -109,7 +115,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_event_horizontal" />
 
             <TextView
                 android:id="@+id/workouts"
@@ -128,7 +136,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
                 android:orientation="horizontal"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_workouts" />
 
         </LinearLayout>
 

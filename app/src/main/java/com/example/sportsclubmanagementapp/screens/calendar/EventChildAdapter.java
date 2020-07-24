@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
-        prepareEventsPictures(); //for TESTS
+        eventsPictures = Utils.getEventsPictures(getContext()); //for TESTS
         return new EventViewHolder(view);
 }
 
@@ -76,14 +77,5 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
 
     public Context getContext(){
         return this.activity;
-    }
-
-    private void prepareEventsPictures() {
-        eventsPictures = new ArrayList<>();
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_running));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_biking));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_tennis));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_running_1));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_motors));
     }
 }

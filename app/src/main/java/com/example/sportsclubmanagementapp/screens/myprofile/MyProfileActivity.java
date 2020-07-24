@@ -55,7 +55,7 @@ public class MyProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
-        prepareAvatars(); //set random avatar for TESTS
+        avatars = Utils.getAvatars(getBaseContext()); //set random avatar for TESTS
         displayAvatar();
         initComponent();
         getApiSports();
@@ -160,16 +160,6 @@ public class MyProfileActivity extends AppCompatActivity {
         workoutEffectivenessAdapter.add("Select your favorite sport:");
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());
-    }
-
-
-    private void prepareAvatars() {
-        avatars = new ArrayList<>();
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_1));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_2));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_3));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_4));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_5));
     }
 
     private void getApiSports() {

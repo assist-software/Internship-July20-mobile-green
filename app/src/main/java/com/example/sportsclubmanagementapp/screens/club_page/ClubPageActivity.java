@@ -25,6 +25,7 @@ import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
+import com.example.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         getClubFromLastActivity(); //get club object pressed in the last screen
         setTheCouchDetails();
 
-        prepareAvatars(); //for TESTS
+        avatars = Utils.getAvatars(getBaseContext()); //for TESTS
         displayAvatar();
 
         setUpNotifications();
@@ -136,15 +137,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     @Override
     public void onEventsClick(Event event) {
 
-    }
-
-    private void prepareAvatars() {
-        avatars = new ArrayList<>();
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_1));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_2));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_3));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_4));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_5));
     }
 
     private void prepareEventData() {

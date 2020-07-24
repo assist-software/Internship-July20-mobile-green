@@ -22,6 +22,7 @@ import com.example.sportsclubmanagementapp.data.models.Role;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.addworkout.AddWorkoutActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.UserAdapter;
+import com.example.utils.Utils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -74,7 +75,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setUpUsersRecyclerView(); //for users recycler
 
         prepareUsersData(); //for TESTS
-        prepareEventsPictures(); //for TESTS
+        eventPictures = Utils.getEventsPictures(getBaseContext()); //for TESTS
         TextView title = findViewById(R.id.eventParticipantsTextView);
         title.setText("Participants (" + String.valueOf(usersList.size()) + ")");
         ImageView image = findViewById(R.id.image);
@@ -273,14 +274,5 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         userAdapter.notifyDataSetChanged();
-    }
-
-    private void prepareEventsPictures() {
-        eventPictures = new ArrayList<>();
-        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_running));
-        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_biking));
-        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_tennis));
-        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_running_1));
-        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_motors));
     }
 }

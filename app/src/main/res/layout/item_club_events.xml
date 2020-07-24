@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_18sp" />
+        android:textSize="@dimen/text_18sp"
+        android:layout_marginBottom="@dimen/space_16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/events_recycler_view"
