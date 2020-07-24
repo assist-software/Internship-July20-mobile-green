@@ -2,6 +2,7 @@ package com.example.sportsclubmanagementapp.screens.calendar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +18,9 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EventParentAdapter extends RecyclerView.Adapter<EventParentAdapter.ClubViewHolder> {
 

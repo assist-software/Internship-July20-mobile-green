@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,10 +36,17 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private List<Drawable> eventPictures;
 
     private TextView title;
     private TextView date;
@@ -46,6 +54,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private TextView location;
     private TextView description1;
     private TextView description2;
+
     private Event event;
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
@@ -63,7 +72,22 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
         initComponents();
         setUpUsersRecyclerView(); //for users recycler
-        prepareUsersData();
+
+        prepareUsersData(); //for TESTS
+        prepareEventsPictures(); //for TESTS
+        TextView title = findViewById(R.id.eventParticipantsTextView);
+        title.setText("Participants (" + String.valueOf(usersList.size()) + ")");
+        ImageView image = findViewById(R.id.image);
+        image.setImageDrawable(eventPictures.get(new Random().nextInt(5)));
+        TextView date = findViewById(R.id.dateEventTextView);
+        //date.setText(event.getDate());
+        TextView location = findViewById(R.id.eventLocationTextView);
+        //location.setText(event.getLocation());
+        TextView firstDescription = findViewById(R.id.eventDescription1TextView);
+        //firstDescription.setText(event.getDescription());
+        TextView secondDescription = findViewById(R.id.eventDescription2TextView);
+        //secondDescription.setText(event.getDescription() + " secondary");
+
         setToolbar();
         setEvent();
     }
@@ -249,5 +273,14 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         userAdapter.notifyDataSetChanged();
+    }
+
+    private void prepareEventsPictures() {
+        eventPictures = new ArrayList<>();
+        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_running));
+        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_biking));
+        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_tennis));
+        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_running_1));
+        eventPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.img_motors));
     }
 }

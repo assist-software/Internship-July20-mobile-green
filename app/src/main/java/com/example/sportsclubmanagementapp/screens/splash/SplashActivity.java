@@ -25,7 +25,6 @@ public class SplashActivity extends AppCompatActivity {
     private void redirectToGuestScreen() {
         SharedPreferences prefs = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE);
         String token = prefs.getString(getString(R.string.user_token), "no token");
-
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (Objects.requireNonNull(token).equals("no token"))

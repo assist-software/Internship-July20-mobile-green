@@ -2,36 +2,34 @@ package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
-import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
-import com.example.sportsclubmanagementapp.screens.accountsetup.AccountSetupActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,14 +37,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.Random;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
+
+    private ImageView avatarImage;
+    private List<Drawable> avatars; //for TESTS
 
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
@@ -85,14 +85,20 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        initComponents(view);
+        prepareAvatars(); //set random avatar for TESTS
         getApiClubs();
         displayAvatar(); //display avatar as circle view
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
-
         //data for TESTS
         prepareEventData();
         prepareFutureEventsData();
         prepareWorkoutsData();
+    }
+
+
+    private void initComponents(View view) {
+        avatarImage = view.findViewById(R.id.avatar);
     }
 
     private void getApiClubs() {
@@ -113,7 +119,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
-                Toast.makeText( getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -152,10 +158,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private void displayAvatar() {
         Glide.with(this)
-                .load(R.mipmap.ic_default_avatar)
-                .centerCrop()
-                .into((CircleImageView)
-                        Objects.requireNonNull(getView()).findViewById(R.id.avatar));
+                .load(avatars.get(new Random().nextInt(5)))
+                .apply(new RequestOptions().circleCrop())
+                .into(avatarImage);
+
     }
 
     private void setupUpEventsRecyclerView() {
@@ -228,12 +234,12 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private void clubPutApi(int id) {
         String token = getToken();
-        Call <Void> call = ApiHelper.getApi().createPostUserJoinClub(token,id);
+        Call<Void> call = ApiHelper.getApi().createPostUserJoinClub(token, id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText( getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -276,6 +282,15 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             }
 
         }
+    }
+
+    private void prepareAvatars() {
+        avatars = new ArrayList<>();
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_1));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_2));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_3));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_4));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_5));
     }
 
     private void prepareEventData() {

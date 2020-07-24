@@ -1,11 +1,19 @@
 package com.example.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Patterns;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -145,6 +153,4 @@ public class Utils {
         }
         return true;
     }
-
-
 }

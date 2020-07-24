@@ -1,18 +1,21 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
@@ -25,23 +28,25 @@ import com.example.sportsclubmanagementapp.screens.notification.NotificationActi
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.Objects;
+import java.util.Random;
 
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
 
     List<Notification> notification = new ArrayList<>();
+    private List<Drawable> avatars; //for TESTS
 
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
     private EventAdapter eventAdapter;
-    private Club club;
 
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
     private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
+
+    private Club club;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +60,24 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     protected void onStart() {
         super.onStart();
 
-        displayAvatar();
         getClubFromLastActivity(); //get club object pressed in the last screen
+        setTheCouchDetails();
+
+        prepareAvatars(); //for TESTS
+        displayAvatar();
+
         setUpNotifications();
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
         //values for TESTS
         prepareEventData();
         prepareUsersData();
+    }
+
+    private void setTheCouchDetails() {
+        /*TextView name = findViewById(R.id.name);
+        name.setText(club.getName());
+        TextView role = findViewById(R.id.role);*/
     }
 
     private void setToolbar() {
@@ -90,10 +105,9 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     private void displayAvatar() {
         Glide.with(this)
-                .load(R.mipmap.ic_default_avatar)
-                .centerCrop()
-                .into((CircleImageView)
-                        findViewById(R.id.avatar));
+                .load(avatars.get(new Random().nextInt(5)))
+                .apply(new RequestOptions().circleCrop())
+                .into((ImageView) findViewById(R.id.avatar));
     }
 
     private void getClubFromLastActivity() {
@@ -122,6 +136,15 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     @Override
     public void onEventsClick(Event event) {
 
+    }
+
+    private void prepareAvatars() {
+        avatars = new ArrayList<>();
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_1));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_2));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_3));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_4));
+        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_5));
     }
 
     private void prepareEventData() {

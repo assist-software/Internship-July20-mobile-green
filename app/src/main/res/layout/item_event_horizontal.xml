@@ -3,15 +3,14 @@
     android:id="@+id/eventLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shadow_sides_bottom"
+    android:background="@drawable/btn_rounded_8dp_light_gray_border"
     android:orientation="vertical"
-    android:elevation="@dimen/dim_2dp"
     android:layout_marginBottom="@dimen/margin_14dp">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dim_158dp"
         android:src="@drawable/img_running"
         android:scaleType="centerCrop"/>
 

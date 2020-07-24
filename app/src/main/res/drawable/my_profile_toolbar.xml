@@ -12,6 +12,9 @@
                 android:color="@android:color/white" />
         </shape>
     </item>
-    <item android:drawable="@drawable/avatar"/>
+    <item
+        android:drawable="@drawable/my_profile_icon"
+        android:width="@dimen/dim_25dp"
+        android:height="@dimen/dim_25dp" />
 </layer-list>
 

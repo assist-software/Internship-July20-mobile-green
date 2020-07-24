@@ -96,6 +96,8 @@
     <dimen name="margin_114dp">114dp</dimen>
     <dimen name="space_200dp">200dp</dimen>
     <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="dim_25dp">25dp</dimen>
+    <dimen name="space_60dp">60dp</dimen>
 
 
 </resources>
