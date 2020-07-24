@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.WorkoutsViewHolder> {
 
@@ -24,7 +28,7 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
         this.context = context;
     }
 
-    public class WorkoutsViewHolder extends RecyclerView.ViewHolder {
+    public static class WorkoutsViewHolder extends RecyclerView.ViewHolder {
         private TextView day_number;
         private TextView month;
         private TextView day_name;
@@ -47,14 +51,29 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
         }
 
         public void bind(Workouts workouts) {
-            day_number.setText("20");
-            month.setText("July");
-            day_name.setText("Monday");
-            year.setText("2020");
+            Date currentDate = Calendar.getInstance().getTime(); //get current date
+
+            SimpleDateFormat dateFormated = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()); //format current date
+            String formattedDate = dateFormated.format(currentDate);
+            String[] dateParsed = formattedDate.split("-"); //parse data to char(-)
+            String dayNumberStr = dateParsed[0];
+            String monthStr = dateParsed[1];
+            String yearStr = dateParsed[2];
+
+            //get day name
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            String[] days = new String[] { "SATURDAY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" };
+            String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)];
+
+            day_number.setText(dayNumberStr);
+            month.setText(monthStr);
+            day_name.setText(dayNameStr);
+            year.setText(yearStr);
             distance.setText(String.format("%.2f", workouts.getDistance()));
-            duration.setText(String.valueOf(workouts.getDuration()));
+            duration.setText(String.format("%.2f", workouts.getDuration()));
             calories.setText(String.format("%.2f", workouts.getCalories_burned()));
-            bpm.setText("150");
+            bpm.setText(String.valueOf(120));
         }
     }
 
