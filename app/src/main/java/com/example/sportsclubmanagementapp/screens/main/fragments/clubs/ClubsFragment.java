@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.clubs;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,8 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
@@ -26,6 +25,7 @@ import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.ClubsAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnClubItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
+import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -65,15 +65,9 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     }
 
     private void setToolbar() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
-        avatar_toolbar.setVisibility(View.VISIBLE);
-        assert mainActivity != null;
-        Glide.with(this)
-                .load(mainActivity.getAvatar())
-                .apply(new RequestOptions().circleCrop())
-                .into(avatar_toolbar);
-        TextView fragment_title = getActivity().findViewById(R.id.fragment_title);
+        setToolbarAvatar();
+
+        TextView fragment_title = Objects.requireNonNull(getActivity()).findViewById(R.id.fragment_title);
         fragment_title.setText(getResources().getText(R.string.clubs_txt));
 
         Toolbar toolbar = (Toolbar) Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
@@ -83,6 +77,13 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
             Intent intent = new Intent(getActivity(), MyProfileActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void setToolbarAvatar() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
+        avatar_toolbar.setVisibility(View.VISIBLE); //set the avatar visible (because is hidden for home fragment)
+        Utils.setCircleAvatar(mainActivity, Objects.requireNonNull(mainActivity).getAvatar(), avatar_toolbar);
     }
 
     @Override
@@ -161,7 +162,8 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     }
 
     private String getToken() {
-        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), getActivity().MODE_PRIVATE);
+        getActivity();
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
         return "token " + prefs.getString(getString(R.string.user_token), "no token");
     }
 

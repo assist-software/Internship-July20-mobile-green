@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,17 +36,18 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private List<Drawable> eventPictures;
+    public static int HEART_RATE_DATA = 1;
+    public static int CALORIES_DATA = 2;
+    public static int AVG_SPEED_DATA = 3;
+    public static int DISTANCE_DATA = 4;
 
     private TextView title;
     private TextView date;
@@ -75,11 +75,18 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setUpUsersRecyclerView(); //for users recycler
 
         prepareUsersData(); //for TESTS
-        eventPictures = Utils.getEventsPictures(getBaseContext()); //for TESTS
+        configureViews();
+
+        setToolbar();
+        setEvent();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void configureViews() {
         TextView title = findViewById(R.id.eventParticipantsTextView);
-        title.setText("Participants (" + String.valueOf(usersList.size()) + ")");
+        title.setText("Participants (" + usersList.size() + ")");
         ImageView image = findViewById(R.id.image);
-        image.setImageDrawable(eventPictures.get(new Random().nextInt(5)));
+        image.setImageDrawable(Utils.getEventsPictures(getBaseContext()).get(new Random().nextInt(5)));
         TextView date = findViewById(R.id.dateEventTextView);
         //date.setText(event.getDate());
         TextView location = findViewById(R.id.eventLocationTextView);
@@ -88,9 +95,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         //firstDescription.setText(event.getDescription());
         TextView secondDescription = findViewById(R.id.eventDescription2TextView);
         //secondDescription.setText(event.getDescription() + " secondary");
-
-        setToolbar();
-        setEvent();
     }
 
     private void initComponents() {
@@ -117,8 +121,8 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setUpCheckBoxesListeners();
         //set heart rate data by default
         titleSelectedDataChart.setText(getResources().getText(R.string.heart_rate_txt));
-        checkBoxes.get(0).setChecked(true); //auto check the first check box (heart rate)
-        selectedDataForChart = 1;
+        checkBoxes.get(HEART_RATE_DATA-1).setChecked(true); //auto check the first check box (heart rate)
+        selectedDataForChart = HEART_RATE_DATA;
         setUpChart(); //set up chart data with heart rate (first)
     }
 
@@ -163,11 +167,20 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         List<BarEntry> list = new ArrayList<>(); //list of data for every participant
         final ArrayList<String> xAxisLabel = new ArrayList<>(); //the name of each participant (for x coordinate)
         //set the first date with the current user (logged in the app)
-        list.add(new BarEntry(0, 1));
+
+        int maximumValue = 0;
+        if(selectedDataForChart == HEART_RATE_DATA) maximumValue = 150;
+        else if(selectedDataForChart == CALORIES_DATA) maximumValue = 5000;
+        else if(selectedDataForChart == AVG_SPEED_DATA) maximumValue = 80;
+        else if(selectedDataForChart == DISTANCE_DATA) maximumValue = 100;
+        else assert true;
+
+        //set chart data for current user
+        list.add(new BarEntry(0, new Random().nextInt(maximumValue)));
         xAxisLabel.add(0, "You");
 
         for (int i = 0; i < participants.size(); i++) {
-            list.add(new BarEntry(i + 1, 2));
+            list.add(new BarEntry(i + 1, new Random().nextInt(maximumValue)));
             //take the first name of the user for x coordinate
             xAxisLabel.add(i + 1, participants.get(i).getFirst_and_last_name().split(" ")[0]);
         }
@@ -246,11 +259,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         if (buttonText.toLowerCase().equals("joined")) {
             button.setText(getResources().getText(R.string.join_txt));
             button.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_rounded_8dp_black, null));
-            button.setTextColor(getResources().getColor(R.color.colorAccent));
+            button.setTextColor(getColor(R.color.colorAccent));
         } else {
             button.setText(getResources().getText(R.string.joined_txt));
             button.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_rounded_8dp_light_gray, null));
-            button.setTextColor(getResources().getColor(R.color.colorPrimary));
+            button.setTextColor(getColor(R.color.colorPrimary));
         }
     }
 

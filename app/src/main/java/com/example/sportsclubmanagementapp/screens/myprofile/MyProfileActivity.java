@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.myprofile;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,8 +42,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyProfileActivity extends AppCompatActivity {
-    private List<Drawable> avatars; //for TESTS
+
+    //for TESTS
     List<Notification> notification = new ArrayList<>();
+
     private Spinner primarySportSpinner;
     private Spinner secondarySportSpinner;
     private TextInputEditText height;
@@ -55,12 +58,19 @@ public class MyProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
-        avatars = Utils.getAvatars(getBaseContext()); //set random avatar for TESTS
-        displayAvatar();
-        initComponent();
         getApiSports();
         setToolbar();
         setUpNotifications();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initComponent();
+        Glide.with(getBaseContext())
+                .load(Utils.getAvatars(getBaseContext()).get(new Random().nextInt(5)))
+                .apply(new RequestOptions().circleCrop())
+                .into((ImageView) findViewById(R.id.avatar));
     }
 
     private void initComponent() {
@@ -76,14 +86,6 @@ public class MyProfileActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arrow_back_toolbar, null));
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
-
-    private void displayAvatar() {
-        Glide.with(this)
-                .load(avatars.get(new Random().nextInt(5)))
-                .apply(new RequestOptions().circleCrop())
-                .into((ImageView) findViewById(R.id.avatar));
-    }
-
 
     private void setUpNotifications() {
         //for TESTS

@@ -323,7 +323,7 @@
                 android:background="@drawable/btn_rounded_8dp_light_gray"
                 android:textColor="@color/colorPrimary"
                 android:onClick="goToAddWorkoutScreen"
-                />
+                android:layout_marginBottom="@dimen/space_64dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

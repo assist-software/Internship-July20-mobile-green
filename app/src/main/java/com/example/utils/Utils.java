@@ -1,5 +1,6 @@
 package com.example.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,12 +11,15 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Patterns;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
@@ -164,6 +168,13 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    public static void setCircleAvatar(Activity activity, Drawable image, ImageView destination){
+        Glide.with(activity)
+                .load(image)
+                .apply(new RequestOptions().circleCrop())
+                .into(destination);
     }
 
     public static List<Drawable> getAvatars(Context context) {

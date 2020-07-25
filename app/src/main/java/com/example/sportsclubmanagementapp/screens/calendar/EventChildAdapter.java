@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +25,6 @@ import java.util.Random;
 
 public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.EventViewHolder> {
 
-    private List<Drawable> eventsPictures; //random event pictures for TESTS
-
     private List<Event> events;
     private Activity activity;
 
@@ -39,6 +38,7 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
         private TextView location;
         private TextView date;
         private ImageView image;
+        private Button join;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -46,13 +46,15 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
             location = itemView.findViewById(R.id.location);
             date = itemView.findViewById(R.id.date);
             image = itemView.findViewById(R.id.image);
+            join = itemView.findViewById(R.id.join);
         }
 
-        public void bind(Event event, List<Drawable> eventsPictures) {
+        public void bind(Event event, Context context) {
             name.setText(event.getName());
             location.setText(event.getLocation());
             date.setText(event.getDate());
-            image.setImageDrawable(eventsPictures.get(new Random().nextInt(5)));
+            image.setImageDrawable(Utils.getEventsPictures(context).get(new Random().nextInt(5)));
+            join.setVisibility(View.GONE);
         }
     }
 
@@ -61,13 +63,12 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
-        eventsPictures = Utils.getEventsPictures(getContext()); //for TESTS
         return new EventViewHolder(view);
 }
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-            holder.bind(events.get(position),eventsPictures);
+            holder.bind(events.get(position), getContext());
     }
 
     @Override

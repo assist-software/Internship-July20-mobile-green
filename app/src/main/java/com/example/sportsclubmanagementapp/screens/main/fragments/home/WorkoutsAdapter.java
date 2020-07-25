@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
             bpm = itemView.findViewById(R.id.bpm);
         }
 
+        @SuppressLint("DefaultLocale")
         public void bind(Workouts workouts) {
             Date currentDate = Calendar.getInstance().getTime(); //get current date
             SimpleDateFormat dateFormated = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()); //format current date
@@ -58,8 +60,8 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
             //get day name
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
-            String[] days = new String[] { "SATURDAY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" };
-            String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)];
+            String[] days = new String[] { "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
+            String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)-1];
 
             day_number.setText(dateParsed[0]);
             month.setText(dateParsed[1]);
