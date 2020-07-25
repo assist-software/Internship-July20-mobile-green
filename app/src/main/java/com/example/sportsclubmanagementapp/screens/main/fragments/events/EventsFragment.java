@@ -43,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventsFragment extends Fragment implements OnEventItemListener {
+public class EventsFragment extends Fragment implements OnEventItemListener{
 
     //for past events recycler
     private List<Event> pastEventsList = new ArrayList<>();
@@ -180,11 +180,6 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         //all events
     }
 
-    @Override
-    public void onEventsClick(Event event) {
-
-    }
-
     private void filterPastEventsList() {
         SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
         Date now = new Date();
@@ -209,5 +204,15 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
             }
 
         }
+    }
+
+    @Override
+    public void onEventsClick(Event event) {
+
+    }
+
+    @Override
+    public void onEventsJoinClick(Event event) {
+
     }
 }

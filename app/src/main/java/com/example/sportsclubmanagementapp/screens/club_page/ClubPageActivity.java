@@ -2,7 +2,6 @@ package com.example.sportsclubmanagementapp.screens.club_page;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +28,6 @@ import com.example.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
@@ -129,13 +127,18 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         recyclerViewEvents = findViewById(R.id.events_recycler_view);
         eventAdapter = new EventAdapter(eventList, this, 2, this);
         RecyclerView.LayoutManager eventLayoutManager =
-                new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         recyclerViewEvents.setAdapter(eventAdapter);
     }
 
     @Override
     public void onEventsClick(Event event) {
+
+    }
+
+    @Override
+    public void onEventsJoinClick(Event event) {
 
     }
 

@@ -9,8 +9,7 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="@dimen/space_10dp">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/fragmentsContainer"
@@ -42,8 +41,9 @@
                         android:layout_width="@dimen/dim_32dp"
                         android:layout_height="@dimen/dim_32dp"
                         android:layout_marginEnd="@dimen/space_24dp"
+                        app:civ_border_width="@dimen/border_1dp"
                         app:civ_border_color="@color/color_white"
-                        app:civ_border_width="@dimen/border_1dp" />
+                        android:onClick="goToMyProfileScreen"/>
 
                     <TextView
                         android:id="@+id/fragment_title"
@@ -99,4 +99,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
