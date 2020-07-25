@@ -48,7 +48,7 @@ public class Club implements Serializable { //hardcoded data & api
         this.members_id = members_id;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

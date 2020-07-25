@@ -3,6 +3,7 @@ package com.example.sportsclubmanagementapp.screens.register;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +31,9 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText password;
     private TextInputEditText confirmPassword;
 
+    private long registerBtnLastClickTime = 0;
+    private long logInBtnLastClickTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClickRegisterBtn(View view) {
-
+        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) return;
+        registerBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
         isValid = isFirstAndLastNameValid() && isEmailAddressValid() && isPasswordValid();
         if (isValid) {
@@ -71,6 +76,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClickLogInBtn(View view) {
+        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 2000) return;
+        logInBtnLastClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, LoginActivity.class));
     }
 
@@ -83,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!response.isSuccessful())
                     Toast.makeText(RegisterActivity.this, R.string.register_not_successful, Toast.LENGTH_LONG).show();
                 else {
-                    Toast.makeText(RegisterActivity.this, R.string.register_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, R.string.register_successful, Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(() -> navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword()), 2000);
                 }
             }
