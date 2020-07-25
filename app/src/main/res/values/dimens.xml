@@ -100,5 +100,6 @@
     <dimen name="space_60dp">60dp</dimen>
     <dimen name="dim_50dp">50dp</dimen>
     <dimen name="space_2dp">2dp</dimen>
+    <dimen name="dim_16sp">16sp</dimen>
 
 </resources>

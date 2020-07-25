@@ -10,7 +10,6 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/space_56dp"
         android:elevation="@dimen/space_10dp">
 
         <FrameLayout
@@ -43,16 +42,16 @@
                         android:layout_width="@dimen/dim_32dp"
                         android:layout_height="@dimen/dim_32dp"
                         android:layout_marginEnd="@dimen/space_24dp"
-                        app:civ_border_width="@dimen/border_1dp"
-                        app:civ_border_color="@color/color_white" />
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="@dimen/border_1dp" />
 
                     <TextView
                         android:id="@+id/fragment_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/dim_20sp"
                         android:fontFamily="@font/roboto_medium"
-                        android:textColor="@color/color_white"/>
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/dim_20sp" />
 
                     <ImageView
                         android:id="@+id/notificationImageView"
@@ -82,7 +81,9 @@
             android:background="#66000000"
             android:theme="@style/NavigationView"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/drawer_menu" />
+            app:menu="@menu/drawer_menu"
+            android:layout_marginStart="@dimen/space_16dp"/>
+
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -325,7 +325,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         Iterator<Event> it = futureEventsList.iterator();
 
         while (it.hasNext()) {
-            Event e = (Event) it.next();
+            Event e = it.next();
             String date = e.getDate();
             try {
                 Date d1 = sdformat.parse(date);
