@@ -147,6 +147,38 @@ public class CalendarActivity extends AppCompatActivity {
         events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "21.7.2020", "10", "Running", 2, 3, 1));
         allEventList.add(events);
 
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "25.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
+        events = new ArrayList<>();
+        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "25.7.2020", "10", "Running", 2, 3, 1));
+        allEventList.add(events);
+
         eventParentAdapter.notifyDataSetChanged();
     }
 }

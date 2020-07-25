@@ -1,14 +1,13 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
@@ -33,6 +30,7 @@ import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
+import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,8 +52,7 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
     boolean userHasPendingOrJoinedClubs = false;
-    private ImageView avatarImage;
-    private List<Drawable> avatars; //for TESTS
+
     //for events list recycler
     private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
@@ -87,8 +84,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initComponents(view);
-        prepareAvatars(); //set random avatar for TESTS
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
         getApiPendingClubs();
         getApiJoinedClubs();
@@ -117,10 +112,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
     }
 
-
-    private void initComponents(View view) {
-        avatarImage = view.findViewById(R.id.avatar);
-    }
 
     private void getApiPendingClubs() {
         Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(getToken());
@@ -215,13 +206,8 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private void displayAvatar() {
         MainActivity mainActivity = (MainActivity) getActivity();
-        assert mainActivity != null;
-        mainActivity.setAvatar(avatars.get(new Random().nextInt(5)));
-
-        Glide.with(this)
-                .load(mainActivity.getAvatar())
-                .apply(new RequestOptions().circleCrop())
-                .into(avatarImage);
+        Objects.requireNonNull(mainActivity).setAvatar(Utils.getAvatars(getContext()).get(new Random().nextInt(5)));
+        Utils.setCircleAvatar(getActivity(), mainActivity.getAvatar(), Objects.requireNonNull(getActivity()).findViewById(R.id.avatar));
     }
 
     private void setupUpEventsRecyclerView() {
@@ -280,7 +266,8 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private String getToken() {
-        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), getActivity().MODE_PRIVATE);
+        getActivity();
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
         return "token " + prefs.getString(getString(R.string.user_token), "no token");
     }
 
@@ -300,10 +287,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
         Date now = new Date();
         String nowStr = sdformat.format(now);
-        Iterator it = futureEventsList.iterator();
+        Iterator<Event> it = futureEventsList.iterator();
 
         while (it.hasNext()) {
-            Event e = (Event) it.next();
+            Event e = it.next();
             String date = e.getDate();
             try {
                 Date d1 = sdformat.parse(date);
@@ -325,15 +312,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         recyclerView.setLayoutManager(clubsLayoutManager);
         recyclerView.setAdapter(adapter);
         return adapter;
-    }
-
-    private void prepareAvatars() {
-        avatars = new ArrayList<>();
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_1));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_2));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_3));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_4));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_5));
     }
 
     private void prepareEventData() {

@@ -80,7 +80,6 @@ public class EventsFragment extends Fragment implements OnEventItemListener{
         MainActivity mainActivity = (MainActivity) getActivity();
         CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
         avatar_toolbar.setVisibility(View.VISIBLE);
-        assert mainActivity != null;
         Glide.with(this)
                 .load(mainActivity.getAvatar())
                 .apply(new RequestOptions().circleCrop())

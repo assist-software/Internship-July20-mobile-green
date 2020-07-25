@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
+import com.example.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         if( layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX )
             view.findViewById(R.id.checkBox).setVisibility(View.GONE);
 
-        prepareAvatars();
+        avatars = Utils.getAvatars(getContext());
 
         return new UserViewHolder(view);
     }
@@ -112,14 +113,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public List<User> getSelectedUsers(){
         return usersSelected;
-    }
-
-    private void prepareAvatars() {
-        avatars = new ArrayList<>();
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_1));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_2));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_3));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_4));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.avatar_5));
     }
 }

@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/eventDetailsActivityToolbar"
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:scrollbars="none"
-        android:padding="@dimen/space_24dp">
+        android:paddingHorizontal="@dimen/space_24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -322,7 +323,7 @@
                 android:background="@drawable/btn_rounded_8dp_light_gray"
                 android:textColor="@color/colorPrimary"
                 android:onClick="goToAddWorkoutScreen"
-                />
+                android:layout_marginBottom="@dimen/space_64dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

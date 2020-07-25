@@ -13,7 +13,8 @@
         android:layout_width="@dimen/space_53dp"
         android:layout_height="@dimen/space_63dp"
         android:src="@drawable/vector"
-        android:contentDescription="@string/splashlogo" />
+        android:contentDescription="@string/splashlogo"
+        android:layout_marginBottom="@dimen/space_16dp"/>
 
     <TextView
         android:id="@+id/splashText"

@@ -2,7 +2,6 @@ package com.example.sportsclubmanagementapp.screens.club_page;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,10 +24,10 @@ import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
+import com.example.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
@@ -63,7 +62,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         getClubFromLastActivity(); //get club object pressed in the last screen
         setTheCouchDetails();
 
-        prepareAvatars(); //for TESTS
+        avatars = Utils.getAvatars(getBaseContext()); //for TESTS
         displayAvatar();
 
         setUpNotifications();
@@ -128,7 +127,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         recyclerViewEvents = findViewById(R.id.events_recycler_view);
         eventAdapter = new EventAdapter(eventList, this, 2, this);
         RecyclerView.LayoutManager eventLayoutManager =
-                new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
         recyclerViewEvents.setAdapter(eventAdapter);
     }
@@ -141,15 +140,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     @Override
     public void onEventsJoinClick(Event event) {
 
-    }
-
-    private void prepareAvatars() {
-        avatars = new ArrayList<>();
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_1));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_2));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_3));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_4));
-        avatars.add(ContextCompat.getDrawable(Objects.requireNonNull(getBaseContext()), R.drawable.avatar_5));
     }
 
     private void prepareEventData() {

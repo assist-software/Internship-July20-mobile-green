@@ -1,5 +1,7 @@
 package com.example.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,14 +9,28 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.Patterns;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
+
+import static java.security.AccessController.getContext;
 
 public class Utils {
 
@@ -152,5 +168,32 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    public static void setCircleAvatar(Activity activity, Drawable image, ImageView destination){
+        Glide.with(activity)
+                .load(image)
+                .apply(new RequestOptions().circleCrop())
+                .into(destination);
+    }
+
+    public static List<Drawable> getAvatars(Context context) {
+        List<Drawable> avatars = new ArrayList<>();
+        avatars.add(ContextCompat.getDrawable(context, R.drawable.avatar_1));
+        avatars.add(ContextCompat.getDrawable(context, R.drawable.avatar_2));
+        avatars.add(ContextCompat.getDrawable(context, R.drawable.avatar_3));
+        avatars.add(ContextCompat.getDrawable(context, R.drawable.avatar_4));
+        avatars.add(ContextCompat.getDrawable(context, R.drawable.avatar_5));
+        return avatars;
+    }
+
+    public static List<Drawable> getEventsPictures(Context context) {
+        List<Drawable> eventsPictures = new ArrayList<>();
+        eventsPictures.add(ContextCompat.getDrawable(context, R.drawable.img_running));
+        eventsPictures.add(ContextCompat.getDrawable(context, R.drawable.img_biking));
+        eventsPictures.add(ContextCompat.getDrawable(context, R.drawable.img_tennis));
+        eventsPictures.add(ContextCompat.getDrawable(context, R.drawable.img_running_1));
+        eventsPictures.add(ContextCompat.getDrawable(context, R.drawable.img_motors));
+        return eventsPictures;
     }
 }

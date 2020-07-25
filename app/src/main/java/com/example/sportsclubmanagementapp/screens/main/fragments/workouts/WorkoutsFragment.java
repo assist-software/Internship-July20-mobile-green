@@ -1,20 +1,17 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.workouts;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,8 +23,6 @@ import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.WorkoutsAdapter;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,30 +88,26 @@ public class WorkoutsFragment extends Fragment {
         setTodayWorkout();
     }
 
+    @SuppressLint("DefaultLocale")
     private void setTodayWorkout() {
         Date currentDate = Calendar.getInstance().getTime(); //get current date
-
         SimpleDateFormat dateFormated = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()); //format current date
-        String formattedDate = dateFormated.format(currentDate);
-        String[] dateParsed = formattedDate.split("-"); //parse data to char(-)
-        String dayNumberStr = dateParsed[0];
-        String monthStr = dateParsed[1];
-        String yearStr = dateParsed[2];
+        String[] dateParsed = dateFormated.format(currentDate).split("-"); //parse data to char(-)
 
         //get day name
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        String[] days = new String[] { "SATURDAY", "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" };
-        String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)];
+        String[] days = new String[] { "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
+        String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)-1];
 
         TextView day_number = activity.findViewById(R.id.dayNumberTodayWorkout);
-        day_number.setText(dayNumberStr);
+        day_number.setText(dateParsed[0]);
         TextView month = activity.findViewById(R.id.monthTodayWorkout);
-        month.setText(monthStr);
+        month.setText(dateParsed[1]);
         TextView day_name = activity.findViewById(R.id.dayNameTodayWorkout);
         day_name.setText(dayNameStr);
         TextView year = activity.findViewById(R.id.yearTodayWorkout);
-        year.setText(yearStr);
+        year.setText(dateParsed[2]);
         TextView distance = activity.findViewById(R.id.distanceTodayWorkout);
         distance.setText(String.format("%.2f", workoutsList.get(0).getDistance()));
         TextView duration = activity.findViewById(R.id.durationTodayWorkout);

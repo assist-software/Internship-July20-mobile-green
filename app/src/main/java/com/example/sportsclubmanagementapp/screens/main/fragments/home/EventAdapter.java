@@ -11,15 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
@@ -44,7 +42,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        prepareEventsPictures(); //for TESTS
+        eventsPictures = Utils.getEventsPictures(getContext()); //for TESTS
         View view;
         if (typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == HORIZONTAL_BTN_EVENT) { //for horizontal recycler events
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
@@ -66,15 +64,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public Context getContext() {
         return this.context;
-    }
-
-    private void prepareEventsPictures() {
-        eventsPictures = new ArrayList<>();
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_running));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_biking));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_tennis));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_running_1));
-        eventsPictures.add(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.img_motors));
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Sports Club Management App</string>
-    <string name="guest_screen_title">Ready to push your limits?</string>
+    <string name="guest_screen_title">Ready to push\n your limits?</string>
     <string name="login_txt">LOG IN</string>
     <string name="register_txt">Register</string>
-    <string name="sports_club">Sports Club</string>
+    <string name="sports_club">SPORTS CLUB</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
