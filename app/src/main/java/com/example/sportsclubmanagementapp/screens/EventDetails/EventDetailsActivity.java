@@ -75,10 +75,10 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setUpUsersRecyclerView(); //for users recycler
 
         prepareUsersData(); //for TESTS
-        configureViews();
 
         setToolbar();
         setEvent();
+        configureViews();
     }
 
     @SuppressLint("SetTextI18n")
@@ -88,13 +88,13 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         ImageView image = findViewById(R.id.image);
         image.setImageDrawable(Utils.getEventsPictures(getBaseContext()).get(new Random().nextInt(5)));
         TextView date = findViewById(R.id.dateEventTextView);
-        //date.setText(event.getDate());
+        date.setText(event.getDate());
         TextView location = findViewById(R.id.eventLocationTextView);
-        //location.setText(event.getLocation());
+        location.setText(event.getLocation());
         TextView firstDescription = findViewById(R.id.eventDescription1TextView);
-        //firstDescription.setText(event.getDescription());
+        firstDescription.setText(event.getDescription());
         TextView secondDescription = findViewById(R.id.eventDescription2TextView);
-        //secondDescription.setText(event.getDescription() + " secondary");
+        secondDescription.setText(event.getDescription() + " secondary");
     }
 
     private void initComponents() {
