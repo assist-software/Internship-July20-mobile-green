@@ -193,33 +193,13 @@ public class MyProfileActivity extends AppCompatActivity {
         }
         saveChangesBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
-        isValid = isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
+        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
+        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
+        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
+        isValid = Utils.isPrimarySportValid(this.primarySportSpinner) && Utils.isSecondarySportValid(this.secondarySportSpinner) && Utils.isHeightValid(heightInput, height) && Utils.isWeightValid(weightInput, this.weight) && Utils.isAgeValid(ageInput, this.age);
         if (isValid) {
             putApiUserNewInfo();
         }
-    }
-
-    private boolean isPrimarySportValid() {
-        return Utils.isPrimarySportValid(this.primarySportSpinner);
-    }
-
-    private boolean isSecondarySportValid() {
-        return Utils.isSecondarySportValid(this.secondarySportSpinner);
-    }
-
-    private boolean isHeightValid() {
-        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
-        return Utils.isHeightValid(heightInput, height);
-    }
-
-    private boolean isWeightValid() {
-        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
-        return Utils.isWeightValid(weightInput, this.weight);
-    }
-
-    private boolean isAgeValid() {
-        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
-        return Utils.isAgeValid(ageInput, this.age);
     }
 
     private void putApiUserNewInfo() {

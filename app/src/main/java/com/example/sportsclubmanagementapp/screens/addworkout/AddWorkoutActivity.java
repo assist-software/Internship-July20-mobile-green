@@ -154,43 +154,16 @@ public class AddWorkoutActivity extends AppCompatActivity {
         }
         this.addWorkoutBtnClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
-        isValid = isEventValid() && isDurationValid() && isHearRateValid() && caloriesValid() && avgSpeedValid() && distanceValid() && workoutEffectivenessValid();
+        String durationInput = Objects.requireNonNull(this.durationTextInputEditText.getText()).toString().trim();
+        String heartInput = Objects.requireNonNull(this.heartRateTextInputEditText.getText()).toString().trim();
+        String caloriesInput = Objects.requireNonNull(this.caloriesTextInputEditText.getText()).toString().trim();
+        String avgSpeedInput = Objects.requireNonNull(this.avgSpeedTextInputEditText.getText()).toString().trim();
+        String distanceInput = Objects.requireNonNull(this.distanceTextInputEditText.getText()).toString().trim();
+        isValid = Utils.isEventValid(this.eventSpinner) && Utils.isDurationValid(durationInput, this.durationTextInputEditText) && Utils.isHeartRateValid(heartInput, this.heartRateTextInputEditText) && Utils.isCaloriesValid(caloriesInput, this.caloriesTextInputEditText)
+                && Utils.isAvgSpeedValid(avgSpeedInput, this.avgSpeedTextInputEditText) && Utils.isDistanceValid(distanceInput, this.distanceTextInputEditText) && Utils.isWorkoutEffectivenessValid(this.workoutEffectivenessSpinner);
         if (isValid) {
             createUserWorkout();
         }
-    }
-
-    private boolean isEventValid() {
-        return Utils.isEventValid(this.eventSpinner);
-    }
-
-    private boolean isDurationValid() {
-        String durationInput = Objects.requireNonNull(this.durationTextInputEditText.getText()).toString().trim();
-        return Utils.isDurationValid(durationInput, this.durationTextInputEditText);
-    }
-
-    private boolean isHearRateValid() {
-        String heartInput = Objects.requireNonNull(this.heartRateTextInputEditText.getText()).toString().trim();
-        return Utils.isHeartRateValid(heartInput, this.heartRateTextInputEditText);
-    }
-
-    private boolean caloriesValid() {
-        String caloriesInput = Objects.requireNonNull(this.caloriesTextInputEditText.getText()).toString().trim();
-        return Utils.isCaloriesValid(caloriesInput, this.caloriesTextInputEditText);
-    }
-
-    private boolean avgSpeedValid() {
-        String avgSpeedInput = Objects.requireNonNull(this.avgSpeedTextInputEditText.getText()).toString().trim();
-        return Utils.isAvgSpeedValid(avgSpeedInput, this.avgSpeedTextInputEditText);
-    }
-
-    private boolean distanceValid() {
-        String distanceInput = Objects.requireNonNull(this.distanceTextInputEditText.getText()).toString().trim();
-        return Utils.isDistanceValid(distanceInput, this.distanceTextInputEditText);
-    }
-
-    private boolean workoutEffectivenessValid() {
-        return Utils.isWorkoutEffectivenessValid(this.workoutEffectivenessSpinner);
     }
 
     private void createUserWorkout() {

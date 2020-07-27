@@ -80,7 +80,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_event_details);
 
         initComponents();
-        setUpUsersRecyclerViews(); //for users recycler
+        setUpUsersRecyclerView(); //for users recycler
         prepareUsersData(); //for TESTS
         setToolbar();
         setEvent();
@@ -203,7 +203,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         barChart.invalidate();
     }
 
-    private void setUpUsersRecyclerViews() {
+    private void setUpUsersRecyclerView() {
         RecyclerView recyclerViewUsers = findViewById(R.id.members_recycler_view);
         userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITH_CHECK_BOX, EventDetailsActivity.this);
         RecyclerView.LayoutManager usersLayoutManager = new LinearLayoutManager(userAdapter.getContext());

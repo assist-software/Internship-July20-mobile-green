@@ -53,18 +53,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickLogin(View view) {
         initData();
-        boolean isValid = isEmailAddressValid() && isPasswordValid();
+        boolean isValid = Utils.isEmailAddressValid(this.emailAddressInput, this.emailAddress) && Utils.isPasswordValid(this.passwordInput, this.password);
         if (isValid) {
             checkUserExists();
         }
-    }
-
-    private boolean isEmailAddressValid() {
-        return Utils.isEmailAddressValid(this.emailAddressInput, this.emailAddress);
-    }
-
-    private boolean isPasswordValid() {
-        return Utils.isPasswordValid(this.passwordInput, this.password);
     }
 
     public void onClickNewHereRegister(View view) {

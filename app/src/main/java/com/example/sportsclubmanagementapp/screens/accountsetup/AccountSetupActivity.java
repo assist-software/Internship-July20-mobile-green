@@ -119,38 +119,15 @@ public class AccountSetupActivity extends AppCompatActivity {
         }
         this.continueBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
-        isValid = isGenderValid() && isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
+        TextView gender = findViewById(R.id.genderTextView);
+        String heightInput = Objects.requireNonNull(this.height.getText()).toString().trim();
+        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
+        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
+        isValid = Utils.isGenderValid(this.radioFemale, this.radioMale, gender) && Utils.isPrimarySportValid(this.primarySportSpinner) && Utils.isSecondarySportValid(this.secondarySportSpinner)
+                && Utils.isHeightValid(heightInput, this.height) && Utils.isWeightValid(weightInput, this.weight) && Utils.isAgeValid(ageInput, this.age);
         if (isValid) {
             createUserAccountSetup();
         }
-    }
-
-    private boolean isGenderValid() {
-        TextView gender = findViewById(R.id.genderTextView);
-        return Utils.isGenderValid(this.radioFemale, this.radioMale, gender);
-    }
-
-    private boolean isPrimarySportValid() {
-        return Utils.isPrimarySportValid(this.primarySportSpinner);
-    }
-
-    private boolean isSecondarySportValid() {
-        return Utils.isSecondarySportValid(this.secondarySportSpinner);
-    }
-
-    private boolean isHeightValid() {
-        String heightInput = Objects.requireNonNull(this.height.getText()).toString().trim();
-        return Utils.isHeightValid(heightInput, this.height);
-    }
-
-    private boolean isWeightValid() {
-        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
-        return Utils.isWeightValid(weightInput, this.weight);
-    }
-
-    private boolean isAgeValid() {
-        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
-        return Utils.isAgeValid(ageInput, this.age);
     }
 
     private void createUserAccountSetup() { //create user with post api request
