@@ -38,7 +38,7 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -212,7 +212,7 @@
                     android:scrollbars="none" />
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

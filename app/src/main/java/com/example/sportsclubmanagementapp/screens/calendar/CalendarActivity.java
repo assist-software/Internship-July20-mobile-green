@@ -1,11 +1,14 @@
 package com.example.sportsclubmanagementapp.screens.calendar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,19 +20,30 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
+import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    List<Notification> notification = new ArrayList<>();
-    CalendarView calendar;
-    String selectedDate;
+    private List<Notification> notification = new ArrayList<>();
+    private CalendarView calendar;
+    private String selectedDate;
+    private boolean readyToGet = true;
     //for parent list recycler
     private List<Club> allClubList = new ArrayList<>();
     private List<Club> currentClubList = new ArrayList<>();
@@ -42,7 +56,6 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
         setToolbar();
         setUpNotifications();
     }
@@ -51,14 +64,12 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         calendar = findViewById(R.id.calendar);
-        //initialize the current date
-        selectedDate = new SimpleDateFormat("dd.M.yyyy", Locale.getDefault()).format(new Date(calendar.getDate()));
-        //set up calendar buttons
-        setOnClickListenerCalendar();
         setUpEventsRecyclerView();
-        prepareEventData();
-        //show events for the current day without performing any click on calendar
-        findEventsForSelectedDate();
+        //initialize the current date
+        selectedDate = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date(calendar.getDate()));
+        setOnClickListenerCalendar(); //set up calendar buttons
+        prepareEventData(); //for TESTS
+        getApiEvents();
     }
 
     private void setToolbar() {
@@ -72,7 +83,7 @@ public class CalendarActivity extends AppCompatActivity {
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
 
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if( notification.isEmpty() ) notificationIcon.setImageDrawable(
+        if (notification.isEmpty()) notificationIcon.setImageDrawable(
                 ResourcesCompat.getDrawable(getResources(),
                         R.drawable.ic_notifications_toolbar, null));
         else notificationIcon.setImageDrawable(
@@ -82,33 +93,66 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void setOnClickListenerCalendar() {
         calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            selectedDate = dayOfMonth + "." + (month + 1) + "." + year; //(m+1) fix the problem with the calendar (1 month behind)
+            selectedDate = year + "-";
+            if(month < 10) selectedDate = selectedDate + "0" + (month + 1) + "-" + dayOfMonth; //(m+1) fix the problem with the calendar (1 month behind)
             //select the events for the selected date
+            getApiEvents();
             findEventsForSelectedDate();
         });
     }
 
-    private void findEventsForSelectedDate(){
+    private void getApiEvents() {
+        if(!readyToGet) return;
+        readyToGet = false;
+        Call<List<Event>> call = ApiHelper.getApi().getEvents(getToken());
+        call.enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    List<Event> events = new ArrayList<>(response.body());
+                    prepareEventListForEveryClub(events);
+                    eventParentAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
+                Toast.makeText(getBaseContext(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        eventParentAdapter.notifyDataSetChanged();
+        readyToGet = true;
+    }
+
+    private String getToken() {
+        SharedPreferences prefs = Objects.requireNonNull(getBaseContext()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
+    }
+
+    private void findEventsForSelectedDate() {
         currentClubList.clear();
         currentEventList.clear();
         List<Event> eventsTmp; //store the events for each club
 
         boolean atLeastOneEvent = false; //find at least one event for selected date for a club (if not, the club is hidden)
-        for (int i = 0; i < allClubList.size(); i++) {
-            eventsTmp = new ArrayList<>(); //reset the list for the next club
+        for (int i = 0; i < allEventList.size(); i++) {
+            eventsTmp = new ArrayList<>();
             for (int j = 0; j < allEventList.get(i).size(); j++) {
                 if (allEventList.get(i).get(j).getDate().equals(selectedDate)) { //the event date is the same with the selected one
                     eventsTmp.add(allEventList.get(i).get(j));
                     atLeastOneEvent = true;
                 }
             }
-            if(!eventsTmp.isEmpty()) { //add the clubs with at least one event in the selected date
-                currentClubList.add(allClubList.get(i));
+            if (!eventsTmp.isEmpty()) { //add the clubs with at least one event in the selected date
+                currentClubList.add(allClubList.get(new Random().nextInt(allClubList.size())));
                 currentEventList.add(eventsTmp);
             }
         }
         //hide the recycler view if there are no events in the selected date
-        if(atLeastOneEvent)
+        if (atLeastOneEvent)
             recyclerViewParent.setVisibility(View.VISIBLE);
         else
             recyclerViewParent.setVisibility(View.GONE);
@@ -130,57 +174,20 @@ public class CalendarActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void prepareEventListForEveryClub(List<Event> events) {
+        allEventList.clear();
+        for (int i = 0; i < allClubList.size(); i++)
+            allEventList.add(i, new ArrayList<>()); //for every club is created a list
+        //set events to random clubs for TESTS
+        for (int i = 0; i < events.size(); i++) {
+            allEventList.get(new Random().nextInt(allClubList.size())).add(events.get(i));
+        }
+        findEventsForSelectedDate();
+    }
+
     public void prepareEventData() {
         allClubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
         allClubList.add(new Club(2, 1, "Football", "Description", 1, 2, 3));
         allClubList.add(new Club(3, 1, "Biking", "Description", 1, 2, 3));
-        /*
-        List<Event> events = new ArrayList<>();
-        events.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(2, 2, "Running for Life", "Description", "Suceava", "21.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "21.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "24.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "25.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        events = new ArrayList<>();
-        events.add(new Event(3, 3, "Biking for Life", "Description", "Suceava", "25.7.2020", "10", "Running", 2, 3, 1));
-        allEventList.add(events);
-
-        eventParentAdapter.notifyDataSetChanged();
-
-         */
     }
 }
