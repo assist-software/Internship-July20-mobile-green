@@ -69,7 +69,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
         //values for TESTS
-        prepareEventData();
         prepareUsersData();
     }
 
@@ -140,18 +139,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     @Override
     public void onEventsJoinClick(Event event) {
 
-    }
-
-    private void prepareEventData() {
-        /*
-        eventList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-
-        eventAdapter.notifyDataSetChanged();
-
-         */
     }
 
     private void prepareUsersData() {

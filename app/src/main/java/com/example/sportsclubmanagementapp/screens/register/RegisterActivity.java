@@ -114,9 +114,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void navigateAccountSetupActivity() { //pass data to account setup screen to make a post api request, to create new user
         Intent intent = new Intent(RegisterActivity.this, AccountSetupActivity.class);
-        intent.putExtra("name", this.firstAndLastNameInput);
-        intent.putExtra("email", this.emailAddressInput);
-        intent.putExtra("password", this.passwordInput);
+        intent.putExtra(getString(R.string.name_intent), this.firstAndLastNameInput);
+        intent.putExtra(getString(R.string.email_intent), this.emailAddressInput);
+        intent.putExtra(getString(R.string.password_intent), this.passwordInput);
         startActivity(intent);
     }
 }

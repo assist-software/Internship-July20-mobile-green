@@ -50,6 +50,9 @@ public class MyProfileActivity extends AppCompatActivity {
     private TextInputEditText height;
     private TextInputEditText weight;
     private TextInputEditText age;
+    private String heightInput;
+    private String weightInput;
+    private String ageInput;
     private List<Sport> sports;
     private long saveChangesBtnLastClickTime = 0;
 
@@ -71,6 +74,12 @@ public class MyProfileActivity extends AppCompatActivity {
         height = findViewById(R.id.heightTextInputEditTextMyProfile);
         weight = findViewById(R.id.weightTextInputEditTextMyProfile);
         age = findViewById(R.id.ageTextInputEditTextMyProfile);
+    }
+
+    private void initData() {
+        this.heightInput = Objects.requireNonNull(height.getText()).toString().trim();
+        this.weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
+        this.ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
     }
 
     private void setMyProfileAvatar() {
@@ -146,7 +155,7 @@ public class MyProfileActivity extends AppCompatActivity {
         for (int i = 0; i < items.size(); i++) {
             workoutEffectivenessAdapter.add(items.get(i).getSportName());
         }
-        workoutEffectivenessAdapter.add("Select your favorite sport:");
+        workoutEffectivenessAdapter.add(getString(R.string.select_your_favorite_sport));
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());
     }
@@ -173,7 +182,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private String getToken() {
         SharedPreferences prefs = this.getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
-        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     @SuppressLint("SetTextI18n")
@@ -193,9 +202,7 @@ public class MyProfileActivity extends AppCompatActivity {
         }
         saveChangesBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
-        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
-        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
-        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
+        initData();
         isValid = Utils.isPrimarySportValid(this.primarySportSpinner) && Utils.isSecondarySportValid(this.secondarySportSpinner) && Utils.isHeightValid(heightInput, height) && Utils.isWeightValid(weightInput, this.weight) && Utils.isAgeValid(ageInput, this.age);
         if (isValid) {
             putApiUserNewInfo();
@@ -214,6 +221,7 @@ public class MyProfileActivity extends AppCompatActivity {
                     Toast.makeText(MyProfileActivity.this, R.string.api_my_profile_changes, Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 Toast.makeText(MyProfileActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();

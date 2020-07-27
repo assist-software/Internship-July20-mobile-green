@@ -43,6 +43,11 @@ public class AddWorkoutActivity extends AppCompatActivity {
     private TextInputEditText caloriesTextInputEditText;
     private TextInputEditText avgSpeedTextInputEditText;
     private TextInputEditText distanceTextInputEditText;
+    private String durationInput;
+    private String heartInput;
+    private String caloriesInput;
+    private String avgSpeedInput;
+    private String distanceInput;
     private List<Event> events;
 
     @Override
@@ -64,6 +69,14 @@ public class AddWorkoutActivity extends AppCompatActivity {
         this.caloriesTextInputEditText = findViewById(R.id.caloriesTextInputEditText);
         this.avgSpeedTextInputEditText = findViewById(R.id.averageSpeedTextInputEditText);
         this.distanceTextInputEditText = findViewById(R.id.distanceTextInputEditText);
+    }
+
+    private void initData() {
+        this.durationInput = Objects.requireNonNull(this.durationTextInputEditText.getText()).toString().trim();
+        this.heartInput = Objects.requireNonNull(this.heartRateTextInputEditText.getText()).toString().trim();
+        this.caloriesInput = Objects.requireNonNull(this.caloriesTextInputEditText.getText()).toString().trim();
+        this.avgSpeedInput = Objects.requireNonNull(this.avgSpeedTextInputEditText.getText()).toString().trim();
+        this.distanceInput = Objects.requireNonNull(this.distanceTextInputEditText.getText()).toString().trim();
     }
 
     private void setToolbar() {
@@ -97,7 +110,7 @@ public class AddWorkoutActivity extends AppCompatActivity {
 
     private String getToken() {
         SharedPreferences prefs = this.getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
-        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     private void filterJoinedEvents(List<Event> events) {
@@ -154,11 +167,7 @@ public class AddWorkoutActivity extends AppCompatActivity {
         }
         this.addWorkoutBtnClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
-        String durationInput = Objects.requireNonNull(this.durationTextInputEditText.getText()).toString().trim();
-        String heartInput = Objects.requireNonNull(this.heartRateTextInputEditText.getText()).toString().trim();
-        String caloriesInput = Objects.requireNonNull(this.caloriesTextInputEditText.getText()).toString().trim();
-        String avgSpeedInput = Objects.requireNonNull(this.avgSpeedTextInputEditText.getText()).toString().trim();
-        String distanceInput = Objects.requireNonNull(this.distanceTextInputEditText.getText()).toString().trim();
+        initData();
         isValid = Utils.isEventValid(this.eventSpinner) && Utils.isDurationValid(durationInput, this.durationTextInputEditText) && Utils.isHeartRateValid(heartInput, this.heartRateTextInputEditText) && Utils.isCaloriesValid(caloriesInput, this.caloriesTextInputEditText)
                 && Utils.isAvgSpeedValid(avgSpeedInput, this.avgSpeedTextInputEditText) && Utils.isDistanceValid(distanceInput, this.distanceTextInputEditText) && Utils.isWorkoutEffectivenessValid(this.workoutEffectivenessSpinner);
         if (isValid) {

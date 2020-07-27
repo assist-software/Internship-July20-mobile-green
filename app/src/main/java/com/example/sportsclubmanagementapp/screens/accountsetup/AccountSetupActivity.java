@@ -42,6 +42,10 @@ public class AccountSetupActivity extends AppCompatActivity {
     private TextInputEditText height;
     private TextInputEditText weight;
     private TextInputEditText age;
+    private TextView gender;
+    private String heightInput;
+    private String weightInput;
+    private String ageInput;
     private List<Sport> sports;
     private long continueBtnLastClickTime = 0;
 
@@ -62,6 +66,13 @@ public class AccountSetupActivity extends AppCompatActivity {
         this.height = findViewById(R.id.heightTextInputEditText);
         this.weight = findViewById(R.id.weightTextInputEditText);
         this.age = findViewById(R.id.ageTextInputEditeText);
+    }
+
+    private void initData() {
+        this.gender = findViewById(R.id.genderTextView);
+        this.heightInput = Objects.requireNonNull(this.height.getText()).toString().trim();
+        this.weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
+        this.ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
     }
 
     private void getApiSports() { //get all kinds of sports from api
@@ -108,7 +119,7 @@ public class AccountSetupActivity extends AppCompatActivity {
         for (int i = 0; i < items.size(); i++) {
             workoutEffectivenessAdapter.add(items.get(i).getSportName());
         }
-        workoutEffectivenessAdapter.add("Select your favorite sport:");
+        workoutEffectivenessAdapter.add(getString(R.string.select_your_favorite_sport));
         spinner.setAdapter(workoutEffectivenessAdapter);
         spinner.setSelection(workoutEffectivenessAdapter.getCount());
     }
@@ -119,12 +130,9 @@ public class AccountSetupActivity extends AppCompatActivity {
         }
         this.continueBtnLastClickTime = SystemClock.elapsedRealtime();
         boolean isValid;
-        TextView gender = findViewById(R.id.genderTextView);
-        String heightInput = Objects.requireNonNull(this.height.getText()).toString().trim();
-        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
-        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
-        isValid = Utils.isGenderValid(this.radioFemale, this.radioMale, gender) && Utils.isPrimarySportValid(this.primarySportSpinner) && Utils.isSecondarySportValid(this.secondarySportSpinner)
-                && Utils.isHeightValid(heightInput, this.height) && Utils.isWeightValid(weightInput, this.weight) && Utils.isAgeValid(ageInput, this.age);
+        initData();
+        isValid = Utils.isGenderValid(this.radioFemale, this.radioMale, this.gender) && Utils.isPrimarySportValid(this.primarySportSpinner) && Utils.isSecondarySportValid(this.secondarySportSpinner)
+                && Utils.isHeightValid(this.heightInput, this.height) && Utils.isWeightValid(this.weightInput, this.weight) && Utils.isAgeValid(this.ageInput, this.age);
         if (isValid) {
             createUserAccountSetup();
         }
@@ -152,12 +160,12 @@ public class AccountSetupActivity extends AppCompatActivity {
     }
 
     private UserAccountSetup getUserDetails() {
-        String email = Objects.requireNonNull(getIntent().getExtras()).getString("email");
-        String firstAndLastName = getIntent().getExtras().getString("name");
+        String email = Objects.requireNonNull(getIntent().getExtras()).getString(getString(R.string.email_intent));
+        String firstAndLastName = getIntent().getExtras().getString(getString(R.string.name_intent));
         String[] name = Objects.requireNonNull(firstAndLastName).split(" ");
         String firstName = name[0];
         String lastName = name[1];
-        String password = getIntent().getExtras().getString("password");
+        String password = getIntent().getExtras().getString(getString(R.string.password_intent));
         return new UserAccountSetup(email, firstName, lastName, getGender(), 2, getAge(), password, getHeight(), getWeight(), getPrimarySport(), getSecondarySport());
     }
 

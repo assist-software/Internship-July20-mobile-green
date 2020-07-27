@@ -22,17 +22,38 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
-    public static Pattern FIRST_AND_LAST_NAME_PATTERN = Pattern.compile("[a-zA-Z]*[\\s][a-zA-Z].*");
-
+    private static final Pattern FIRST_AND_LAST_NAME_PATTERN = Pattern.compile("[a-zA-Z]*[\\s][a-zA-Z].*");
     //at least 6 characters with at least 1 digit, 1 lower case letter, 1 upper case letter, and no whitespaces.
-    public static Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
+    private static final String EMPTY_FIELD_ERROR = "Field can't be empty!";
+    private static final String FIRST_AND_LAST_NAME_ERROR = "Field is not valid! Please enter your name like \"First Last\"!";
+    private static final String SELECT_FAVORITE_SPORT = "Select your favorite sport:";
+    private static final String EMAIL_ADDRESS_NOT_VALID = "Please enter a valid email address!";
+    private static final String PASSWORD_TOO_WEAK = "Password too weak! It should contain at least 6 characters with at least one digit, one lower case letter, one upper case letter, and now whitespaces.";
+    private static final String PASSWORD_REPEAT = "Pleare repeat your password here!";
+    private static final String PASSWORDS_NOT_EQUAL = "Passwords are not equal!";
+    private static final String CHOOSE_GENDER = "Please choose your gender!";
+    private static final String SELECT_PRIMARY_SPORT = "Select your primary sport!";
+    private static final String SELECT_SECONDARY_SPORT = "Select your secondar sport!";
+    private static final String EVENT_TEXT = "Event";
+    private static final String SELECT_EVENT = "Select your event!";
+    private static final String WORKOUT_EFFECTIVENESS_TEXT = "Workout Effectiveness";
+    private static final String SELECT_WORKOUT_EFFECTIVENESS = "Select your workout effectiveness!";
+    private static final String DURATION_NOT_VALID = "Duration is not valid! Please enter your duration as number of minutes.";
+    private static final String HEART_RATE_NOT_VALID = "Heart rate is not valid! Please enter your heart rate as a number.";
+    private static final String CALORIES_NOT_VALID = "Calories are not valid! Please enter your calories as a number.";
+    private static final String AVERAGE_SPEED_NOT_VALID = "Average speed is not valid! Please enter your average speed as number of km/h.";
+    private static final String DISTANCE_NOT_VALID = "Distance is not valid! Please enter distance as number of km.";
+    private static final String HEIGHT_NOT_VALID = "Height is not valid! Please enter your height in cm.";
+    private static final String WEIGHT_NOT_VALID = "Weight is not valid! Please enter your weight in kg.";
+    private static final String AGE_NOT_VALID = "Age is not valid!";
 
     public static boolean isFirstAndLastNameValid(String firstAndLastNameInput, TextInputEditText firstAndLastName) {
         if (firstAndLastNameInput.isEmpty()) {
-            firstAndLastName.setError("Field can't be empty!");
+            firstAndLastName.setError(EMPTY_FIELD_ERROR);
             return false;
         } else if (!FIRST_AND_LAST_NAME_PATTERN.matcher(firstAndLastNameInput).matches()) {
-            firstAndLastName.setError("Field is not valid! Please enter your name like \"First Last\"!");
+            firstAndLastName.setError(FIRST_AND_LAST_NAME_ERROR);
             return false;
         }
         return true;
@@ -41,10 +62,10 @@ public class Utils {
     public static boolean isEmailAddressValid(String emailAddressInput, TextInputEditText emailAddress) {
 
         if (emailAddressInput.isEmpty()) {
-            emailAddress.setError("Field can't be empty!");
+            emailAddress.setError(EMPTY_FIELD_ERROR);
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailAddressInput).matches()) {
-            emailAddress.setError("Please enter a valid email address!");
+            emailAddress.setError(EMAIL_ADDRESS_NOT_VALID);
             return false;
         }
         return true;
@@ -52,16 +73,16 @@ public class Utils {
 
     public static boolean isPasswordValid(String passwordInput, String confirmPasswordInput, TextInputEditText password, TextInputEditText confirmPassword) {
         if (passwordInput.isEmpty()) {
-            password.setError("Field can't be empty!");
+            password.setError(EMPTY_FIELD_ERROR);
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            password.setError("Password too weak! It should contain at least 6 characters with at least one digit, one lower case letter, one upper case letter, and now whitespaces.");
+            password.setError(PASSWORD_TOO_WEAK);
             return false;
         } else if (confirmPasswordInput.isEmpty()) {
-            confirmPassword.setError("Pleare repeat your password here!");
+            confirmPassword.setError(PASSWORD_REPEAT);
             return false;
         } else if (!passwordInput.equals(confirmPasswordInput)) {
-            confirmPassword.setError("Passwords are not equal!");
+            confirmPassword.setError(PASSWORDS_NOT_EQUAL);
             return false;
         }
 
@@ -70,10 +91,10 @@ public class Utils {
 
     public static boolean isPasswordValid(String passwordInput, TextInputEditText password) {
         if (passwordInput.isEmpty()) {
-            password.setError("Field can't be empty!");
+            password.setError(EMPTY_FIELD_ERROR);
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            password.setError("Password too weak! It should contain at least 6 characters with at least one digit, one lower case letter, one upper case letter, and now whitespaces.");
+            password.setError(PASSWORD_TOO_WEAK);
             return false;
         }
         return true;
@@ -81,7 +102,7 @@ public class Utils {
 
     public static boolean isGenderValid(RadioButton radioFemale, RadioButton radioMale, TextView gender) {
         if (!(radioFemale.isChecked() || radioMale.isChecked())) {
-            gender.setError("Please choose your gender!");
+            gender.setError(CHOOSE_GENDER);
             return false;
         }
         gender.setError(null);
@@ -90,9 +111,9 @@ public class Utils {
 
     public static boolean isPrimarySportValid(Spinner spinner) {
         String choice = spinner.getSelectedItem().toString();
-        if (choice.equals("Select your favorite sport:")) {
+        if (choice.equals(SELECT_FAVORITE_SPORT)) {
             TextView errorText = (TextView) spinner.getSelectedView();
-            errorText.setError("Select your primary sport!");
+            errorText.setError(SELECT_PRIMARY_SPORT);
             return false;
         }
         return true;
@@ -100,9 +121,9 @@ public class Utils {
 
     public static boolean isSecondarySportValid(Spinner spinner) {
         String choice = spinner.getSelectedItem().toString();
-        if (choice.equals("Select your favorite sport:")) {
+        if (choice.equals(SELECT_FAVORITE_SPORT)) {
             TextView errorText = (TextView) spinner.getSelectedView();
-            errorText.setError("Select your secondary sport!");
+            errorText.setError(SELECT_SECONDARY_SPORT);
             return false;
         }
         return true;
@@ -110,9 +131,9 @@ public class Utils {
 
     public static boolean isEventValid(Spinner spinner) {
         String choice = spinner.getSelectedItem().toString();
-        if (choice.equals("Event")) {
-            TextView errotText = (TextView) spinner.getSelectedView();
-            errotText.setError("Select your event!");
+        if (choice.equals(EVENT_TEXT)) {
+            TextView errorText = (TextView) spinner.getSelectedView();
+            errorText.setError(SELECT_EVENT);
             return false;
         }
         return true;
@@ -120,9 +141,9 @@ public class Utils {
 
     public static boolean isWorkoutEffectivenessValid(Spinner spinner) {
         String choice = spinner.getSelectedItem().toString();
-        if (choice.equals("Workout Effectiveness")) {
+        if (choice.equals(WORKOUT_EFFECTIVENESS_TEXT)) {
             TextView errotText = (TextView) spinner.getSelectedView();
-            errotText.setError("Select your workout effectiveness!");
+            errotText.setError(SELECT_WORKOUT_EFFECTIVENESS);
             return false;
         }
         return true;
@@ -130,13 +151,13 @@ public class Utils {
 
     public static boolean isDurationValid(String durationInput, TextInputEditText duration) {
         if (durationInput.isEmpty()) {
-            duration.setError("Field can't be empty!");
+            duration.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             Double.parseDouble(durationInput);
         } catch (NumberFormatException e) {
-            duration.setError("Duration is not valid! Please enter your duration as number of minutes.");
+            duration.setError(DURATION_NOT_VALID);
             return false;
         }
         return true;
@@ -144,13 +165,13 @@ public class Utils {
 
     public static boolean isHeartRateValid(String hearRateInput, TextInputEditText heartRate) {
         if (hearRateInput.isEmpty()) {
-            heartRate.setError("Field can't be empty!");
+            heartRate.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             Double.parseDouble(hearRateInput);
         } catch (NumberFormatException e) {
-            heartRate.setError("Heart rate is not valid! Please enter your heart rate as a number.");
+            heartRate.setError(HEART_RATE_NOT_VALID);
             return false;
         }
         return true;
@@ -158,13 +179,13 @@ public class Utils {
 
     public static boolean isCaloriesValid(String caloriesInput, TextInputEditText calories) {
         if (caloriesInput.isEmpty()) {
-            calories.setError("Field can't be empty!");
+            calories.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             Double.parseDouble(caloriesInput);
         } catch (NumberFormatException e) {
-            calories.setError("Calories are not valid! Please enter your calories as a number.");
+            calories.setError(CALORIES_NOT_VALID);
             return false;
         }
         return true;
@@ -172,13 +193,13 @@ public class Utils {
 
     public static boolean isAvgSpeedValid(String avgSpeedInput, TextInputEditText avgSpeed) {
         if (avgSpeedInput.isEmpty()) {
-            avgSpeed.setError("Field can't be empty!");
+            avgSpeed.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             Double.parseDouble(avgSpeedInput);
         } catch (NumberFormatException e) {
-            avgSpeed.setError("Average speed is not valid! Please enter your average speed as number of km/h.");
+            avgSpeed.setError(AVERAGE_SPEED_NOT_VALID);
             return false;
         }
         return true;
@@ -186,13 +207,13 @@ public class Utils {
 
     public static boolean isDistanceValid(String distanceInput, TextInputEditText distance) {
         if (distanceInput.isEmpty()) {
-            distance.setError("Field can't be empty!");
+            distance.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             Double.parseDouble(distanceInput);
         } catch (NumberFormatException e) {
-            distance.setError("Distance is not valid! Please enter distance as number of km.");
+            distance.setError(DISTANCE_NOT_VALID);
             return false;
         }
         return true;
@@ -200,17 +221,17 @@ public class Utils {
 
     public static boolean isHeightValid(String heightInput, TextInputEditText height) {
         if (heightInput.isEmpty()) {
-            height.setError("Field can't be empty!");
+            height.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             double heightNumber = Double.parseDouble(heightInput);
             if (heightNumber < 80.0) {
-                height.setError("Height is not valid! Please enter your height in cm.");
+                height.setError(HEIGHT_NOT_VALID);
                 return false;
             }
         } catch (NumberFormatException e) {
-            height.setError("Height is not valid! Please enter your height in cm.");
+            height.setError(HEIGHT_NOT_VALID);
             return false;
         }
 
@@ -219,13 +240,13 @@ public class Utils {
 
     public static boolean isWeightValid(String weightInput, TextInputEditText weight) {
         if (weightInput.isEmpty()) {
-            weight.setError("Field can't be empty!");
+            weight.setError(EMPTY_FIELD_ERROR);
             return false;
         }
         try {
             Double.parseDouble(weightInput);
         } catch (NumberFormatException e) {
-            weight.setError("Weight is not valid! Please enter your weight in kg.");
+            weight.setError(WEIGHT_NOT_VALID);
             return false;
         }
 
@@ -234,14 +255,14 @@ public class Utils {
 
     public static boolean isAgeValid(String ageInput, TextInputEditText age) {
         if (ageInput.isEmpty()) {
-            age.setError("Field can't be empty!");
+            age.setError(EMPTY_FIELD_ERROR);
             return false;
         }
 
         try {
             Integer.parseInt(ageInput);
         } catch (NumberFormatException e) {
-            age.setError("Age is not valid!");
+            age.setError(AGE_NOT_VALID);
             return false;
         }
         return true;

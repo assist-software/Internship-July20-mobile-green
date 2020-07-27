@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private String getToken() {
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
-        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     private ClubsAdapter initClubsAdapter(List<Club> clubs, RecyclerView recyclerView) {

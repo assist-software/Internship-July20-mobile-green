@@ -35,8 +35,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -109,12 +109,12 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
                     assert response.body() != null;
-                    List<Event> pendingEvents = new ArrayList<>(response.body());
-                    List<Event> pastEvents = new ArrayList<>(pendingEvents);
-                    List<Event> joinedEvents = new ArrayList<>(pendingEvents);
+                    List<Event> pastEvents = new ArrayList<>(response.body());
+                    List<Event> joinedEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 1).collect(Collectors.toList());
+                    List<Event> pendingEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 0).collect(Collectors.toList());
                     filterPastEventsList(pastEvents);
-                    filterPendingOrJoinedEvents(joinedEvents, 1); // 1 is joined
-                    filterPendingOrJoinedEvents(pendingEvents, 0); //0 is pending
+                    initEventsAdapter(joinedEvents, recyclerViewJoinedEvents, 2);
+                    initEventsAdapter(pendingEvents, recyclerViewPendingEvents, 4);
                 }
             }
 
@@ -127,7 +127,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
     private String getToken() {
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
-        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     private void filterPastEventsList(List<Event> events) {
@@ -154,23 +154,6 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
             }
         }
         initEventsAdapter(events, recyclerViewPastEvents, 2);
-    }
-
-    private void filterPendingOrJoinedEvents(List<Event> events, int joinedOrPending) {
-        ListIterator<Event> it = events.listIterator();
-        while (it.hasNext()) {
-            Event e = it.next();
-            if (e.getStatus() == null) {
-                it.remove();
-            } else if ((e.getStatus()[0] == 1 && joinedOrPending == 0) || (e.getStatus()[0] == 0 && joinedOrPending == 1)) {
-                it.remove();
-            }
-        }
-        if (joinedOrPending == 0) {
-            initEventsAdapter(events, recyclerViewPendingEvents, 4);
-        } else {
-            initEventsAdapter(events, recyclerViewJoinedEvents, 2);
-        }
     }
 
     private void initEventsAdapter(List<Event> events, RecyclerView recyclerView, int layout) {

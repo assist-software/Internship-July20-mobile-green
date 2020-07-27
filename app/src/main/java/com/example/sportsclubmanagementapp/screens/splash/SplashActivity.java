@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         String token = prefs.getString(getString(R.string.user_token), "no token");
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            if (Objects.requireNonNull(token).equals("no token")) {
+            if (Objects.requireNonNull(token).equals(getString(R.string.no_token_prefs))) {
                 startActivity(new Intent(SplashActivity.this, GuestActivity.class));
             } else {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));

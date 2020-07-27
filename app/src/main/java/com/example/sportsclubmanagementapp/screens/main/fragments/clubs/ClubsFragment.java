@@ -154,7 +154,7 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     private String getToken() {
         getActivity();
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
-        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     private ClubsAdapter initAdapter(List<Club> clubs, RecyclerView recyclerView, int layout) {

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.drawerMenuLogOut:
                     deleteSharePreferencesToken();
-                    Toast.makeText(this, "Log out successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.log_out_successful, Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(this::goToGuestScreen, 2000);
                     break;
             }
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteSharePreferencesToken() { //when user log out, token is deleted from share preferences
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE).edit();
-        editor.putString(getString(R.string.user_token), "no token");
+        editor.putString(getString(R.string.user_token), getString(R.string.no_token_prefs));
         editor.apply();
     }
 

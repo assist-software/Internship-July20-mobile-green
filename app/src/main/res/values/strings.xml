@@ -153,4 +153,10 @@
     <string name="save_workout">Workout has been saved successfully!</string>
     <string name="api_my_profile_changes">Changes has been updated!</string>
     <string name="event_id">EVENT_ID</string>
+    <string name="select_your_favorite_sport">Select your favorite sport:</string>
+    <string name="log_out_successful">Log out successful!</string>
+    <string name="name_intent">name</string>
+    <string name="email_intent">email</string>
+    <string name="password_intent">password</string>
+    <string name="no_token_prefs">no token</string>
 </resources>
