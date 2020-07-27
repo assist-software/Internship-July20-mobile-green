@@ -111,21 +111,19 @@
                                 android:id="@+id/distance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:textStyle="bold"
+                                android:fontFamily="@font/roboto_regular"
                                 android:text="@string/hashtag_3"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dim_22sp" />
+                                android:textSize="@dimen/dim_20sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dim_4dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:textStyle="bold"
+                                android:fontFamily="@font/roboto_regular"
                                 android:text="@string/km_txt"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dim_14sp" />
+                                android:textSize="@dimen/text_12sp" />
                         </LinearLayout>
 
                         <TextView
@@ -134,7 +132,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/distance_txt"
                             android:textColor="@color/gray5"
-                            android:textSize="@dimen/dim_14sp" />
+                            android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -168,21 +166,19 @@
                                 android:id="@+id/duration"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_medium"
-                                android:textStyle="bold"
+                                android:fontFamily="@font/roboto_regular"
                                 android:text="@string/hashtag_3"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dim_22sp" />
+                                android:textSize="@dimen/dim_20sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/dim_4dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:textStyle="bold"
+                                android:fontFamily="@font/roboto_regular"
                                 android:text="@string/min_txt_caps"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/dim_14sp" />
+                                android:textSize="@dimen/text_12sp" />
                         </LinearLayout>
 
                         <TextView
@@ -191,7 +187,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/time_txt"
                             android:textColor="@color/gray5"
-                            android:textSize="@dimen/dim_14sp" />
+                            android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -223,18 +219,17 @@
                             android:id="@+id/calories"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textStyle="bold"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="@string/hashtag_3"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dim_22sp" />
+                            android:textSize="@dimen/dim_20sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/calories_txt"
                             android:textColor="@color/gray5"
-                            android:textSize="@dimen/dim_14sp" />
+                            android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -264,11 +259,10 @@
                             android:id="@+id/bpm"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textStyle="bold"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="@string/hashtag_3"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/dim_22sp" />
+                            android:textSize="@dimen/dim_20sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -276,7 +270,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:text="@string/bpm_txt_caps"
                             android:textColor="@color/gray5"
-                            android:textSize="@dimen/dim_14sp" />
+                            android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
 
                 </LinearLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/eventLinearLayout"
     android:layout_width="250dp"
     android:layout_height="235dp"
     android:layout_marginEnd="@dimen/space_8dp"
-    android:background="@drawable/btn_rounded_8dp_light_gray_border"
-    android:orientation="vertical">
+    app:cardCornerRadius="@dimen/space_4dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <Button
             android:id="@+id/join"
@@ -36,7 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/margin_16dp">
+        android:padding="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_114dp">
 
         <TextView
             android:id="@+id/name"
@@ -93,4 +94,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>
