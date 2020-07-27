@@ -1,25 +1,23 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.events;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
@@ -27,6 +25,7 @@ import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
+import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,28 +36,17 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventsFragment extends Fragment implements OnEventItemListener{
-
-    //for past events recycler
-    private List<Event> pastEventsList = new ArrayList<>();
+public class EventsFragment extends Fragment implements OnEventItemListener {
     private RecyclerView recyclerViewPastEvents;
-    private EventAdapter pastEventsAdapter;
-
-    //for joined events recycler
-    private List<Event> joinedEventsList = new ArrayList<>();
     private RecyclerView recyclerViewJoinedEvents;
-    private EventAdapter joinedEventsAdapter;
-
-    //for pending events recycler
-    private List<Event> pendingEventsList = new ArrayList<>();
     private RecyclerView recyclerViewPendingEvents;
-    private EventAdapter pendingEventsAdapter;
 
     public static EventsFragment newInstance() {
         return new EventsFragment();
@@ -73,118 +61,80 @@ public class EventsFragment extends Fragment implements OnEventItemListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setToolbar();
         return inflater.inflate(R.layout.fragment_events, container, false);
-
     }
 
     private void setToolbar() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
-        avatar_toolbar.setVisibility(View.VISIBLE);
-        Glide.with(this)
-                .load(mainActivity.getAvatar())
-                .apply(new RequestOptions().circleCrop())
-                .into(avatar_toolbar);
-        TextView fragment_title = getActivity().findViewById(R.id.fragment_title);
-        fragment_title.setText(getResources().getText(R.string.events));
+        setToolbarAvatar();
+        setToolbarTitle();
+        setToolbarIconNavigation();
+    }
 
+    private void setToolbarAvatar() {
+        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
+        avatar_toolbar.setVisibility(View.VISIBLE); //set the avatar visible (because is hidden for home fragment)
+        Utils.setCircleAvatar(getActivity(), Objects.requireNonNull((MainActivity) getActivity()).getAvatar(), avatar_toolbar);
+    }
+
+    private void setToolbarTitle() {
+        TextView fragment_title = Objects.requireNonNull(getActivity()).findViewById(R.id.fragment_title);
+        fragment_title.setText(getResources().getText(R.string.events_txt));
+    }
+
+    private void setToolbarIconNavigation() {
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(null);
         toolbar.setTitle("");
-        toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MyProfileActivity.class);
-            startActivity(intent);
-        });
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(getActivity(), MyProfileActivity.class)));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setUpAllRecycleViews(view);
+        getApiEvents();
+    }
+
+    private void setUpAllRecycleViews(View view) {
         recyclerViewPastEvents = view.findViewById(R.id.pastEventsRecyclerView);
-        makePastEvents();
         recyclerViewJoinedEvents = view.findViewById(R.id.joinedEvetsRecyclerView);
-        makeJoinedEvents();
         recyclerViewPendingEvents = view.findViewById(R.id.pendingEventsRecyclerView);
-        makePendingEvents();
     }
 
-    private void preparePastEventsData() {
-        pastEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "28-07-2020", "10", "Running", 2, 3, 1));
-        pastEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
-        pastEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
-        pastEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16-07-2020", "10", "Running", 2, 3, 1));
-        filterPastEventsList();
-        pastEventsAdapter.notifyDataSetChanged();
-    }
-
-    private void prepareJoinedEventsData() {
-        joinedEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        joinedEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        joinedEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        joinedEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-
-        joinedEventsAdapter.notifyDataSetChanged();
-    }
-
-    private void preparePendingEventsData() {
-        pendingEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        pendingEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        pendingEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        pendingEventsList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        pendingEventsAdapter.notifyDataSetChanged();
-    }
-
-    private void makePastEvents() {
-        pastEventsAdapter = new EventAdapter(pastEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager pastEventsLayoutManager = new LinearLayoutManager(pastEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewPastEvents.setLayoutManager(pastEventsLayoutManager);
-        recyclerViewPastEvents.setAdapter(pastEventsAdapter);
-        preparePastEventsData();
-    }
-
-    private void makeJoinedEvents() {
-        joinedEventsAdapter = new EventAdapter(joinedEventsList, getContext(), EventAdapter.HORIZONTAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager joinedEventsLayoutManager = new LinearLayoutManager(joinedEventsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewJoinedEvents.setLayoutManager(joinedEventsLayoutManager);
-        recyclerViewJoinedEvents.setAdapter(joinedEventsAdapter);
-        prepareJoinedEventsData();
-    }
-
-    private void makePendingEvents() {
-        pendingEventsAdapter = new EventAdapter(pendingEventsList, getContext(), EventAdapter.VERTICAL_NO_BTN_EVENT, this);
-        RecyclerView.LayoutManager pendingEventsLayoutManager = new LinearLayoutManager(pendingEventsAdapter.getContext());
-        recyclerViewPendingEvents.setLayoutManager(pendingEventsLayoutManager);
-        recyclerViewPendingEvents.setAdapter(pendingEventsAdapter);
-        preparePendingEventsData();
-    }
-
-    private void getAllEvents() {
-        Call<List<Event>> call = ApiHelper.getApi().getEvents();
+    private void getApiEvents() {
+        Call<List<Event>> call = ApiHelper.getApi().getEvents(getToken());
         call.enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
-                    return;
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    List<Event> pastEvents = new ArrayList<>(response.body());
+                    List<Event> joinedEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 1).collect(Collectors.toList());
+                    List<Event> pendingEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 0).collect(Collectors.toList());
+                    filterPastEventsList(pastEvents);
+                    initEventsAdapter(joinedEvents, recyclerViewJoinedEvents, 2);
+                    initEventsAdapter(pendingEvents, recyclerViewPendingEvents, 4);
                 }
-                //success
-                setAllEvents(response.body());
             }
+
             @Override
             public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void setAllEvents(List<Event> l) {
-        //all events
+    private String getToken() {
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
-    private void filterPastEventsList() {
-        SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+    private void filterPastEventsList(List<Event> events) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
         Date now = new Date();
         String nowStr = sdformat.format(now);
-        Iterator it = pastEventsList.iterator();
+        Iterator it = events.iterator();
         try {
             now = sdformat.parse(nowStr);
         } catch (ParseException e) {
@@ -202,8 +152,20 @@ public class EventsFragment extends Fragment implements OnEventItemListener{
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
-
         }
+        initEventsAdapter(events, recyclerViewPastEvents, 2);
+    }
+
+    private void initEventsAdapter(List<Event> events, RecyclerView recyclerView, int layout) {
+        EventAdapter adapter = new EventAdapter(events, getContext(), layout, this);
+        RecyclerView.LayoutManager eventsLayoutManager;
+        if (layout == 2) {
+            eventsLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        } else {
+            eventsLayoutManager = new LinearLayoutManager(this.getContext());
+        }
+        recyclerView.setLayoutManager(eventsLayoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

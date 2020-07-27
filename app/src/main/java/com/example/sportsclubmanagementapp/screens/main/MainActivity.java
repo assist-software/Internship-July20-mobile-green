@@ -6,13 +6,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -35,10 +33,8 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigation;
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
     private List<Notification> notification = new ArrayList<>();
     private Drawable avatar;
 
@@ -54,27 +50,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         setUpNotifications(); //set up notification icon for top toolbar
-        //set up left navigation drawer
-        NavigationView navigationView = findViewById(R.id.navView);
-        navigationView.setNavigationItemSelectedListener(this);
-        //Bottom NavBar
-        setListenerForNavigation(); //set up listener for bottom navigation
-        openFragment(HomeFragment.newInstance());
+        setListenerForDrawerNavigation(); //set up listener navigation drawer
+        setListenerForBottomNavigation(); //set up listener for bottom navigation
+        openFragment(HomeFragment.newInstance()); //default fragment
     }
 
-    private void setUpNotifications() {
-        //for TESTS
+    private void setUpNotifications() { //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if (notification.isEmpty())
+        if (notification.isEmpty()) {
             notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
-        else
+        } else {
             notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
+        }
     }
 
-    private void setListenerForNavigation() {
-        navigationItemSelectedListener = item -> {
+    private void setListenerForDrawerNavigation() {
+        NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
+            switch (item.getItemId()) {
+                case R.id.drawerMenuProfile:
+                    goToMyProfileScreen();
+                    break;
+                case R.id.drawerMenuNotification:
+                    goToNotificationsScreen();
+                    break;
+                case R.id.drawerMenuCalendar:
+                    goToCalendarScreen();
+                    break;
+                case R.id.drawerMenuLogOut:
+                    deleteSharePreferencesToken();
+                    Toast.makeText(this, R.string.log_out_successful, Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(this::goToGuestScreen, 2000);
+                    break;
+            }
+            return false;
+        };
+        NavigationView navigationView = findViewById(R.id.navView);
+        navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
+    }
+
+    private void setListenerForBottomNavigation() {
+        BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = item -> {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     openFragment(HomeFragment.newInstance());
@@ -91,36 +109,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return false;
         };
-
-        bottomNavigation = findViewById(R.id.nav_bar);
+        BottomNavigationView bottomNavigation = findViewById(R.id.nav_bar);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.drawerMenuProfile:
-                goToMyProfileScreen();
-                break;
-            case R.id.drawerMenuNotification:
-                goToNotificationsScreen();
-                break;
-
-            case R.id.drawerMenuCalendar:
-                goToCalendarScreen();
-                break;
-
-            case R.id.drawerMenuLogOut:
-                deleteSharePreferencesToken();
-                Toast.makeText(this, "Log out successful!", Toast.LENGTH_LONG).show();
-                new Handler().postDelayed(this::goToGuestScreen, 3);
-                break;
-        }
-        return false;
-    }
-
-    public void openFragment(Fragment fragment) {
-        //open selected fragment and display it inside the container
+    public void openFragment(Fragment fragment) { //open selected fragment and display it inside the container
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentsContainer, fragment);
         transaction.addToBackStack(null);
@@ -128,51 +121,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void goToNotificationsScreen(View view) {
-        if (SystemClock.elapsedRealtime() - notificationToolbarBtnClickTime < 1000) return;
-        notificationToolbarBtnClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - notificationToolbarBtnClickTime < 1000) {
+            return; //notification toolbar button is only clickable one time for a second
+        }
+        this.notificationToolbarBtnClickTime = SystemClock.elapsedRealtime();
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.image_view_on_click));
         startActivity(new Intent(this, NotificationActivity.class));
     }
 
+    private void goToNotificationsScreen() {
+        if (SystemClock.elapsedRealtime() - notificationDrawerBtnClickTime < 1000) {
+            return; //notification drawer button is only clickable one time for a second
+        }
+        this.notificationDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(this, NotificationActivity.class));
+    }
+
     public void goToAddWorkoutScreen(View view) {
-        if (SystemClock.elapsedRealtime() - addWorkoutBtnClickTime < 1000) return;
-        addWorkoutBtnClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - addWorkoutBtnClickTime < 1000) {
+            return; //add workout button is only clickable one time for a second
+        }
+        this.addWorkoutBtnClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, AddWorkoutActivity.class));
     }
 
     private void goToMyProfileScreen() {
-        if (SystemClock.elapsedRealtime() - myProfileDrawerBtnClickTime < 1000) return;
-        myProfileDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - myProfileDrawerBtnClickTime < 1000) {
+            return; //my profile drawer button button is only clickable one time for a second
+        }
+        this.myProfileDrawerBtnClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, MyProfileActivity.class));
     }
 
     public void goToMyProfileScreen(View view) {
-        if (SystemClock.elapsedRealtime() - myProfileToolbarBtnClickTime < 1000) return;
-        myProfileToolbarBtnClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - myProfileToolbarBtnClickTime < 1000) {
+            return; //my profile toolbar button is only clickable one time for a second
+        }
+        this.myProfileToolbarBtnClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, MyProfileActivity.class));
     }
 
-    private void goToNotificationsScreen() {
-        if (SystemClock.elapsedRealtime() - notificationDrawerBtnClickTime < 1000) return;
-        notificationDrawerBtnClickTime = SystemClock.elapsedRealtime();
-        startActivity(new Intent(this, NotificationActivity.class));
-    }
-
     private void goToCalendarScreen() {
-        if (SystemClock.elapsedRealtime() - calendarDrawerBtnClickTime < 1000) return;
-        calendarDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - calendarDrawerBtnClickTime < 1000) {
+            return; //calendar drawer button is only clickable one time for a second
+        }
+        this.calendarDrawerBtnClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, CalendarActivity.class));
     }
 
     private void goToGuestScreen() {
-        if (SystemClock.elapsedRealtime() - logOutDrawerBtnClickTime < 1000) return;
-        logOutDrawerBtnClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - logOutDrawerBtnClickTime < 1000) {
+            return; //log out drawer button is only clickable one time for a second
+        }
+        this.logOutDrawerBtnClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, GuestActivity.class));
     }
 
-    private void deleteSharePreferencesToken() {
+    private void deleteSharePreferencesToken() { //when user log out, token is deleted from share preferences
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE).edit();
-        editor.putString(getString(R.string.user_token), "no token");
+        editor.putString(getString(R.string.user_token), getString(R.string.no_token_prefs));
         editor.apply();
     }
 

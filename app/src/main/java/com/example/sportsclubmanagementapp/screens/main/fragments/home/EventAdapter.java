@@ -47,7 +47,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         if (typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == HORIZONTAL_BTN_EVENT) { //for horizontal recycler events
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
         } else { //for vertical recycler events
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_vertical, parent, false);
         }
         return new EventViewHolder(view);
     }
@@ -60,6 +60,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public int getItemCount() {
         return this.events.size();
+    }
+
+    public void removeEvent(Event event) {
+        Event eventToRemove = this.events.stream().filter(c -> c.getId() == event.getId()).findFirst().orElse(null);
+        if (eventToRemove != null) {
+            this.events.remove(event);
+            notifyDataSetChanged();
+        }
     }
 
     public Context getContext() {
@@ -81,10 +89,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             date = itemView.findViewById(R.id.date);
             eventLinearLayout = itemView.findViewById(R.id.eventLinearLayout);
             image = itemView.findViewById(R.id.image);
+            join = itemView.findViewById(R.id.join);
 
-            if (typeLayout == HORIZONTAL_NO_BTN_EVENT || typeLayout == VERTICAL_NO_BTN_EVENT) {
-                join = itemView.findViewById(R.id.join);
-            }
         }
 
         public void bind(final Event event) { /*type selects the layout (to avoid multiple layout)*/

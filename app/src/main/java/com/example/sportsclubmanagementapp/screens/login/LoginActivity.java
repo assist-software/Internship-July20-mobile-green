@@ -29,9 +29,11 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     private TextInputEditText emailAddress;
     private TextInputEditText password;
-
+    private String emailAddressInput;
+    private String passwordInput;
     private long logInBtnLastClickTime = 0;
     private long registerBtnLastClickTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,64 +42,61 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        emailAddress = findViewById(R.id.email);
-        password = findViewById(R.id.password);
+        this.emailAddress = findViewById(R.id.email);
+        this.password = findViewById(R.id.password);
+    }
+
+    private void initData(){
+        this.emailAddressInput = Objects.requireNonNull(this.emailAddress.getText()).toString().trim();
+        this.passwordInput = Objects.requireNonNull(this.password.getText()).toString().trim();
     }
 
     public void onClickLogin(View view) {
-        boolean isValid = isEmailAddressValid() && isPasswordValid();
+        initData();
+        boolean isValid = Utils.isEmailAddressValid(this.emailAddressInput, this.emailAddress) && Utils.isPasswordValid(this.passwordInput, this.password);
         if (isValid) {
             checkUserExists();
         }
     }
 
-    private boolean isEmailAddressValid() {
-        String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-        return Utils.isEmailAddressValid(emailAddressInput, emailAddress);
-    }
-
-    private boolean isPasswordValid() {
-        String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
-        return Utils.isPasswordValid(passwordInput, password);
-    }
-
-    public void onClickNewHere(View view) {
-        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) return;
-        registerBtnLastClickTime = SystemClock.elapsedRealtime();
+    public void onClickNewHereRegister(View view) {
+        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) {
+            return; //register button is only clickable one time per second
+        }
+        this.registerBtnLastClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
-    private void checkUserExists() {
-        String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-        String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
-        UserLogIn userLogIn = new UserLogIn(emailAddressInput, passwordInput);
+    private void goToMainScreen() {
+        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 2000) {
+            return; //log in button is only clickable one time per 2 seconds, as Toast.LENGTH_SHORT
+        }
+        this.logInBtnLastClickTime = SystemClock.elapsedRealtime();
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    }
+
+    private void checkUserExists() { //check if user email exists in database and password is correct with post api request
+        UserLogIn userLogIn = new UserLogIn(this.emailAddressInput, this.passwordInput);
         Call<UserLogIn> call = ApiHelper.getApi().createPostUserLogIn(userLogIn);
         call.enqueue(new Callback<UserLogIn>() {
             @Override
             public void onResponse(@NotNull Call<UserLogIn> call, @NotNull Response<UserLogIn> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(LoginActivity.this, R.string.log_in_not_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.log_in_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     sharePreferencesToken(Objects.requireNonNull(response.body()).getToken());
-                    Toast.makeText(LoginActivity.this, R.string.log_in_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.log_in_successful, Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(() -> goToMainScreen(), 2000);
                 }
             }
-
             @Override
             public void onFailure(@NotNull Call<UserLogIn> call, @NotNull Throwable t) {
-                Toast.makeText(LoginActivity.this, getString(R.string.api_failure) + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, getString(R.string.api_failure) + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void goToMainScreen() {
-        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 2000) return;
-        logInBtnLastClickTime = SystemClock.elapsedRealtime();
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-    }
-
-    private void sharePreferencesToken(String token) {
+    private void sharePreferencesToken(String token) { //save token for user locally, for next api calls
         SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE).edit();
         editor.putString(getString(R.string.user_token), token);
         editor.apply();

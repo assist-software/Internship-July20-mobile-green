@@ -1,13 +1,17 @@
 package com.example.sportsclubmanagementapp.screens.EventDetails;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +23,7 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Role;
 import com.example.sportsclubmanagementapp.data.models.User;
+import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.addworkout.AddWorkoutActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.UserAdapter;
 import com.example.utils.Utils;
@@ -36,11 +41,15 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.widget.ImageView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -56,7 +65,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private TextView description1;
     private TextView description2;
 
-    private Event event;
     //for members list recycler
     private List<User> usersList = new ArrayList<>();
     private UserAdapter userAdapter;
@@ -73,28 +81,9 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
         initComponents();
         setUpUsersRecyclerView(); //for users recycler
-
         prepareUsersData(); //for TESTS
-
         setToolbar();
         setEvent();
-        configureViews();
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void configureViews() {
-        TextView title = findViewById(R.id.eventParticipantsTextView);
-        title.setText("Participants (" + usersList.size() + ")");
-        ImageView image = findViewById(R.id.image);
-        image.setImageDrawable(Utils.getEventsPictures(getBaseContext()).get(new Random().nextInt(5)));
-        TextView date = findViewById(R.id.dateEventTextView);
-        date.setText(event.getDate());
-        TextView location = findViewById(R.id.eventLocationTextView);
-        location.setText(event.getLocation());
-        TextView firstDescription = findViewById(R.id.eventDescription1TextView);
-        firstDescription.setText(event.getDescription());
-        TextView secondDescription = findViewById(R.id.eventDescription2TextView);
-        secondDescription.setText(event.getDescription() + " secondary");
     }
 
     private void initComponents() {
@@ -121,7 +110,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setUpCheckBoxesListeners();
         //set heart rate data by default
         titleSelectedDataChart.setText(getResources().getText(R.string.heart_rate_txt));
-        checkBoxes.get(HEART_RATE_DATA-1).setChecked(true); //auto check the first check box (heart rate)
+        checkBoxes.get(HEART_RATE_DATA - 1).setChecked(true); //auto check the first check box (heart rate)
         selectedDataForChart = HEART_RATE_DATA;
         setUpChart(); //set up chart data with heart rate (first)
     }
@@ -169,10 +158,10 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         //set the first date with the current user (logged in the app)
 
         int maximumValue = 0;
-        if(selectedDataForChart == HEART_RATE_DATA) maximumValue = 150;
-        else if(selectedDataForChart == CALORIES_DATA) maximumValue = 5000;
-        else if(selectedDataForChart == AVG_SPEED_DATA) maximumValue = 80;
-        else if(selectedDataForChart == DISTANCE_DATA) maximumValue = 100;
+        if (selectedDataForChart == HEART_RATE_DATA) maximumValue = 150;
+        else if (selectedDataForChart == CALORIES_DATA) maximumValue = 5000;
+        else if (selectedDataForChart == AVG_SPEED_DATA) maximumValue = 80;
+        else if (selectedDataForChart == DISTANCE_DATA) maximumValue = 100;
         else assert true;
 
         //set chart data for current user
@@ -230,16 +219,42 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private void setEvent() {
         if (getIntent().getExtras() != null) {
-            event = (Event) getIntent().getSerializableExtra("eventObject");
-            setContent();
+            int id = (int) getIntent().getSerializableExtra(getString(R.string.event_id));
+            getApiEventDetails(id);
         }
     }
 
+    private void getApiEventDetails(int id) {
+        Call<Event> call = ApiHelper.getApi().getEventDetails(getToken(), id);
+        call.enqueue(new Callback<Event>() {
+            @Override
+            public void onResponse(@NotNull Call<Event> call, @NotNull Response<Event> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(EventDetailsActivity.this, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    setContent(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Event> call, @NotNull Throwable t) {
+                Toast.makeText(EventDetailsActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private String getToken() {
+        SharedPreferences prefs = this.getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
+    }
+
+
     @SuppressLint("SetTextI18n")
-    private void setContent() {
+    private void setContent(Event event) {
         title.setText(event.getName());
         date.setText(event.getDate());
-        time.setText(event.getDate());
+        time.setText(event.getTime());
         location.setText(event.getLocation());
         description1.setText(event.getDescription());
         description2.setText(event.getDescription());
@@ -247,6 +262,8 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         //for TESTS
         TextView titleParticipants = findViewById(R.id.eventParticipantsTextView);
         titleParticipants.setText("Participants (" + usersList.size() + ")");
+        ImageView image = findViewById(R.id.image);
+        image.setImageDrawable(Utils.getEventsPictures(getBaseContext()).get(new Random().nextInt(5)));
     }
 
     public void goToAddWorkoutScreen(View view) {

@@ -148,7 +148,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:onClick="onClickNewHere"
+        android:onClick="onClickNewHereRegister"
         android:orientation="horizontal"
         android:layout_marginBottom="@dimen/space_32dp"
         app:layout_constraintBottom_toBottomOf="parent"

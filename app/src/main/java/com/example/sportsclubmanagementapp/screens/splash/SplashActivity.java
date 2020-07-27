@@ -14,23 +14,23 @@ import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        redirectToGuestScreen();
+        redirectToNextScreen();
     }
 
-    private void redirectToGuestScreen() {
+    private void redirectToNextScreen() {  //if user has no token then he is redirected to guest screen else to main screen
         SharedPreferences prefs = getSharedPreferences(getString(R.string.MY_PREFS_NAME), MODE_PRIVATE);
         String token = prefs.getString(getString(R.string.user_token), "no token");
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
-            if (Objects.requireNonNull(token).equals("no token"))
+            if (Objects.requireNonNull(token).equals(getString(R.string.no_token_prefs))) {
+                startActivity(new Intent(SplashActivity.this, GuestActivity.class));
+            } else {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            else
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        }, 1000);
+            }
+        }, 3000);
     }
 }

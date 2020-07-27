@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 import java.util.Random;
 
@@ -51,26 +53,20 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
-    boolean userHasPendingOrJoinedClubs = false;
-
-    //for events list recycler
-    private List<Event> eventList = new ArrayList<>();
-    private RecyclerView recyclerViewEvents;
-    private EventAdapter eventAdapter;
-    //for first club recycler
+    private boolean userHasPendingOrJoinedClubs = false;
+    private boolean userHasPendingOrJoinedEvents = false;
+    //recyclers
     private RecyclerView recyclerViewFirstClubs;
-    private ClubsAdapter firstClubsAdapter;
-    //for clubs recycler
     private RecyclerView recyclerViewClubs;
-    private ClubsAdapter clubsAdapter;
-    //for future events recycler
-    private List<Event> futureEventsList = new ArrayList<>();
+    private RecyclerView recyclerViewFirstEvents;
     private RecyclerView recyclerViewFutureEvents;
-    private EventAdapter futureEventsAdapter;
-    //for workouts recycler
-    private List<Workouts> workoutsList = new ArrayList<>();
     private RecyclerView recyclerViewWorkouts;
-    private WorkoutsAdapter WorkoutsAdapter;
+    //adapters
+    private ClubsAdapter firstClubsAdapter;
+    private ClubsAdapter clubsAdapter;
+    private EventAdapter firstEventsAdapter;
+    private EventAdapter futureEventsAdapter;
+
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -82,73 +78,113 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    private void setToolbar() {
+        disableToolbarAvatar();
+        setToolbarTitle();
+        setBurgerMenuForDrawer();
+    }
+
+    private void disableToolbarAvatar() {
+        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
+        avatar_toolbar.setVisibility(View.GONE);
+        avatar_toolbar.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_default_avatar));
+    }
+
+    private void setToolbarTitle() {
+        TextView fragment_title = Objects.requireNonNull(getActivity()).findViewById(R.id.fragment_title);
+        fragment_title.setText(getResources().getText(R.string.home));
+    }
+
+    private void setBurgerMenuForDrawer() {
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(null);
+        toolbar.setTitle("");
+        //set left side drawer for toolbar
+        DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        displayAvatar(); //display avatar as circle view
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
         getApiPendingClubs();
         getApiJoinedClubs();
-        checkIfJoinedOrPendingFirstClub(); //check if user is joined or pending in a club
-        displayAvatar(); //display avatar as circle view
-
-        //data for TESTS
-        prepareEventData();
-        prepareFutureEventsData();
-        prepareWorkoutsData();
+        getApiEvents();
+        getApiWorkouts();
+        getApiUserName();
     }
 
-    private void checkIfJoinedOrPendingFirstClub() {
-        if (this.userHasPendingOrJoinedClubs) {
-            setVisibilityFirstClub(false);
-        } else {
-            setVisibilityFirstClub(true);
-        }
-        getApiClubs();
+    private void displayAvatar() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        Objects.requireNonNull(mainActivity).setAvatar(Utils.getAvatars(getContext()).get(new Random().nextInt(5)));
+        Utils.setCircleAvatar(getActivity(), mainActivity.getAvatar(), Objects.requireNonNull(getActivity()).findViewById(R.id.avatar));
     }
 
-    private void setVisibilityFirstClub(boolean isVisible) {
-        if (isVisible)
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
-        else
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
-    }
+    private void setUpAllRecyclerViews(View view) {
+        this.recyclerViewFirstClubs = view.findViewById(R.id.first_club_recycler_view);
+        this.recyclerViewFirstEvents = view.findViewById(R.id.events_recycler_view);
+        this.recyclerViewClubs = view.findViewById(R.id.join_clubs_recycler_view);
+        this.recyclerViewFutureEvents = view.findViewById(R.id.future_events_recycler_view);
+        this.recyclerViewWorkouts = view.findViewById(R.id.workouts_recycler_view);
 
+    }
 
     private void getApiPendingClubs() {
-        Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(getToken());
+        Call<List<Club>> call = ApiHelper.getApi().getPendingClubs(getToken());
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
-                    if (response.body() != null) userHasPendingOrJoinedClubs = true;
+                    assert response.body() != null;
+                    if (response.body().size() != 0) {
+                        userHasPendingOrJoinedClubs = true;
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void getApiJoinedClubs() {
-        Call<List<Club>> call = ApiHelper.getApi().getUnJoinedClubs(getToken());
+        Call<List<Club>> call = ApiHelper.getApi().getJoinedClubs(getToken());
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
-                    if (response.body() != null) userHasPendingOrJoinedClubs = true;
+                    assert response.body() != null;
+                    if (response.body().size() != 0) {
+                        userHasPendingOrJoinedClubs = true;
+                    }
+                    checkIfJoinedOrPendingFirstClub(); //check if user is joined or pending in a club
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkIfJoinedOrPendingFirstClub() {
+        if (this.userHasPendingOrJoinedClubs) {
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
+        } else {
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
+        }
+        getApiClubs();
     }
 
     private void getApiClubs() {
@@ -157,12 +193,12 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     List<Club> clubs = response.body();
-                    clubsAdapter = initAdapter(clubs, recyclerViewClubs, 1);
-                    if (userHasPendingOrJoinedClubs) {
-                        firstClubsAdapter = initAdapter(clubs, recyclerViewFirstClubs, 1);
+                    clubsAdapter = initClubsAdapter(clubs, recyclerViewClubs);
+                    if (!userHasPendingOrJoinedClubs) {
+                        firstClubsAdapter = initClubsAdapter(clubs, recyclerViewFirstClubs);
                     }
                 }
             }
@@ -174,61 +210,17 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         });
     }
 
-    private void setUpAllRecyclerViews(View view) {
-        recyclerViewEvents = view.findViewById(R.id.events_recycler_view);
-        setupUpEventsRecyclerView(); //hardcoded
-        recyclerViewFirstClubs = view.findViewById(R.id.first_club_recycler_view);
-        recyclerViewClubs = view.findViewById(R.id.join_clubs_recycler_view);
-        recyclerViewFutureEvents = view.findViewById(R.id.future_events_recycler_view);
-        setupUpFutureEventsRecyclerView(); //hardcoded
-        recyclerViewWorkouts = view.findViewById(R.id.workouts_recycler_view);
-        setupUpWorkoutsRecyclerView(); //hardcoded
+    private String getToken() {
+        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
-    private void setToolbar() {
-        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
-        avatar_toolbar.setVisibility(View.GONE);
-        avatar_toolbar.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_default_avatar));
-        TextView fragment_title = getActivity().findViewById(R.id.fragment_title);
-        fragment_title.setText(getResources().getText(R.string.home));
-
-        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(null);
-        toolbar.setTitle("");
-
-        //set left side drawer for toolbar
-        DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
-    private void displayAvatar() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        Objects.requireNonNull(mainActivity).setAvatar(Utils.getAvatars(getContext()).get(new Random().nextInt(5)));
-        Utils.setCircleAvatar(getActivity(), mainActivity.getAvatar(), Objects.requireNonNull(getActivity()).findViewById(R.id.avatar));
-    }
-
-    private void setupUpEventsRecyclerView() {
-        eventAdapter = new EventAdapter(eventList, getContext(), EventAdapter.HORIZONTAL_BTN_EVENT, this);
-        RecyclerView.LayoutManager eventLayoutManager = new LinearLayoutManager(eventAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewEvents.setLayoutManager(eventLayoutManager);
-        recyclerViewEvents.setAdapter(eventAdapter);
-    }
-
-    private void setupUpFutureEventsRecyclerView() {
-        futureEventsAdapter = new EventAdapter(futureEventsList, getContext(), EventAdapter.VERTICAL_BTN_EVENT, this);
-        RecyclerView.LayoutManager futureEventsLayoutManager = new LinearLayoutManager(futureEventsAdapter.getContext());
-        recyclerViewFutureEvents.setLayoutManager(futureEventsLayoutManager);
-        recyclerViewFutureEvents.setAdapter(futureEventsAdapter);
-    }
-
-    private void setupUpWorkoutsRecyclerView() {
-        WorkoutsAdapter = new WorkoutsAdapter(workoutsList, getContext());
-        RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(WorkoutsAdapter.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewWorkouts.setLayoutManager(workoutsLayoutManager);
-        recyclerViewWorkouts.setAdapter(WorkoutsAdapter);
+    private ClubsAdapter initClubsAdapter(List<Club> clubs, RecyclerView recyclerView) {
+        ClubsAdapter adapter = new ClubsAdapter(clubs, getContext(), 1, this);
+        RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(clubsLayoutManager);
+        recyclerView.setAdapter(adapter);
+        return adapter;
     }
 
     @Override
@@ -239,7 +231,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     @Override
-    public void onClubsJoinClick(Club club) {
+    public void onClubsJoinClick(Club club) {  //process clubs locally, and api post call to join club
         clubJoinApi(club);
     }
 
@@ -265,29 +257,79 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         });
     }
 
-    private String getToken() {
-        getActivity();
-        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
-        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+    private void getApiEvents() {
+        Call<List<Event>> call = ApiHelper.getApi().getEvents(getToken());
+        call.enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    List<Event> events = new ArrayList<>(response.body());
+                    userHasPendingOrJoinedEvents = checkIfJoinedOrPendingFirstEvent(events);
+                    getUnJoinedEvents(events);
+                    filterFutureEvents(events);
+                    if (!userHasPendingOrJoinedEvents) {
+                        firstEventsAdapter = initEventsAdapter(events, recyclerViewFirstEvents, 1);
+                    }
+                    futureEventsAdapter = initEventsAdapter(events, recyclerViewFutureEvents, 3);
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    @Override
-    public void onEventsClick(Event event) {
-        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-        intent.putExtra("eventObject", event);
-        startActivity(intent);
+    private void getUnJoinedEvents(List<Event> events) {
+        ListIterator<Event> it = events.listIterator();
+        while (it.hasNext()) {
+            if (it.next().getStatus() != null) it.remove();
+        }
     }
 
-    @Override
-    public void onEventsJoinClick(Event event) {
-
+    private boolean checkIfJoinedOrPendingFirstEvent(List<Event> events) {
+        for (Event event : events) {
+            if (event.getStatus() != null) {
+                hideVisibilityFirstEvent(true);
+                return true;
+            }
+        }
+        hideVisibilityFirstEvent(false);
+        return false;
     }
 
-    private void filterFutureEvents() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("dd-MM-yyyy");
+    private void hideVisibilityFirstEvent(boolean isNotVisible) {
+        if (isNotVisible) {
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_event).setVisibility(View.GONE);
+        } else {
+            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_event).setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    private EventAdapter initEventsAdapter(List<Event> events, RecyclerView recyclerView, int layout) {
+        EventAdapter adapter = new EventAdapter(events, getContext(), layout, this);
+        RecyclerView.LayoutManager eventsLayoutManager;
+        if (layout == 1) {
+            eventsLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        } else {
+            eventsLayoutManager = new LinearLayoutManager(this.getContext());
+        }
+        recyclerView.setLayoutManager(eventsLayoutManager);
+        recyclerView.setAdapter(adapter);
+        return adapter;
+    }
+
+    private void filterFutureEvents(List<Event> events) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
         Date now = new Date();
         String nowStr = sdformat.format(now);
-        Iterator<Event> it = futureEventsList.iterator();
+        Iterator<Event> it = events.iterator();
 
         while (it.hasNext()) {
             Event e = it.next();
@@ -302,38 +344,91 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
-
         }
     }
 
-    private ClubsAdapter initAdapter(List<Club> clubs, RecyclerView recyclerView, int layout) {
-        ClubsAdapter adapter = new ClubsAdapter(clubs, getContext(), layout, this);
-        RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(clubsLayoutManager);
+    @Override
+    public void onEventsClick(Event event) {
+        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+        intent.putExtra(getString(R.string.event_id), event.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onEventsJoinClick(Event event) {
+        eventJoinApi(event);
+    }
+
+    private void eventJoinApi(Event event) {
+        Call<Void> call = ApiHelper.getApi().createPostUserJoinEvent(getToken(), event.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!userHasPendingOrJoinedEvents) firstEventsAdapter.removeEvent(event);
+                    futureEventsAdapter.removeEvent(event);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getApiWorkouts() {
+        Call<List<Workouts>> call = ApiHelper.getApi().getWorkouts(getToken());
+        call.enqueue(new Callback<List<Workouts>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Workouts>> call, @NotNull Response<List<Workouts>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    initWorkoutsAdapter(response.body(), recyclerViewWorkouts);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Workouts>> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initWorkoutsAdapter(List<Workouts> workouts, RecyclerView recyclerView) {
+        WorkoutsAdapter adapter = new WorkoutsAdapter(workouts, getContext());
+        RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(workoutsLayoutManager);
         recyclerView.setAdapter(adapter);
-        return adapter;
     }
 
-    private void prepareEventData() {
-        eventList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventList.add(new Event(4, 3, "Football for Life", "Description", "Suceava", "16.07.2020", "10", "Running", 2, 3, 1));
-        eventAdapter.notifyDataSetChanged();
+    private void getApiUserName() {
+        Call<UserAccountSetup> call = ApiHelper.getApi().getUserData(getToken());
+        call.enqueue(new Callback<UserAccountSetup>() {
+            @Override
+            public void onResponse(@NotNull Call<UserAccountSetup> call, @NotNull Response<UserAccountSetup> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    setUserName(response.body().getLast_name(), response.body().getFirst_name());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<UserAccountSetup> call, @NotNull Throwable t) {
+                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void prepareFutureEventsData() {
-        futureEventsList.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "23-07-2020", "10", "Running", 2, 3, 1));
-        futureEventsList.add(new Event(2, 1, "Cycle for Life", "Description", "Suceava", "24-07-2020", "10", "Running", 2, 3, 1));
-        futureEventsList.add(new Event(3, 2, "Motors for Life", "Description", "Suceava", "25-07-2020", "10", "Running", 2, 3, 1));
-        filterFutureEvents();
-        futureEventsAdapter.notifyDataSetChanged();
+    @SuppressLint("SetTextI18n")
+    private void setUserName(String lastName, String firstName) {
+        TextView userNameTextView = Objects.requireNonNull(getActivity()).findViewById(R.id.username);
+        userNameTextView.setText(firstName + " " + lastName);
     }
 
-    private void prepareWorkoutsData() {
-        workoutsList.add(new Workouts(1, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
-        workoutsList.add(new Workouts(2, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
-        workoutsList.add(new Workouts(3, 1, "Running", "Description", "Running", "Suceava", 10f, 2, 2.2f, 1.5f, 2.2f, 2.2f, true));
-        WorkoutsAdapter.notifyDataSetChanged();
-    }
 }

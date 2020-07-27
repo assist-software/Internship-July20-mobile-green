@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Workouts;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.WorkoutsViewHolder> {
 
@@ -27,6 +26,27 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
     public WorkoutsAdapter(List<Workouts> workouts, Context context) {
         this.workouts = workouts;
         this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public WorkoutsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workouts, parent, false);
+        return new WorkoutsViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull WorkoutsViewHolder holder, int position) {
+        holder.bind(workouts.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.workouts.size();
+    }
+
+    public Context getContext() {
+        return this.context;
     }
 
     public static class WorkoutsViewHolder extends RecyclerView.ViewHolder {
@@ -52,46 +72,26 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
         }
 
         @SuppressLint("DefaultLocale")
-        public void bind(Workouts workouts) {
-            Date currentDate = Calendar.getInstance().getTime(); //get current date
-            SimpleDateFormat dateFormated = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()); //format current date
-            String[] dateParsed = dateFormated.format(currentDate).split("-"); //parse data to char(-)
-
+        public void bind(Workouts workout) {
+            String[] dateParsed = workout.getDate().split("-"); //parse data to char(-)
             //get day name
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-            String[] days = new String[] { "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
-            String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK)-1];
+            try {
+                calendar.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(workout.getDate()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String[] days = new String[]{"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+            String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 
-            day_number.setText(dateParsed[0]);
+            day_number.setText(dateParsed[2]);
             month.setText(dateParsed[1]);
             day_name.setText(dayNameStr);
-            year.setText(dateParsed[2]);
-            distance.setText(String.format("%.2f", workouts.getDistance()));
-            duration.setText(String.format("%.2f", workouts.getDuration()));
-            calories.setText(String.format("%.2f", workouts.getCalories_burned()));
-            bpm.setText(String.valueOf(120));
+            year.setText(dateParsed[0]);
+            distance.setText(String.format("%.2f", workout.getDistance()));
+            duration.setText(String.format("%.2f", workout.getDuration()));
+            calories.setText(String.format("%.2f", workout.getCalories_burned()));
+            bpm.setText(String.valueOf(workout.getBpm()));
         }
-    }
-
-    @NonNull
-    @Override
-    public WorkoutsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workouts, parent, false);
-        return new WorkoutsViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull WorkoutsViewHolder holder, int position) {
-            holder.bind(workouts.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return this.workouts.size();
-    }
-
-    public Context getContext(){
-        return this.context;
     }
 }

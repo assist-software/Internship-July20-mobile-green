@@ -145,4 +145,18 @@
     <string name="account_setup_not_successful">Data is not valid!</string>
     <string name="account_setup_successful">User has been created!</string>
     <string name="api_response_not_successful">Error response: </string>
+    <string name="event">Event</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+    <string name="workout_effectiveness">Workout Effectiveness</string>
+    <string name="save_workout">Workout has been saved successfully!</string>
+    <string name="api_my_profile_changes">Changes has been updated!</string>
+    <string name="event_id">EVENT_ID</string>
+    <string name="select_your_favorite_sport">Select your favorite sport:</string>
+    <string name="log_out_successful">Log out successful!</string>
+    <string name="name_intent">name</string>
+    <string name="email_intent">email</string>
+    <string name="password_intent">password</string>
+    <string name="no_token_prefs">no token</string>
 </resources>
