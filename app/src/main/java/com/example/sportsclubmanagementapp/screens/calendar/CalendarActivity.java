@@ -134,7 +134,7 @@ public class CalendarActivity extends AppCompatActivity {
         allClubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
         allClubList.add(new Club(2, 1, "Football", "Description", 1, 2, 3));
         allClubList.add(new Club(3, 1, "Biking", "Description", 1, 2, 3));
-
+        /*
         List<Event> events = new ArrayList<>();
         events.add(new Event(1, 1, "Running for Life", "Description", "Suceava", "16.7.2020", "10", "Running", 2, 3, 1));
         allEventList.add(events);
@@ -180,5 +180,7 @@ public class CalendarActivity extends AppCompatActivity {
         allEventList.add(events);
 
         eventParentAdapter.notifyDataSetChanged();
+
+         */
     }
 }

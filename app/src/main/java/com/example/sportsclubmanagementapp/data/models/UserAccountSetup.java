@@ -27,6 +27,14 @@ public class UserAccountSetup { ////api data
         this.secondary_sport = secondary_sport;
     }
 
+    public UserAccountSetup(int age, double height, double weight, int primary_sport, int secondary_sport) { //for updating user profile
+        this.age = age;
+        this.height = height;
+        this.weight = weight;
+        this.primary_sport = primary_sport;
+        this.secondary_sport = secondary_sport;
+    }
+
     public String getEmail() {
         return email;
     }

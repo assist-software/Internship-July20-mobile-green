@@ -22,14 +22,18 @@ public class GuestActivity extends AppCompatActivity {
     }
 
     public void onClickLoginGuest(View view) {
-        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) return;
-        registerBtnLastClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) {
+            return; //register button is only clickable one time for a second
+        }
+        this.registerBtnLastClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(GuestActivity.this, LoginActivity.class));
     }
 
     public void onClickRegisterGuest(View view) {
-        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 1000) return;
-        logInBtnLastClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 1000) {
+            return; //login button is only clickable one time for a second
+        }
+        this.logInBtnLastClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(GuestActivity.this, RegisterActivity.class));
     }
 }

@@ -2,13 +2,6 @@ package com.example.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Patterns;
 import android.widget.ImageView;
@@ -21,16 +14,11 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Event;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
-
-import static java.security.AccessController.getContext;
 
 public class Utils {
 
@@ -100,9 +88,9 @@ public class Utils {
         return true;
     }
 
-    public static boolean isPrimarySportValid (Spinner spinner){
+    public static boolean isPrimarySportValid(Spinner spinner) {
         String choice = spinner.getSelectedItem().toString();
-        if (choice.equals("Select your favorite sport:")){
+        if (choice.equals("Select your favorite sport:")) {
             TextView errorText = (TextView) spinner.getSelectedView();
             errorText.setError("Select your primary sport!");
             return false;
@@ -110,15 +98,106 @@ public class Utils {
         return true;
     }
 
-    public static boolean isSecondarySportValid (Spinner spinner){
+    public static boolean isSecondarySportValid(Spinner spinner) {
         String choice = spinner.getSelectedItem().toString();
-        if (choice.equals("Select your favorite sport:")){
+        if (choice.equals("Select your favorite sport:")) {
             TextView errorText = (TextView) spinner.getSelectedView();
             errorText.setError("Select your secondary sport!");
             return false;
         }
         return true;
     }
+
+    public static boolean isEventValid(Spinner spinner) {
+        String choice = spinner.getSelectedItem().toString();
+        if (choice.equals("Event")) {
+            TextView errotText = (TextView) spinner.getSelectedView();
+            errotText.setError("Select your event!");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isWorkoutEffectivenessValid(Spinner spinner) {
+        String choice = spinner.getSelectedItem().toString();
+        if (choice.equals("Workout Effectiveness")) {
+            TextView errotText = (TextView) spinner.getSelectedView();
+            errotText.setError("Select your workout effectiveness!");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isDurationValid(String durationInput, TextInputEditText duration) {
+        if (durationInput.isEmpty()) {
+            duration.setError("Field can't be empty!");
+            return false;
+        }
+        try {
+            Double.parseDouble(durationInput);
+        } catch (NumberFormatException e) {
+            duration.setError("Duration is not valid! Please enter your duration as number of minutes.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isHeartRateValid(String hearRateInput, TextInputEditText heartRate) {
+        if (hearRateInput.isEmpty()) {
+            heartRate.setError("Field can't be empty!");
+            return false;
+        }
+        try {
+            Double.parseDouble(hearRateInput);
+        } catch (NumberFormatException e) {
+            heartRate.setError("Heart rate is not valid! Please enter your heart rate as a number.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isCaloriesValid(String caloriesInput, TextInputEditText calories) {
+        if (caloriesInput.isEmpty()) {
+            calories.setError("Field can't be empty!");
+            return false;
+        }
+        try {
+            Double.parseDouble(caloriesInput);
+        } catch (NumberFormatException e) {
+            calories.setError("Calories are not valid! Please enter your calories as a number.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isAvgSpeedValid(String avgSpeedInput, TextInputEditText avgSpeed) {
+        if (avgSpeedInput.isEmpty()) {
+            avgSpeed.setError("Field can't be empty!");
+            return false;
+        }
+        try {
+            Double.parseDouble(avgSpeedInput);
+        } catch (NumberFormatException e) {
+            avgSpeed.setError("Average speed is not valid! Please enter your average speed as number of km/h.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isDistanceValid(String distanceInput, TextInputEditText distance) {
+        if (distanceInput.isEmpty()) {
+            distance.setError("Field can't be empty!");
+            return false;
+        }
+        try {
+            Double.parseDouble(distanceInput);
+        } catch (NumberFormatException e) {
+            distance.setError("Distance is not valid! Please enter distance as number of km.");
+            return false;
+        }
+        return true;
+    }
+
     public static boolean isHeightValid(String heightInput, TextInputEditText height) {
         if (heightInput.isEmpty()) {
             height.setError("Field can't be empty!");
@@ -143,9 +222,8 @@ public class Utils {
             weight.setError("Field can't be empty!");
             return false;
         }
-
         try {
-            double weightNumber = Double.parseDouble(weightInput);
+            Double.parseDouble(weightInput);
         } catch (NumberFormatException e) {
             weight.setError("Weight is not valid! Please enter your weight in kg.");
             return false;
@@ -155,14 +233,13 @@ public class Utils {
     }
 
     public static boolean isAgeValid(String ageInput, TextInputEditText age) {
-
         if (ageInput.isEmpty()) {
             age.setError("Field can't be empty!");
             return false;
         }
 
         try {
-            int ageNumber = Integer.parseInt(ageInput);
+            Integer.parseInt(ageInput);
         } catch (NumberFormatException e) {
             age.setError("Age is not valid!");
             return false;
@@ -170,7 +247,7 @@ public class Utils {
         return true;
     }
 
-    public static void setCircleAvatar(Activity activity, Drawable image, ImageView destination){
+    public static void setCircleAvatar(Activity activity, Drawable image, ImageView destination) {
         Glide.with(activity)
                 .load(image)
                 .apply(new RequestOptions().circleCrop())

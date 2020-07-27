@@ -1,79 +1,55 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
-public class Workouts { //hardcoded data
-
-    @SerializedName("owner")
-    private long ownerId;
+public class Workouts { //api data
+    private int event;
     private String name;
-    @SerializedName("description")
     private String description;
-    @SerializedName("lat")
-    private double latitude;
-    @SerializedName("lng")
-    private double longitude;
+    private double lat;
+    private double lng;
     private double radius;
     private double duration;
-    @SerializedName("distance")
     private double distance;
-    private double average_hr;
+    private double bpm;
     private double calories_burned;
     private double average_speed;
-    private boolean workout_effectiveness;
+    private String workout_effectiveness;
+    private String date;
+    private String time;
 
-    private long id;
-    private String sportType;
-    private String location;
-
-    public Workouts(long id, long ownerId, String name, String description, String sportType, String location, double radius,
-                    double duration, double distance, double average_hr, double calories_burned, double average_speed, boolean workout_effectiveness) {
-        this.id = id;
-        this.ownerId = ownerId;
+    public Workouts(int event, String name, String description, double lat, double lng, double radius, double duration, double distance, double bpm, double calories_burned, double average_speed, String workout_effectiveness, String date, String time) {
+        this.event = event;
         this.name = name;
         this.description = description;
-        this.sportType = sportType;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
         this.radius = radius;
         this.duration = duration;
         this.distance = distance;
-        this.average_hr = average_hr;
+        this.bpm = bpm;
+        this.calories_burned = calories_burned;
+        this.average_speed = average_speed;
+        this.workout_effectiveness = workout_effectiveness;
+        this.date = date;
+        this.time = time;
+    }
+
+
+    public Workouts(int event, double duration, double distance, double bpm, double calories_burned, double average_speed, String workout_effectiveness) { //
+        this.event = event;
+        this.duration = duration;
+        this.distance = distance;
+        this.bpm = bpm;
         this.calories_burned = calories_burned;
         this.average_speed = average_speed;
         this.workout_effectiveness = workout_effectiveness;
     }
 
-    public Workouts(long ownerId, String name, String description, double latitude, double longitude, double radius, double duration, double distance, double average_hr,
-                    double calories_burned, double average_speed, boolean workout_effectiveness) {  //API
-        this.ownerId = ownerId;
-        this.name = name;
-        this.description = description;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radius = radius;
-        this.duration = duration;
-        this.distance = distance;
-        this.average_hr = average_hr;
-        this.calories_burned = calories_burned;
-        this.average_speed = average_speed;
-        this.workout_effectiveness = workout_effectiveness;
-
+    public int getEvent() {
+        return event;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(long ownerId) {
-        this.ownerId = ownerId;
+    public void setEvent(int event) {
+        this.event = event;
     }
 
     public String getName() {
@@ -92,29 +68,21 @@ public class Workouts { //hardcoded data
         this.description = description;
     }
 
-    public String getSportType() {
-        return sportType;
+    public double getLat() {
+        return lat;
     }
 
-    public void setSportType(String sportType) {
-        this.sportType = sportType;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public String getLocation() {
-        return location;
+    public double getLng() {
+        return lng;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
-
-    public double getLatitude() { return latitude; }
-
-    public void setLatitude(double latitude) { this.latitude = latitude; }
-
-    public double getLongitude() { return longitude; }
-
-    public void setLongitude(double longitude) { this.longitude = longitude; }
 
     public double getRadius() {
         return radius;
@@ -128,9 +96,7 @@ public class Workouts { //hardcoded data
         return duration;
     }
 
-    public void setDuration(double duration) { this.duration = duration; }
-
-    public void setDuration(int duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 
@@ -142,19 +108,21 @@ public class Workouts { //hardcoded data
         this.distance = distance;
     }
 
-    public double getAverage_hr() {
-        return average_hr;
+    public double getBpm() {
+        return bpm;
     }
 
-    public void setAverage_hr(double average_hr) {
-        this.average_hr = average_hr;
+    public void setBpm(double bpm) {
+        this.bpm = bpm;
     }
 
     public double getCalories_burned() {
         return calories_burned;
     }
 
-    public void setCalories_burned(double calories_burned) { this.calories_burned = calories_burned; }
+    public void setCalories_burned(double calories_burned) {
+        this.calories_burned = calories_burned;
+    }
 
     public double getAverage_speed() {
         return average_speed;
@@ -164,9 +132,27 @@ public class Workouts { //hardcoded data
         this.average_speed = average_speed;
     }
 
-    public boolean isWorkout_effectiveness() {
+    public String getWorkout_effectiveness() {
         return workout_effectiveness;
     }
 
-    public void setWorkout_effectiveness(boolean workout_effectiveness) { this.workout_effectiveness = workout_effectiveness; }
+    public void setWorkout_effectiveness(String workout_effectiveness) {
+        this.workout_effectiveness = workout_effectiveness;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

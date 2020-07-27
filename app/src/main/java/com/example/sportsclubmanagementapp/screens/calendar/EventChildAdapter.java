@@ -2,7 +2,6 @@ package com.example.sportsclubmanagementapp.screens.calendar;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.EventViewHolder> {
@@ -62,7 +58,7 @@ public class EventChildAdapter extends RecyclerView.Adapter<EventChildAdapter.Ev
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_horizontal, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_vertical, parent, false);
         return new EventViewHolder(view);
 }
 

@@ -1,124 +1,30 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
-
-public class Event implements Serializable { //hardcoded data
-
-    @SerializedName("club")
-    private long clubId;
-    @SerializedName("name")
+public class Event {
+    private int id;
     private String name;
-    @SerializedName("description")
     private String description;
-    @SerializedName("location")
-    private String location;
-    @SerializedName("radius")
-    private String radius;
-    @SerializedName("sport")
-    private String sportType;
-
-    private long id;
     private String date;
-    private long invites_id;
-    private long requests_id;
-    private long members_id;
+    private String time;
+    private String location;
+    private int[] status;
 
-
-    public Event(long id, long clubId, String name, String description, String location, String date, String radius, String sportType, long invites_id, long requests_id, long members_id) {
+    public Event(int id, String name, String description, String date, String time, String location, int[] status) {
         this.id = id;
-        this.clubId = clubId;
         this.name = name;
         this.description = description;
-        this.location = location;
         this.date = date;
-        this.radius = radius;
-        this.sportType = sportType;
-        this.invites_id = invites_id;
-        this.requests_id = requests_id;
-        this.members_id = members_id;
-    }
-
-    public Event(long clubId, String name, String description, String location, String radius, String sportType) {
-        this.clubId = clubId;
-        this.name = name;
-        this.description = description;
+        this.time = time;
         this.location = location;
-        this.radius = radius;
-        this.sportType = sportType;
+        this.status = status;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getSportType() {
-        return sportType;
-    }
-
-    public void setSportType(String sportType) {
-        this.sportType = sportType;
-    }
-
-    public long getInvites_id() {
-        return invites_id;
-    }
-
-    public void setInvites_id(long invites_id) {
-        this.invites_id = invites_id;
-    }
-
-    public long getRequests_id() {
-        return requests_id;
-    }
-
-    public void setRequests_id(long requests_id) {
-        this.requests_id = requests_id;
-    }
-
-    public long getMembers_id() {
-        return members_id;
-    }
-
-    public void setMembers_id(long members_id) {
-        this.members_id = members_id;
-    }
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public long getClubId() {
-        return clubId;
-    }
-
-    public void setClubId(long clubId) {
-        this.clubId = clubId;
-    }
-
-    public String getRadius() {
-        return radius;
-    }
-
-    public void setRadius(String radius) {
-        this.radius = radius;
     }
 
     public String getName() {
@@ -135,5 +41,37 @@ public class Event implements Serializable { //hardcoded data
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int[] getStatus() {
+        return status;
+    }
+
+    public void setStatus(int[] status) {
+        this.status = status;
     }
 }

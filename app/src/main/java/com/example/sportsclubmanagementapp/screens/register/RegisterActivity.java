@@ -30,7 +30,10 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText emailAddress;
     private TextInputEditText password;
     private TextInputEditText confirmPassword;
-
+    private String firstAndLastNameInput;
+    private String emailAddressInput;
+    private String passwordInput;
+    private String confirmPasswordInput;
     private long registerBtnLastClickTime = 0;
     private long logInBtnLastClickTime = 0;
 
@@ -43,15 +46,25 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        firstAndLastName = findViewById(R.id.firstAndLastNameTextInputEditText);
-        emailAddress = findViewById(R.id.emailAdDressTextInputEditText);
-        password = findViewById(R.id.passwordTextInputEditText);
-        confirmPassword = findViewById(R.id.confirmPasswordTextInputEditText);
+        this.firstAndLastName = findViewById(R.id.firstAndLastNameTextInputEditText);
+        this.emailAddress = findViewById(R.id.emailAdDressTextInputEditText);
+        this.password = findViewById(R.id.passwordTextInputEditText);
+        this.confirmPassword = findViewById(R.id.confirmPasswordTextInputEditText);
+    }
+
+    private void initData() {
+        this.firstAndLastNameInput = Objects.requireNonNull(this.firstAndLastName.getText()).toString().trim();
+        this.emailAddressInput = Objects.requireNonNull(this.emailAddress.getText()).toString().trim();
+        this.passwordInput = Objects.requireNonNull(this.password.getText()).toString().trim();
+        this.confirmPasswordInput = Objects.requireNonNull(this.confirmPassword.getText()).toString().trim();
     }
 
     public void onClickRegisterBtn(View view) {
-        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) return;
-        registerBtnLastClickTime = SystemClock.elapsedRealtime();
+        if (SystemClock.elapsedRealtime() - registerBtnLastClickTime < 1000) {
+            return;
+        }
+        this.registerBtnLastClickTime = SystemClock.elapsedRealtime();
+        initData();  //get new data every time when user clicks on register button
         boolean isValid;
         isValid = isFirstAndLastNameValid() && isEmailAddressValid() && isPasswordValid();
         if (isValid) {
@@ -60,38 +73,35 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean isFirstAndLastNameValid() {
-        String firstAndLastNameInput = Objects.requireNonNull(firstAndLastName.getText()).toString().trim();
-        return Utils.isFirstAndLastNameValid(firstAndLastNameInput, firstAndLastName);
+        return Utils.isFirstAndLastNameValid(this.firstAndLastNameInput, this.firstAndLastName);
     }
 
     private boolean isEmailAddressValid() {
-        String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-        return Utils.isEmailAddressValid(emailAddressInput, emailAddress);
+        return Utils.isEmailAddressValid(this.emailAddressInput, this.emailAddress);
     }
 
     private boolean isPasswordValid() {
-        String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
-        String confirmPasswordInput = Objects.requireNonNull(confirmPassword.getText()).toString().trim();
-        return Utils.isPasswordValid(passwordInput, confirmPasswordInput, password, confirmPassword);
+        return Utils.isPasswordValid(this.passwordInput, this.confirmPasswordInput, this.password, this.confirmPassword);
     }
 
     public void onClickLogInBtn(View view) {
-        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 2000) return;
+        if (SystemClock.elapsedRealtime() - logInBtnLastClickTime < 2000) {
+            return; //log in button is only clickable one time per 2 seconds, as Toast.LENGTH_SHORT
+        }
         logInBtnLastClickTime = SystemClock.elapsedRealtime();
         startActivity(new Intent(this, LoginActivity.class));
     }
 
     private void createUserRegister() {
-        UserRegister userRegister = getUserDetails();
-        Call<Void> call = ApiHelper.getApi().createPostUserRegister(userRegister);
+        Call<Void> call = ApiHelper.getApi().createPostUserRegister(new UserRegister(this.emailAddressInput, this.firstAndLastNameInput, this.passwordInput, this.confirmPasswordInput));
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(RegisterActivity.this, R.string.register_not_successful, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, R.string.register_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     Toast.makeText(RegisterActivity.this, R.string.register_successful, Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(() -> navigateAccountSetupActivity(userRegister.getFirst_and_last_name(), userRegister.getEmail(), userRegister.getPassword()), 2000);
+                    new Handler().postDelayed(() -> navigateAccountSetupActivity(), 2000);
                 }
             }
 
@@ -102,19 +112,11 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private UserRegister getUserDetails() {
-        String firstAndLastNameInput = Objects.requireNonNull(firstAndLastName.getText()).toString().trim();
-        String emailAddressInput = Objects.requireNonNull(emailAddress.getText()).toString().trim();
-        String passwordInput = Objects.requireNonNull(password.getText()).toString().trim();
-        String confirmPasswordInput = Objects.requireNonNull(confirmPassword.getText()).toString().trim();
-        return new UserRegister(emailAddressInput, firstAndLastNameInput, passwordInput, confirmPasswordInput);
-    }
-
-    private void navigateAccountSetupActivity(String firstAndLastName, String emailAddress, String password) {
+    private void navigateAccountSetupActivity() { //pass data to account setup screen to make a post api request, to create new user
         Intent intent = new Intent(RegisterActivity.this, AccountSetupActivity.class);
-        intent.putExtra("name", firstAndLastName);
-        intent.putExtra("email", emailAddress);
-        intent.putExtra("password", password);
+        intent.putExtra("name", this.firstAndLastNameInput);
+        intent.putExtra("email", this.emailAddressInput);
+        intent.putExtra("password", this.passwordInput);
         startActivity(intent);
     }
 }

@@ -1,8 +1,9 @@
 package com.example.sportsclubmanagementapp.screens.myprofile;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -18,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +26,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.data.models.Sport;
+import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 import com.example.utils.Utils;
@@ -43,44 +44,40 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyProfileActivity extends AppCompatActivity {
-
-    //for TESTS
-    List<Notification> notification = new ArrayList<>();
-
+    List<Notification> notification = new ArrayList<>();//for TESTS
     private Spinner primarySportSpinner;
     private Spinner secondarySportSpinner;
     private TextInputEditText height;
     private TextInputEditText weight;
     private TextInputEditText age;
     private List<Sport> sports;
-    private long saveChangesBtnLastClickTime = 0 ;
+    private long saveChangesBtnLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-
-        getApiSports();
+        initComponents();
+        setMyProfileAvatar();
         setToolbar();
         setUpNotifications();
+        getApiSports();
+        getApiUserInfo();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initComponent();
-        Glide.with(getBaseContext())
-                .load(Utils.getAvatars(getBaseContext()).get(new Random().nextInt(5)))
-                .apply(new RequestOptions().circleCrop())
-                .into((ImageView) findViewById(R.id.avatar));
-    }
-
-    private void initComponent() {
+    private void initComponents() {
         primarySportSpinner = findViewById(R.id.primarySportSpinnerMyProfile);
         secondarySportSpinner = findViewById(R.id.secondarySportSpinnerMyProfile);
         height = findViewById(R.id.heightTextInputEditTextMyProfile);
         weight = findViewById(R.id.weightTextInputEditTextMyProfile);
         age = findViewById(R.id.ageTextInputEditTextMyProfile);
+    }
+
+    private void setMyProfileAvatar() {
+        Glide.with(getBaseContext())
+                .load(Utils.getAvatars(getBaseContext()).get(new Random().nextInt(5)))
+                .apply(new RequestOptions().circleCrop())
+                .into((ImageView) findViewById(R.id.avatar));
     }
 
     private void setToolbar() {
@@ -93,10 +90,11 @@ public class MyProfileActivity extends AppCompatActivity {
         //for TESTS
         notification.add(new Notification("2 min ago", "Coach", "John Down", "invited you in", "Running Club"));
         ImageView notificationIcon = findViewById(R.id.notificationImageView);
-        if (notification.isEmpty())
+        if (notification.isEmpty()) {
             notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar, null));
-        else
+        } else {
             notificationIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_notifications_toolbar_news, null));
+        }
     }
 
     public void goToNotificationsScreen(View view) {
@@ -104,40 +102,25 @@ public class MyProfileActivity extends AppCompatActivity {
         startActivity(new Intent(this, NotificationActivity.class));
     }
 
-    public void onClickSaveChangesBtn(View view) {
-        if (SystemClock.elapsedRealtime() - saveChangesBtnLastClickTime < 1000) return;
-        saveChangesBtnLastClickTime = SystemClock.elapsedRealtime();
-        boolean isValid;
-        isValid = isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
-        if (isValid) {
-            //post request api
-        } else {
-            // if nothing is changed, do nothing
-            // else change only one specific detail, with other remaining the same
-        }
-    }
+    private void getApiSports() {
+        Call<List<Sport>> call = ApiHelper.getApi().getSports();
+        call.enqueue(new Callback<List<Sport>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Sport>> call, @NotNull Response<List<Sport>> response) {
+                if (!response.isSuccessful())
+                    Toast.makeText(MyProfileActivity.this, R.string.api_response_not_successful + response.code(), Toast.LENGTH_SHORT).show();
+                else {
+                    sports = response.body();
+                    setSpinner(Objects.requireNonNull(sports), primarySportSpinner);
+                    setSpinner(sports, secondarySportSpinner);
+                }
+            }
 
-    private boolean isPrimarySportValid() {
-        return Utils.isPrimarySportValid(primarySportSpinner);
-    }
-
-    private boolean isSecondarySportValid() {
-        return Utils.isSecondarySportValid(secondarySportSpinner);
-    }
-
-    private boolean isHeightValid() {
-        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
-        return Utils.isHeightValid(heightInput, height);
-    }
-
-    private boolean isWeightValid() {
-        String weightInput = Objects.requireNonNull(weight.getText()).toString().trim();
-        return Utils.isWeightValid(weightInput, weight);
-    }
-
-    private boolean isAgeValid() {
-        String ageInput = Objects.requireNonNull(age.getText()).toString().trim();
-        return Utils.isAgeValid(ageInput, age);
+            @Override
+            public void onFailure(@NotNull Call<List<Sport>> call, @NotNull Throwable t) {
+                Toast.makeText(MyProfileActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setSpinner(List<Sport> items, Spinner spinner) {
@@ -168,37 +151,110 @@ public class MyProfileActivity extends AppCompatActivity {
         spinner.setSelection(workoutEffectivenessAdapter.getCount());
     }
 
-    private void getApiSports() {
-        Call<List<Sport>> call = ApiHelper.getApi().getSports();
-        call.enqueue(new Callback<List<Sport>>() {
+    private void getApiUserInfo() {
+        Call<UserAccountSetup> call = ApiHelper.getApi().getUserData(getToken());
+        call.enqueue(new Callback<UserAccountSetup>() {
             @Override
-            public void onResponse(@NotNull Call<List<Sport>> call, @NotNull Response<List<Sport>> response) {
-                if (!response.isSuccessful())
-                    Toast.makeText(MyProfileActivity.this, "Error response: " + response.code(), Toast.LENGTH_SHORT).show();
-                else {
-                    sports = response.body();
-                    setSpinner(Objects.requireNonNull(sports), primarySportSpinner);
-                    setSpinner(sports, secondarySportSpinner);
+            public void onResponse(@NotNull Call<UserAccountSetup> call, @NotNull Response<UserAccountSetup> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(MyProfileActivity.this, R.string.api_response_not_successful + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    setUserDataToViews(response.body());
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<Sport>> call, @NotNull Throwable t) {
-                Toast.makeText(MyProfileActivity.this, "Error failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(@NotNull Call<UserAccountSetup> call, @NotNull Throwable t) {
+                Toast.makeText(MyProfileActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private String getToken() {
+        SharedPreferences prefs = this.getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), "no token");
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setUserDataToViews(UserAccountSetup userData) {
+        TextView userName = findViewById(R.id.accountSetupTextView);
+        userName.setText(userData.getFirst_name() + " " + userData.getLast_name());
+        this.height.setText(String.valueOf(userData.getHeight()));
+        this.weight.setText(String.valueOf(userData.getWeight()));
+        this.age.setText(String.valueOf(userData.getAge()));
+        primarySportSpinner.setSelection(userData.getPrimary_sport() - 1);
+        secondarySportSpinner.setSelection(userData.getSecondary_sport() - 1);
+    }
+
+    public void onClickSaveChangesBtn(View view) {
+        if (SystemClock.elapsedRealtime() - saveChangesBtnLastClickTime < 2000) {
+            return; //save changes button is only clickable one time per second
+        }
+        saveChangesBtnLastClickTime = SystemClock.elapsedRealtime();
+        boolean isValid;
+        isValid = isPrimarySportValid() && isSecondarySportValid() && isHeightValid() && isWeightValid() && isAgeValid();
+        if (isValid) {
+            putApiUserNewInfo();
+        }
+    }
+
+    private boolean isPrimarySportValid() {
+        return Utils.isPrimarySportValid(this.primarySportSpinner);
+    }
+
+    private boolean isSecondarySportValid() {
+        return Utils.isSecondarySportValid(this.secondarySportSpinner);
+    }
+
+    private boolean isHeightValid() {
+        String heightInput = Objects.requireNonNull(height.getText()).toString().trim();
+        return Utils.isHeightValid(heightInput, height);
+    }
+
+    private boolean isWeightValid() {
+        String weightInput = Objects.requireNonNull(this.weight.getText()).toString().trim();
+        return Utils.isWeightValid(weightInput, this.weight);
+    }
+
+    private boolean isAgeValid() {
+        String ageInput = Objects.requireNonNull(this.age.getText()).toString().trim();
+        return Utils.isAgeValid(ageInput, this.age);
+    }
+
+    private void putApiUserNewInfo() {
+        UserAccountSetup userNewInfo = getUserInfo();
+        Call<Void> call = ApiHelper.getApi().updateUserProfile(getToken(), userNewInfo);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(MyProfileActivity.this, R.string.api_response_not_successful + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MyProfileActivity.this, R.string.api_my_profile_changes, Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
+                Toast.makeText(MyProfileActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private UserAccountSetup getUserInfo() {
+        return new UserAccountSetup(getAge(), getHeight(), getWeight(), getPrimarySport(), getSecondarySport());
+    }
+
     private int getAge() {
-        return Integer.parseInt(Objects.requireNonNull(age.getText()).toString().trim());
+        return Integer.parseInt(Objects.requireNonNull(this.age.getText()).toString().trim());
     }
 
     private double getWeight() {
-        return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
+        return Double.parseDouble(Objects.requireNonNull(this.weight.getText()).toString().trim());
     }
 
     private double getHeight() {
-        return Double.parseDouble(Objects.requireNonNull(weight.getText()).toString().trim());
+        return Double.parseDouble(Objects.requireNonNull(this.height.getText()).toString().trim());
     }
 
     private int getPrimarySport() {
