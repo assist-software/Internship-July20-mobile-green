@@ -226,7 +226,7 @@ public class Utils {
         }
         try {
             double heightNumber = Double.parseDouble(heightInput);
-            if (heightNumber < 80.0) {
+            if (heightNumber < 50.0 || heightNumber > 300.0) {
                 height.setError(HEIGHT_NOT_VALID);
                 return false;
             }
@@ -244,7 +244,11 @@ public class Utils {
             return false;
         }
         try {
-            Double.parseDouble(weightInput);
+            double weightNumber = Double.parseDouble(weightInput);
+            if (weightNumber < 10.0 || weightNumber > 500.0) {
+                weight.setError(WEIGHT_NOT_VALID);
+                return false;
+            }
         } catch (NumberFormatException e) {
             weight.setError(WEIGHT_NOT_VALID);
             return false;
@@ -260,7 +264,11 @@ public class Utils {
         }
 
         try {
-            Integer.parseInt(ageInput);
+            int ageNumber = Integer.parseInt(ageInput);
+            if (ageNumber < 0 || ageNumber > 100) {
+                age.setError(AGE_NOT_VALID);
+                return false;
+            }
         } catch (NumberFormatException e) {
             age.setError(AGE_NOT_VALID);
             return false;

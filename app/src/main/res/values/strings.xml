@@ -159,4 +159,7 @@
     <string name="email_intent">email</string>
     <string name="password_intent">password</string>
     <string name="no_token_prefs">no token</string>
+    <string name="club_joined_successfully"> successfully joined! Your coach will approve your application.</string>
+    <string name="event_joined_successfully"> successfully joined! Your coach will approve your application.</string>
+    <string name="join_event_to_add_workout">Join an event to add workout</string>
 </resources>

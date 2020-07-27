@@ -1,4 +1,4 @@
-package com.example.sportsclubmanagementapp.screens.EventDetails;
+package com.example.sportsclubmanagementapp.screens.eventdetails;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -254,7 +254,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private void setContent(Event event) {
         title.setText(event.getName());
         date.setText(event.getDate());
-        time.setText(event.getTime());
+        time.setText(event.getTime().split(".")[0]);
         location.setText(event.getLocation());
         description1.setText(event.getDescription());
         description2.setText(event.getDescription());

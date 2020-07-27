@@ -1,6 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-public class Workouts { //api data
+public class Workout { //api data
     private int event;
     private String name;
     private String description;
@@ -16,7 +16,7 @@ public class Workouts { //api data
     private String date;
     private String time;
 
-    public Workouts(int event, String name, String description, double lat, double lng, double radius, double duration, double distance, double bpm, double calories_burned, double average_speed, String workout_effectiveness, String date, String time) {
+    public Workout(int event, String name, String description, double lat, double lng, double radius, double duration, double distance, double bpm, double calories_burned, double average_speed, String workout_effectiveness, String date, String time) {
         this.event = event;
         this.name = name;
         this.description = description;
@@ -34,7 +34,7 @@ public class Workouts { //api data
     }
 
 
-    public Workouts(int event, double duration, double distance, double bpm, double calories_burned, double average_speed, String workout_effectiveness) { //
+    public Workout(int event, double duration, double distance, double bpm, double calories_burned, double average_speed, String workout_effectiveness) { //
         this.event = event;
         this.duration = duration;
         this.distance = distance;

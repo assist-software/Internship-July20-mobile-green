@@ -71,6 +71,7 @@
             android:layout_marginEnd="@dimen/space_14dp"
             android:background="@android:color/transparent"
             android:hint="@string/email_address"
+            android:inputType="textEmailAddress"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 

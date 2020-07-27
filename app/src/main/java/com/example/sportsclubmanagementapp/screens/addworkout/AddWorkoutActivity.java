@@ -3,7 +3,9 @@ package com.example.sportsclubmanagementapp.screens.addworkout;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,7 +21,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.data.models.Workout;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
@@ -127,10 +129,18 @@ public class AddWorkoutActivity extends AppCompatActivity {
 
     private String[] getEventsName(List<Event> events) {
         String[] eventsName = new String[events.size() + 1];
+        Log.wtf("size", String.valueOf(events.size()));
         for (int i = 0; i < events.size(); i++) {
             eventsName[i] = events.get(i).getName();
         }
-        eventsName[events.size()] = getString(R.string.event);
+        if (events.size() != 0) {
+            eventsName[events.size()] = getString(R.string.event);
+        } else {
+            eventsName = new String[events.size() + 2];
+            eventsName[events.size()] = "";
+            eventsName[events.size() + 1] = getString(R.string.join_event_to_add_workout);
+        }
+
         return eventsName;
     }
 
@@ -176,7 +186,7 @@ public class AddWorkoutActivity extends AppCompatActivity {
     }
 
     private void createUserWorkout() {
-        Workouts workout = getWorkoutDetails();
+        Workout workout = getWorkoutDetails();
         Call<Void> call = ApiHelper.getApi().createPostWorkout(getToken(), workout);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -185,6 +195,7 @@ public class AddWorkoutActivity extends AppCompatActivity {
                     Toast.makeText(AddWorkoutActivity.this, R.string.account_setup_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(AddWorkoutActivity.this, R.string.save_workout, Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(() -> onBackPressed(), 2000);
                 }
             }
 
@@ -195,8 +206,8 @@ public class AddWorkoutActivity extends AppCompatActivity {
         });
     }
 
-    private Workouts getWorkoutDetails() {
-        return new Workouts(getEvent(), getDuration(), getDistance(), getHeartRate(), getCalories(), getAvgSpeed(), getWorkoutEffectiveness());
+    private Workout getWorkoutDetails() {
+        return new Workout(getEvent(), getDuration(), getDistance(), getHeartRate(), getCalories(), getAvgSpeed(), getWorkoutEffectiveness());
     }
 
     private int getEvent() {

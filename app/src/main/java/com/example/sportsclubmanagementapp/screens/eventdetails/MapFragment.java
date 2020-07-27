@@ -1,4 +1,4 @@
-package com.example.sportsclubmanagementapp.screens.EventDetails;
+package com.example.sportsclubmanagementapp.screens.eventdetails;
 
 import android.os.Bundle;
 

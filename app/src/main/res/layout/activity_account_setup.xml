@@ -145,6 +145,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_14dp"
             android:hint="@string/height"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -185,6 +187,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_14dp"
             android:hint="@string/weight"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,6 +229,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_14dp"
             android:hint="@string/age"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
