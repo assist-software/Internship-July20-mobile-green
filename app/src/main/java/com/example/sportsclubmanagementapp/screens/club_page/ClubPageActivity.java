@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -33,43 +34,64 @@ import java.util.Random;
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
 
     List<Notification> notification = new ArrayList<>();
-    private List<Drawable> avatars; //for TESTS
-
-    //for events list recycler
-    private List<Event> eventList = new ArrayList<>();
-    private RecyclerView recyclerViewEvents;
-    private EventAdapter eventAdapter;
 
     //for members list recycler
+    private TextView membersTextView;
     private List<User> usersList = new ArrayList<>();
     private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
 
-    private Club club;
+    //for events list recycler
+    private TextView eventTextView;
+    private List<Event> eventList = new ArrayList<>();
+    private RecyclerView recyclerViewEvents;
+    private EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_page);
-
         setToolbar();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         getClubFromLastActivity(); //get club object pressed in the last screen
         setTheCouchDetails();
-
-        avatars = Utils.getAvatars(getBaseContext()); //for TESTS
         displayAvatar();
-
         setUpNotifications();
+        initComponents();
         setUpUsersRecyclerView(); //for users recycler
         setUpEventsRecyclerView(); //for events recycler
-        //values for TESTS
-        prepareUsersData();
+        prepareUsersData(); //values for TESTS
+    }
+
+    private void initComponents() {
+        membersTextView = findViewById(R.id.members);
+        eventTextView = findViewById(R.id.events);
+    }
+
+    private void checkMembersRecyclerViewEmpty(){
+        if(usersList.isEmpty()){
+            membersTextView.setText(getResources().getText(R.string.no_members));
+            recyclerViewUsers.setVisibility(View.GONE);
+        }
+        else{
+            membersTextView.setText(getResources().getText(R.string.members_txt));
+            recyclerViewUsers.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkEventsRecyclerViewEmpty(){
+        if(eventList.isEmpty()){
+            eventTextView.setText(getResources().getText(R.string.no_events));
+            recyclerViewEvents.setVisibility(View.GONE);
+        }
+        else{
+            eventTextView.setText(getResources().getText(R.string.events));
+            recyclerViewEvents.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setTheCouchDetails() {
@@ -103,13 +125,13 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     private void displayAvatar() {
         Glide.with(this)
-                .load(avatars.get(new Random().nextInt(5)))
+                .load(Utils.getAvatars(getBaseContext()).get(new Random().nextInt(5)))
                 .apply(new RequestOptions().circleCrop())
                 .into((ImageView) findViewById(R.id.avatar));
     }
 
     private void getClubFromLastActivity() {
-        club = (Club) getIntent().
+        Club club = (Club) getIntent().
                 getSerializableExtra("CLUB_EXTRA_SESSION_ID"); //get the club object from the last screen
     }
 
@@ -146,7 +168,8 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-
         userAdapter.notifyDataSetChanged();
+        checkMembersRecyclerViewEmpty();
+        checkEventsRecyclerViewEmpty();
     }
 }

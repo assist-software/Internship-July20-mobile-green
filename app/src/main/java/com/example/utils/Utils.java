@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Patterns;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -60,6 +61,18 @@ public class Utils {
     }
 
     public static boolean isEmailAddressValid(String emailAddressInput, TextInputEditText emailAddress) {
+
+        if (emailAddressInput.isEmpty()) {
+            emailAddress.setError(EMPTY_FIELD_ERROR);
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailAddressInput).matches()) {
+            emailAddress.setError(EMAIL_ADDRESS_NOT_VALID);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isEmailAddressValid(String emailAddressInput, EditText emailAddress) {
 
         if (emailAddressInput.isEmpty()) {
             emailAddress.setError(EMPTY_FIELD_ERROR);

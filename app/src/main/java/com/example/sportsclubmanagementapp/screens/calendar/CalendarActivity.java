@@ -114,7 +114,6 @@ public class CalendarActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Event> events = new ArrayList<>(response.body());
                     prepareEventListForEveryClub(events);
-                    eventParentAdapter.notifyDataSetChanged();
                 }
             }
 

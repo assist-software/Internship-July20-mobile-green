@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.CalendarView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
+import com.example.sportsclubmanagementapp.screens.calendar.CalendarActivity;
+import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
 import com.example.sportsclubmanagementapp.screens.guest.GuestActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 
@@ -27,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (Objects.requireNonNull(token).equals(getString(R.string.no_token_prefs))) {
-                startActivity(new Intent(SplashActivity.this, GuestActivity.class));
+                startActivity(new Intent(SplashActivity.this, ClubPageActivity.class));
             } else {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }

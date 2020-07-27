@@ -120,7 +120,6 @@
     <string name="participants">Participants</string>
 
 
-
     <string name="MY_PREFS_NAME">MyPrefsFile</string>
     <string name="user_token">user_token</string>
     <string name="graphics_txt">Graphics</string>
@@ -162,4 +161,13 @@
     <string name="club_joined_successfully"> successfully joined! Your coach will approve your application.</string>
     <string name="event_joined_successfully"> successfully joined! Your coach will approve your application.</string>
     <string name="join_event_to_add_workout">Join an event to add workout</string>
+    <string name="forgot_password_description">We just need your registered email to send you password reset instruction.</string>
+    <string name="reset_password">RESET PASSWORD</string>
+    <string name="back">BACK</string>
+    <string name="forgot_password_sended">Check your email address to reset your password.</string>
+    <string name="no_members">No members</string>
+    <string name="no_events">No events</string>
+    <string name="no_clubs">No clubs</string>
+    <string name="no_workouts">No workouts</string>
+
 </resources>
