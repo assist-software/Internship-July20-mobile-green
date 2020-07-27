@@ -26,10 +26,10 @@ import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.data.models.Workout;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
-import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.screens.club_page.ClubPageActivity;
+import com.example.sportsclubmanagementapp.screens.eventdetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.utils.Utils;
 
@@ -112,7 +112,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         displayAvatar(); //display avatar as circle view
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
         getApiPendingClubs();
-        getApiJoinedClubs();
         getApiEvents();
         getApiWorkouts();
         getApiUserName();
@@ -145,6 +144,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
                     if (response.body().size() != 0) {
                         userHasPendingOrJoinedClubs = true;
                     }
+                    getApiJoinedClubs();
                 }
             }
 
@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
                     if (response.body().size() != 0) {
                         userHasPendingOrJoinedClubs = true;
                     }
-                    checkIfJoinedOrPendingFirstClub(); //check if user is joined or pending in a club
+                    checkIfJoinedOrPendingFirstClub();
                 }
             }
 
@@ -233,6 +233,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     @Override
     public void onClubsJoinClick(Club club) {  //process clubs locally, and api post call to join club
         clubJoinApi(club);
+        Toast.makeText(getContext(), "Club: " + club.getName() + " " + getString(R.string.club_joined_successfully), Toast.LENGTH_LONG).show();
     }
 
     private void clubJoinApi(Club club) {
@@ -357,6 +358,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     @Override
     public void onEventsJoinClick(Event event) {
         eventJoinApi(event);
+        Toast.makeText(getContext(), "Event: " + event.getName() + " " + getString(R.string.event_joined_successfully), Toast.LENGTH_LONG).show();
     }
 
     private void eventJoinApi(Event event) {
@@ -380,10 +382,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void getApiWorkouts() {
-        Call<List<Workouts>> call = ApiHelper.getApi().getWorkouts(getToken());
-        call.enqueue(new Callback<List<Workouts>>() {
+        Call<List<Workout>> call = ApiHelper.getApi().getWorkouts(getToken());
+        call.enqueue(new Callback<List<Workout>>() {
             @Override
-            public void onResponse(@NotNull Call<List<Workouts>> call, @NotNull Response<List<Workouts>> response) {
+            public void onResponse(@NotNull Call<List<Workout>> call, @NotNull Response<List<Workout>> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
@@ -392,13 +394,13 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<Workouts>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<List<Workout>> call, @NotNull Throwable t) {
                 Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void initWorkoutsAdapter(List<Workouts> workouts, RecyclerView recyclerView) {
+    private void initWorkoutsAdapter(List<Workout> workouts, RecyclerView recyclerView) {
         WorkoutsAdapter adapter = new WorkoutsAdapter(workouts, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(workoutsLayoutManager);

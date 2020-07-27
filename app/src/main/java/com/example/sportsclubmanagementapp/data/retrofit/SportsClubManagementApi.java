@@ -3,11 +3,10 @@ package com.example.sportsclubmanagementapp.data.retrofit;
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Sport;
-import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
 import com.example.sportsclubmanagementapp.data.models.UserLogIn;
 import com.example.sportsclubmanagementapp.data.models.UserRegister;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.data.models.Workout;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public interface SportsClubManagementApi {
 
     @GET("/api/workouts/")
         //get all user workouts
-    Call<List<Workouts>> getWorkouts(@Header("Authorization") String token);
+    Call<List<Workout>> getWorkouts(@Header("Authorization") String token);
 
     @GET("sports/")
         //get all sports
@@ -80,7 +79,7 @@ public interface SportsClubManagementApi {
 
     @POST("api/workouts/")
         //user add workout
-    Call<Void> createPostWorkout(@Header("Authorization") String token, @Body Workouts workout);
+    Call<Void> createPostWorkout(@Header("Authorization") String token, @Body Workout workout);
 
 
     @PUT("user/update/profile/")

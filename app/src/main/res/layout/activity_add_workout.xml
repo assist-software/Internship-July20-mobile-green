@@ -97,7 +97,10 @@
                             android:background="@android:color/transparent"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/margin_14dp"
-                            android:hint="@string/workout_duration" />
+                            android:hint="@string/workout_duration"
+                            android:digits="0123456789."
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -130,7 +133,10 @@
                             android:background="@android:color/transparent"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/margin_14dp"
-                            android:hint="@string/heart_rate" />
+                            android:hint="@string/heart_rate"
+                            android:digits="0123456789."
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -172,7 +178,10 @@
                             android:background="@android:color/transparent"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/margin_14dp"
-                            android:hint="@string/calories" />
+                            android:hint="@string/calories"
+                            android:digits="0123456789."
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -205,7 +214,10 @@
                             android:background="@android:color/transparent"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/margin_14dp"
-                            android:hint="@string/average_speed" />
+                            android:hint="@string/average_speed"
+                            android:digits="0123456789."
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -235,7 +247,10 @@
                     android:background="@android:color/transparent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/margin_14dp"
-                    android:hint="@string/distance" />
+                    android:hint="@string/distance"
+                    android:digits="0123456789."
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

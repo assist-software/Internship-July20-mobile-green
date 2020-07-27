@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,23 +21,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Event;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.data.models.Workout;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
-import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.WorkoutsAdapter;
 import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -91,7 +92,6 @@ public class WorkoutsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initRecycle(view);
         getApiWorkouts();
-        setTodayWorkout();
     }
 
     private void initRecycle(View view) {
@@ -99,19 +99,27 @@ public class WorkoutsFragment extends Fragment {
     }
 
     private void getApiWorkouts() {
-        Call<List<Workouts>> call = ApiHelper.getApi().getWorkouts(getToken());
-        call.enqueue(new Callback<List<Workouts>>() {
+        Call<List<Workout>> call = ApiHelper.getApi().getWorkouts(getToken());
+        call.enqueue(new Callback<List<Workout>>() {
             @Override
-            public void onResponse(@NotNull Call<List<Workouts>> call, @NotNull Response<List<Workouts>> response) {
+            public void onResponse(@NotNull Call<List<Workout>> call, @NotNull Response<List<Workout>> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
                     initWorkoutsAdapter(response.body(), recyclerViewWorkouts);
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = new Date();
+                    assert response.body() != null;
+                    try {
+                        checkWorkout(response.body().stream().filter(workouts -> workouts.getDate().equals(dateFormatter.format(date))).collect(Collectors.toList()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<Workouts>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<List<Workout>> call, @NotNull Throwable t) {
                 Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -122,40 +130,51 @@ public class WorkoutsFragment extends Fragment {
         return "token " + prefs.getString(getString(R.string.user_token), "no token");
     }
 
-    private void initWorkoutsAdapter(List<Workouts> workouts, RecyclerView recyclerView) {
+    private void initWorkoutsAdapter(List<Workout> workouts, RecyclerView recyclerView) {
         WorkoutsAdapter adapter = new WorkoutsAdapter(workouts, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(workoutsLayoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    @SuppressLint("DefaultLocale")
-    private void setTodayWorkout() {
-        Date currentDate = Calendar.getInstance().getTime(); //get current date
-        SimpleDateFormat dateFormated = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()); //format current date
-        String[] dateParsed = dateFormated.format(currentDate).split("-"); //parse data to char(-)
+    private void checkWorkout(List<Workout> workouts) throws ParseException {
+        LinearLayout linearLayout = Objects.requireNonNull(getActivity()).findViewById(R.id.todayWorkoutView);
+        if (workouts.size() == 0) {
+            linearLayout.setVisibility(View.GONE);
+        } else {
+            linearLayout.setVisibility(View.VISIBLE);
+            Workout workout = workouts.get(0);
+            SimpleDateFormat dateFormatReceived = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
+            Date date = dateFormatReceived.parse(workout.getDate());
+            String dateStrNeeded = dateFormatNeeded.format(date);
+            String[] dateParsed = dateStrNeeded.split("-"); //parse data to char(-)
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(Objects.requireNonNull(dateFormatNeeded.parse(dateStrNeeded)));
+            String[] days = new String[]{"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+            String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 
-        //get day name
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        String[] days = new String[]{"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-        String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+            setWorkout(workout, dateParsed[0], dateParsed[1], dateParsed[2], dayNameStr);
+        }
+    }
 
+    private void setWorkout(Workout workout, String year, String month, String day, String dayNameStr) {
         TextView day_number = Objects.requireNonNull(getActivity()).findViewById(R.id.dayNumberTodayWorkout);
-        day_number.setText(dateParsed[0]);
-        TextView month = getActivity().findViewById(R.id.monthTodayWorkout);
-        month.setText(dateParsed[1]);
-        TextView day_name = getActivity().findViewById(R.id.dayNameTodayWorkout);
-        day_name.setText(dayNameStr);
-        TextView year = getActivity().findViewById(R.id.yearTodayWorkout);
-        year.setText(dateParsed[2]);
+        TextView monthWorkout = getActivity().findViewById(R.id.monthTodayWorkout);
+        TextView dayWorkout = getActivity().findViewById(R.id.dayNameTodayWorkout);
+        TextView yearWorkout = getActivity().findViewById(R.id.yearTodayWorkout);
         TextView distance = getActivity().findViewById(R.id.distanceTodayWorkout);
-        distance.setText("20.00");
         TextView duration = getActivity().findViewById(R.id.durationTodayWorkout);
-        duration.setText("20.00");
         TextView calories = getActivity().findViewById(R.id.caloriesTodayWorkout);
-        calories.setText("20.00");
         TextView bpm = getActivity().findViewById(R.id.bpmTodayWorkout);
-        bpm.setText(String.valueOf(120));
+
+        day_number.setText(day);
+        monthWorkout.setText(month);
+        dayWorkout.setText(dayNameStr);
+        yearWorkout.setText(year);
+        distance.setText(String.valueOf(workout.getDistance()));
+        duration.setText(String.valueOf(workout.getDuration()));
+        calories.setText(String.valueOf(workout.getCalories_burned()));
+        bpm.setText(String.valueOf(workout.getBpm()));
     }
 }

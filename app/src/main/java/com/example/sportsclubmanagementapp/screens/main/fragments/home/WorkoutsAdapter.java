@@ -11,19 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
-import com.example.sportsclubmanagementapp.data.models.Workouts;
+import com.example.sportsclubmanagementapp.data.models.Workout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.WorkoutsViewHolder> {
 
-    private List<Workouts> workouts;
+    private List<Workout> workouts;
     private Context context;
 
-    public WorkoutsAdapter(List<Workouts> workouts, Context context) {
+    public WorkoutsAdapter(List<Workout> workouts, Context context) {
         this.workouts = workouts;
         this.context = context;
     }
@@ -37,7 +39,11 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutsViewHolder holder, int position) {
-        holder.bind(workouts.get(position));
+        try {
+            holder.bind(workouts.get(position));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -72,15 +78,14 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
         }
 
         @SuppressLint("DefaultLocale")
-        public void bind(Workouts workout) {
-            String[] dateParsed = workout.getDate().split("-"); //parse data to char(-)
-            //get day name
+        public void bind(Workout workout) throws ParseException {
+            SimpleDateFormat dateFormatReceived = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormatNeeded = new SimpleDateFormat("yyyy-MMM-dd");
+            Date date = dateFormatReceived.parse(workout.getDate());
+            String dateStrNeeded = dateFormatNeeded.format(date);
+            String[] dateParsed = dateStrNeeded.split("-"); //parse data to char(-)
             Calendar calendar = Calendar.getInstance();
-            try {
-                calendar.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(workout.getDate()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            calendar.setTime(Objects.requireNonNull(dateFormatNeeded.parse(dateStrNeeded)));
             String[] days = new String[]{"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
             String dayNameStr = days[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 
@@ -88,9 +93,9 @@ public class WorkoutsAdapter extends RecyclerView.Adapter<WorkoutsAdapter.Workou
             month.setText(dateParsed[1]);
             day_name.setText(dayNameStr);
             year.setText(dateParsed[0]);
-            distance.setText(String.format("%.2f", workout.getDistance()));
-            duration.setText(String.format("%.2f", workout.getDuration()));
-            calories.setText(String.format("%.2f", workout.getCalories_burned()));
+            distance.setText(String.format("%.1f", workout.getDistance()));
+            duration.setText(String.format("%.1f", workout.getDuration()));
+            calories.setText(String.format("%.1f", workout.getCalories_burned()));
             bpm.setText(String.valueOf(workout.getBpm()));
         }
     }

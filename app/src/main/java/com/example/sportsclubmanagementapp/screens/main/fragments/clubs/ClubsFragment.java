@@ -65,7 +65,7 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     private void setToolbarAvatar() {
         CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
         avatar_toolbar.setVisibility(View.VISIBLE); //set the avatar visible (because is hidden for home fragment)
-        Utils.setCircleAvatar(getActivity(), Objects.requireNonNull((MainActivity)getActivity()).getAvatar(), avatar_toolbar);
+        Utils.setCircleAvatar(getActivity(), Objects.requireNonNull((MainActivity) getActivity()).getAvatar(), avatar_toolbar);
     }
 
     private void setToolbarTitle() {
@@ -175,6 +175,7 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     @Override
     public void onClubsJoinClick(Club club) { //process clubs locally, and api post call to join club
         clubJoinApi(club);
+        Toast.makeText(getContext(), "Club: " + club.getName() + " " + getString(R.string.club_joined_successfully), Toast.LENGTH_LONG).show();
     }
 
     private void clubJoinApi(Club club) {

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
+import com.example.sportsclubmanagementapp.screens.eventdetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
@@ -170,7 +171,9 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
     @Override
     public void onEventsClick(Event event) {
-
+        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+        intent.putExtra(getString(R.string.event_id), event.getId());
+        startActivity(intent);
     }
 
     @Override

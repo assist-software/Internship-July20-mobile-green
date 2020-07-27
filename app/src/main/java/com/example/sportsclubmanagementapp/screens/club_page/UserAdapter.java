@@ -9,17 +9,15 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.User;
-import com.example.sportsclubmanagementapp.screens.EventDetails.EventDetailsActivity;
+import com.example.sportsclubmanagementapp.screens.eventdetails.EventDetailsActivity;
 import com.example.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;

@@ -148,7 +148,7 @@ public class AccountSetupActivity extends AppCompatActivity {
                     Toast.makeText(AccountSetupActivity.this, R.string.account_setup_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     Toast.makeText(AccountSetupActivity.this, R.string.account_setup_successful, Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(() -> goToLogInActivity(), 2000);
+                    new Handler().postDelayed(() -> startActivity(new Intent(AccountSetupActivity.this, LoginActivity.class)), 2000);
                 }
             }
 
@@ -209,9 +209,4 @@ public class AccountSetupActivity extends AppCompatActivity {
         }
         return sportId;
     }
-
-    private void goToLogInActivity() {
-        startActivity(new Intent(AccountSetupActivity.this, LoginActivity.class));
-    }
-
 }
