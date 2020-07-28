@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,11 +21,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
-import com.example.sportsclubmanagementapp.data.models.Coach;
+import com.example.sportsclubmanagementapp.data.models.ClubDetails;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
-import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
+import com.example.sportsclubmanagementapp.screens.eventdetails.EventDetailsActivity;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
@@ -44,20 +45,17 @@ import retrofit2.Response;
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
 
     private List<Notification> notification = new ArrayList<>();
-    private Coach coach;
+    private ClubDetails clubDetails;
     private Club club;
 
     //for members list recycler
     private TextView membersTextView;
-    private List<User> usersList = new ArrayList<>();
     private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
 
     //for events list recycler
     private TextView eventTextView;
-    private List<Event> eventList = new ArrayList<>();
     private RecyclerView recyclerViewEvents;
-    private EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +68,10 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     protected void onStart() {
         super.onStart();
         getClubFromLastActivity(); //get club object pressed in the last screen
-        getApiCoach();
-        //setTheCouchDetails();
+        getApiCoach(club.getId());
         displayAvatar();
         setUpNotifications();
         initComponents();
-        setUpUsersRecyclerView(); //for users recycler
-        setUpEventsRecyclerView(); //for events recycler
-        prepareUsersData(); //values for TESTS
     }
 
     private void initComponents() {
@@ -86,7 +80,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void checkMembersRecyclerViewEmpty() {
-        if (usersList.isEmpty()) {
+        if (clubDetails.getMembers().isEmpty()) {
             membersTextView.setText(getResources().getText(R.string.no_members));
             recyclerViewUsers.setVisibility(View.GONE);
         } else {
@@ -96,7 +90,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void checkEventsRecyclerViewEmpty() {
-        if (eventList.isEmpty()) {
+        if (clubDetails.getEvents().isEmpty()) {
             eventTextView.setText(getResources().getText(R.string.no_events));
             recyclerViewEvents.setVisibility(View.GONE);
         } else {
@@ -105,32 +99,44 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setTheCouchDetails() {
         TextView name = findViewById(R.id.name);
-        //name.setText(usersList.get(0).getFirst_and_last_name());
+        name.setText(clubDetails.getCoach().getFirst_name() + " " + clubDetails.getCoach().getLast_name());
         TextView role = findViewById(R.id.role);
-        //role.setText(usersList.get(0).getRole().getRoleString());
+        role.setText(getResources().getText(R.string.coach));
         TextView age = findViewById(R.id.age);
-        //age.setText(String.valueOf(usersList.get(0).getAge()));
+        age.setText(String.valueOf(clubDetails.getCoach().getAge()));
         TextView clubsOwned = findViewById(R.id.owned_clubs);
-        //clubsOwned.setText(usersList.get(0).getSecondarySport());
+        StringBuilder clubs = new StringBuilder(clubDetails.getCoach().getClubs()[0]);
+        for(int i=1; i<clubDetails.getCoach().getClubs().length; i++)
+            clubs.append(", ").append(clubDetails.getCoach().getClubs()[i]);
+        clubsOwned.setText(clubs.toString());
     }
 
-    private void getApiCoach() {
-        Call<Coach> call = ApiHelper.getApi().getClubDetails(getToken(), 1);
-        call.enqueue(new Callback<Coach>() {
+    private void getApiCoach(int id) {
+        Call<ClubDetails> call = ApiHelper.getApi().getClubDetails(getToken(), id);
+        call.enqueue(new Callback<ClubDetails>() {
             @Override
-            public void onResponse(@NotNull Call<Coach> call, @NotNull Response<Coach> response) {
+            public void onResponse(@NotNull Call<ClubDetails> call, @NotNull Response<ClubDetails> response) {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
-                    coach = response.body();
+                    clubDetails = response.body();
+                    setTheCouchDetails();
+                    setUpUsersRecyclerView(); //for users recycler
+                    setUpEventsRecyclerView(); //for events recycler
+                    checkMembersRecyclerViewEmpty();
+                    checkEventsRecyclerViewEmpty();
+                    userAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<Coach> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<ClubDetails> call, @NotNull Throwable t) {
                 Toast.makeText(getBaseContext(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                checkMembersRecyclerViewEmpty();
+                checkEventsRecyclerViewEmpty();
             }
         });
     }
@@ -177,7 +183,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     private void setUpUsersRecyclerView() {
         recyclerViewUsers = findViewById(R.id.members_recycler_view);
-        userAdapter = new UserAdapter(usersList, this, UserAdapter.MEMBER_BAR_WITHOUT_CHECK_BOX);
+        userAdapter = new UserAdapter(clubDetails.getMembers(), this, UserAdapter.MEMBER_BAR_WITHOUT_CHECK_BOX);
         RecyclerView.LayoutManager usersLayoutManager =
                 new LinearLayoutManager(userAdapter.getContext());
         recyclerViewUsers.setLayoutManager(usersLayoutManager);
@@ -186,7 +192,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     private void setUpEventsRecyclerView() {
         recyclerViewEvents = findViewById(R.id.events_recycler_view);
-        eventAdapter = new EventAdapter(eventList, this, 2, this);
+        EventAdapter eventAdapter = new EventAdapter(clubDetails.getEvents(), this, 2, this);
         RecyclerView.LayoutManager eventLayoutManager =
                 new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewEvents.setLayoutManager(eventLayoutManager);
@@ -195,22 +201,14 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     @Override
     public void onEventsClick(Event event) {
-
+        Intent intent = new Intent(getBaseContext(), EventDetailsActivity.class);
+        intent.putExtra(getString(R.string.event_id), event.getId());
+        intent.putExtra(getString(R.string.event_status), event.getStatus());
+        startActivity(intent);
     }
 
     @Override
     public void onEventsJoinClick(Event event) {
-
-    }
-
-    private void prepareUsersData() {
-        //usersList.add(new User(1, "Brandom Wilson", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        //usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        //usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        //usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        userAdapter.notifyDataSetChanged();
-        checkMembersRecyclerViewEmpty();
-        checkEventsRecyclerViewEmpty();
-        setTheCouchDetails();
+        //no join button for these events
     }
 }

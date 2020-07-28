@@ -28,6 +28,7 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Objects;
@@ -99,16 +100,24 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
-                if (!response.isSuccessful())
+                if (!response.isSuccessful()){
+                    checkPendingClubsRecyclerViewIsEmpty(false);
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                }
                 else {
                     pendingClubsAdapter = initAdapter(response.body(), recyclerViewPendingClubs, 3);
+                    assert response.body() != null;
+                    if(response.body().isEmpty())
+                        checkPendingClubsRecyclerViewIsEmpty(true);
+                    else
+                        checkPendingClubsRecyclerViewIsEmpty(false);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
                 Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                checkPendingClubsRecyclerViewIsEmpty(false);
             }
         });
     }
@@ -118,16 +127,24 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
-                if (!response.isSuccessful())
+                if (!response.isSuccessful()){
+                    checkJoinedClubsRecyclerViewIsEmpty(false);
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                }
                 else {
                     initAdapter(response.body(), recyclerViewJoinedClubs, 2);
+                    assert response.body() != null;
+                    if(response.body().isEmpty())
+                        checkJoinedClubsRecyclerViewIsEmpty(true);
+                    else
+                        checkJoinedClubsRecyclerViewIsEmpty(false);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
                 Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+                checkJoinedClubsRecyclerViewIsEmpty(false);
             }
         });
     }
@@ -137,16 +154,24 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
-                if (!response.isSuccessful())
+                if (!response.isSuccessful()) {
+                    checkNewClubsRecyclerViewIsEmpty(false);
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_LONG).show();
+                }
                 else {
                     unJoinedClubsAdapter = initAdapter(response.body(), recyclerViewUnJoinedClubs, 1);
+                    assert response.body() != null;
+                    if(response.body().isEmpty())
+                        checkNewClubsRecyclerViewIsEmpty(true);
+                    else
+                        checkNewClubsRecyclerViewIsEmpty(false);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
                 Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+                checkNewClubsRecyclerViewIsEmpty(false);
             }
         });
     }
@@ -155,6 +180,42 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
         getActivity();
         SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
         return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
+    }
+
+    private void checkNewClubsRecyclerViewIsEmpty(boolean isEmpty){
+        TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.new_club);
+        if(isEmpty){
+            textView.setText(R.string.no_new_clubs);
+            recyclerViewUnJoinedClubs.setVisibility(View.GONE);
+        }
+        else{
+            textView.setText(R.string.new_clubs_txt);
+            recyclerViewUnJoinedClubs.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkJoinedClubsRecyclerViewIsEmpty(boolean isEmpty){
+        TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.joined_club);
+        if(isEmpty){
+            textView.setText(R.string.no_joined_clubs);
+            recyclerViewJoinedClubs.setVisibility(View.GONE);
+        }
+        else{
+            textView.setText(R.string.joined_clubs_txt);
+            recyclerViewJoinedClubs.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkPendingClubsRecyclerViewIsEmpty(boolean isEmpty){
+        TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.pending_club);
+        if(isEmpty){
+            textView.setText(R.string.no_pending_clubs);
+            recyclerViewPendingClubs.setVisibility(View.GONE);
+        }
+        else{
+            textView.setText(R.string.pending_clubs_txt);
+            recyclerViewPendingClubs.setVisibility(View.VISIBLE);
+        }
     }
 
     private ClubsAdapter initAdapter(List<Club> clubs, RecyclerView recyclerView, int layout) {
