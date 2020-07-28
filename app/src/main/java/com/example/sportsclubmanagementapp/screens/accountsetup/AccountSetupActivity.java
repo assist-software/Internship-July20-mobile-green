@@ -183,7 +183,7 @@ public class AccountSetupActivity extends AppCompatActivity {
     }
 
     private double getHeight() {
-        return Double.parseDouble(Objects.requireNonNull(this.weight.getText()).toString().trim());
+        return Double.parseDouble(Objects.requireNonNull(this.height.getText()).toString().trim());
     }
 
     private int getPrimarySport() {
