@@ -28,7 +28,6 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Objects;
@@ -84,6 +83,11 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setUpAllRecyclerViews(view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         geUnJoinedClubsApi();
         getJoinedClubsApi();
         getPendingClubsApi();

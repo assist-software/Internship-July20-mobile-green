@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.CalendarView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,7 @@ import retrofit2.Response;
 public class CalendarActivity extends AppCompatActivity {
 
     private List<Notification> notification = new ArrayList<>();
+    private TextView noEventsTextView;
     private CalendarView calendar;
     private String selectedDate;
     private boolean readyToGetEvents = true;
@@ -64,11 +66,16 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         calendar = findViewById(R.id.calendar);
+        noEventsTextView = findViewById(R.id.noEventsTextView);
         setUpEventsRecyclerView();
         //initialize the current date
         selectedDate = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date(calendar.getDate()));
         setOnClickListenerCalendar(); //set up calendar buttons
-        prepareEventData(); //for TESTS
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getApiClubs();
         getApiEvents();
     }
@@ -111,19 +118,23 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful()) {
+                    noEventsTextView.setVisibility(View.VISIBLE);
                     Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     assert response.body() != null;
                     allClubList = new ArrayList<>(response.body());
+                    if(allClubList.isEmpty()) noEventsTextView.setVisibility(View.VISIBLE);
+                    else noEventsTextView.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                noEventsTextView.setVisibility(View.VISIBLE);
                 Toast.makeText(getBaseContext(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        eventParentAdapter.notifyDataSetChanged();
         readyToGetClubs = true;
     }
 
@@ -135,20 +146,24 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
                 if (!response.isSuccessful()) {
+                    noEventsTextView.setVisibility(View.VISIBLE);
                     Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     assert response.body() != null;
                     List<Event> events = new ArrayList<>(response.body());
+                    if(events.isEmpty()) noEventsTextView.setVisibility(View.VISIBLE);
+                    else noEventsTextView.setVisibility(View.GONE);
                     prepareEventListForEveryClub(events);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
+                noEventsTextView.setVisibility(View.VISIBLE);
                 Toast.makeText(getBaseContext(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        eventParentAdapter.notifyDataSetChanged();
         readyToGetEvents = true;
     }
 
@@ -177,10 +192,14 @@ public class CalendarActivity extends AppCompatActivity {
             }
         }
         //hide the recycler view if there are no events in the selected date
-        if (atLeastOneEvent)
+        if (atLeastOneEvent) {
+            noEventsTextView.setVisibility(View.GONE);
             recyclerViewParent.setVisibility(View.VISIBLE);
-        else
+        }
+        else {
+            noEventsTextView.setVisibility(View.VISIBLE);
             recyclerViewParent.setVisibility(View.GONE);
+        }
         eventParentAdapter.notifyDataSetChanged(); //show events for selected date
     }
 
@@ -200,19 +219,15 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void prepareEventListForEveryClub(List<Event> events) {
-        allEventList.clear();
-        for (int i = 0; i < allClubList.size(); i++)
-            allEventList.add(i, new ArrayList<>()); //for every club is created a list
-        //set events to random clubs for TESTS
-        for (int i = 0; i < events.size(); i++) {
-            allEventList.get(new Random().nextInt(allClubList.size())).add(events.get(i));
+        if(!allClubList.isEmpty()) {
+            allEventList.clear();
+            for (int i = 0; i < allClubList.size(); i++)
+                allEventList.add(i, new ArrayList<>()); //for every club is created a list
+            //set events to random clubs for TESTS
+            for (int i = 0; i < events.size(); i++) {
+                allEventList.get(new Random().nextInt(allClubList.size())).add(events.get(i));
+            }
+            findEventsForSelectedDate();
         }
-        findEventsForSelectedDate();
-    }
-
-    public void prepareEventData() {
-        allClubList.add(new Club(1, 1, "Running", "Description", 1, 2, 3));
-        allClubList.add(new Club(2, 1, "Football", "Description", 1, 2, 3));
-        allClubList.add(new Club(3, 1, "Biking", "Description", 1, 2, 3));
     }
 }

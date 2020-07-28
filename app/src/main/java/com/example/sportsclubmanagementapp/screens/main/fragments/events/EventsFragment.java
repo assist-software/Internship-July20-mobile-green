@@ -29,7 +29,6 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,6 +92,11 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpAllRecycleViews(view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getApiEvents();
     }
 
@@ -188,7 +192,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
         Date now = new Date();
         String nowStr = sdformat.format(now);
-        Iterator it = events.iterator();
+        Iterator<Event> it = events.iterator();
         try {
             now = sdformat.parse(nowStr);
         } catch (ParseException e) {
