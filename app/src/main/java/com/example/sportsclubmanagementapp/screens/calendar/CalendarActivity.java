@@ -76,9 +76,7 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        findEventsForSelectedDate();
-        getApiClubs();
-        getApiEvents();
+        getApiClubs(true);
     }
 
     private void setToolbar() {
@@ -107,11 +105,10 @@ public class CalendarActivity extends AppCompatActivity {
                 selectedDate = selectedDate + "0" + (month + 1) + "-" + dayOfMonth; //(m+1) fix the problem with the calendar (1 month behind)
             //select the events for the selected date
             getApiEvents();
-            findEventsForSelectedDate();
         });
     }
 
-    private void getApiClubs() {
+    private void getApiClubs(boolean callApiEventsAfter) {
         if (!readyToGetClubs) return;
         readyToGetClubs = false;
         Call<List<Club>> call = ApiHelper.getApi().getClubs(getToken());
@@ -124,9 +121,10 @@ public class CalendarActivity extends AppCompatActivity {
                 }
                 else {
                     assert response.body() != null;
-                    allClubList = new ArrayList<>(response.body());
+                    allClubList = response.body();
                     if(allClubList.isEmpty()) noEventsTextView.setVisibility(View.VISIBLE);
                     else noEventsTextView.setVisibility(View.GONE);
+                    if(callApiEventsAfter) getApiEvents();
                 }
             }
 
@@ -192,6 +190,10 @@ public class CalendarActivity extends AppCompatActivity {
                 currentEventList.add(eventsTmp);
             }
         }
+        hideRecyclerViewIfEmpty(atLeastOneEvent);
+    }
+
+    private void hideRecyclerViewIfEmpty(boolean atLeastOneEvent) {
         //hide the recycler view if there are no events in the selected date
         if (atLeastOneEvent) {
             noEventsTextView.setVisibility(View.GONE);

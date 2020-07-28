@@ -60,6 +60,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     public static final int AVG_SPEED_DATA = 3;
     public static final int DISTANCE_DATA = 4;
 
+    private Event event;
     private TextView title;
     private TextView date;
     private TextView time;
@@ -137,6 +138,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
                     Toast.makeText(EventDetailsActivity.this, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
                     assert response.body() != null;
+                    event = response.body().getData();
                     userAdapter = initMembersChartAdapter(response.body().getMembers());
                     setContent(response.body().getData(), response.body().getMembers().size());
                 }
@@ -338,4 +340,19 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         startActivity(new Intent(this, AddWorkoutActivity.class));
     }
 
+    public void shareEvent(View view){
+        String message;
+        if(event == null){
+            message = "Share this event!";
+        }
+        else{
+            message = "Come with me to " + event.getName() + " in " + event.getLocation()
+                    + " starting from " + event.getDate() + " - " + event.getTime() + ".";
+        }
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(Intent.createChooser(share, "Share this event"));
+    }
 }
