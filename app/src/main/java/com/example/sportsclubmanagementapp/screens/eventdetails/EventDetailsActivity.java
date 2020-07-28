@@ -43,7 +43,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -164,7 +167,14 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     private void setContent(Event event, int numberOfMembers) {
         this.title.setText(event.getName());
         this.date.setText(event.getDate());
-        this.time.setText(event.getTime());
+        try {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            Date time = timeFormat.parse(event.getTime());
+            assert time != null;
+            this.time.setText(timeFormat.format(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.location.setText(event.getLocation());
         this.description1.setText(event.getDescription1());
         this.description2.setText(event.getDescription2());
@@ -288,6 +298,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
             makeStatusUnJoined(button);
             Toast.makeText(this, R.string.event_unjoined, Toast.LENGTH_SHORT).show();
         } else {
+
             makeStatusJoined(button);
             Toast.makeText(this, R.string.event_joined, Toast.LENGTH_SHORT).show();
         }
@@ -303,9 +314,28 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         button.setText(getResources().getText(R.string.joined_txt));
         button.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_rounded_8dp_light_gray, null));
         button.setTextColor(getColor(R.color.colorPrimary));
+        eventJoinApi((int) getIntent().getSerializableExtra(getString(R.string.event_id)));
+    }
+
+    private void eventJoinApi(int id) {
+        Call<Void> call = ApiHelper.getApi().createPostUserJoinEvent(getToken(), id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(EventDetailsActivity.this, getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
+                Toast.makeText(EventDetailsActivity.this, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void goToAddWorkoutScreen(View view) {
         startActivity(new Intent(this, AddWorkoutActivity.class));
     }
+
 }

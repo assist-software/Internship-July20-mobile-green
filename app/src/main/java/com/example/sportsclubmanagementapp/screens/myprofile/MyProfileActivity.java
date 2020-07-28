@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -38,7 +37,6 @@ import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +51,7 @@ public class MyProfileActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMAGE = 1;
     Button buttonLoadImage;
     List<Notification> notification = new ArrayList<>();//for TESTS
+    String picturePath;
     private Spinner primarySportSpinner;
     private Spinner secondarySportSpinner;
     private TextInputEditText height;
@@ -80,11 +79,9 @@ public class MyProfileActivity extends AppCompatActivity {
     private void loadImage() {
         buttonLoadImage = (Button) findViewById(R.id.addPhotoMyProfile);
         buttonLoadImage.setOnClickListener(arg0 -> {
-
             Intent i = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
             startActivityForResult(i, RESULT_LOAD_IMAGE);
         });
     }
@@ -95,7 +92,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             assert selectedImage != null;
             Cursor cursor = getContentResolver().query(selectedImage,
@@ -104,14 +101,12 @@ public class MyProfileActivity extends AppCompatActivity {
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
+            this.picturePath = cursor.getString(columnIndex);
             cursor.close();
 
             String[] path = picturePath.split("/");
-            buttonLoadImage.setText(path[path.length-1]);
+            buttonLoadImage.setText(path[path.length - 1]);
         }
-
-
     }
 
     private void initComponents() {
@@ -252,6 +247,7 @@ public class MyProfileActivity extends AppCompatActivity {
         isValid = Utils.isPrimarySportValid(this.primarySportSpinner) && Utils.isSecondarySportValid(this.secondarySportSpinner) && Utils.isHeightValid(heightInput, height) && Utils.isWeightValid(weightInput, this.weight) && Utils.isAgeValid(ageInput, this.age);
         if (isValid) {
             putApiUserNewInfo();
+            //putApiUserAvatar();
         }
     }
 

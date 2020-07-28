@@ -105,7 +105,7 @@ public class CalendarActivity extends AppCompatActivity {
     private void getApiClubs() {
         if(!readyToGetClubs) return;
         readyToGetClubs = false;
-        Call<List<Club>> call = ApiHelper.getApi().getClubs();
+        Call<List<Club>> call = ApiHelper.getApi().getClubs(getToken());
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {

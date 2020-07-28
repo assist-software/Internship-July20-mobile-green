@@ -96,7 +96,7 @@
         android:textAlignment="textStart"
         android:paddingHorizontal="@dimen/space_14dp"
         android:fontFamily="@font/inter_semibold"
-        android:textSize="@dimen/text_14sp"
+        android:textSize="@dimen/text_16sp"
         app:layout_constraintWidth_percent="0.8"
         android:background="@drawable/text_input"
         app:layout_constraintBottom_toTopOf="@+id/primarySportTextInputLayoutMyProfile"
