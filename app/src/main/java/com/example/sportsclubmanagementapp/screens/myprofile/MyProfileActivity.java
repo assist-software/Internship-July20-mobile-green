@@ -68,8 +68,8 @@ public class MyProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         initComponents();
-        setMyProfileAvatar();
         setToolbar();
+        setMyProfileAvatar();
         setUpNotifications();
         getApiSports();
         getApiUserInfo();
@@ -93,22 +93,24 @@ public class MyProfileActivity extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
             assert selectedImage != null;
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
             assert cursor != null;
             cursor.moveToFirst();
-
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             this.picturePath = cursor.getString(columnIndex);
             cursor.close();
-
-            String[] path = picturePath.split("/");
-            buttonLoadImage.setText(path[path.length - 1]);
+            changeProfileAvatar(selectedImage);
         }
     }
 
+    private void changeProfileAvatar(Uri selectedImage){
+        Glide.with(getBaseContext())
+                .load(selectedImage)
+                .apply(new RequestOptions().circleCrop())
+                .into((ImageView) findViewById(R.id.avatar));
+    }
     private void initComponents() {
         primarySportSpinner = findViewById(R.id.primarySportSpinnerMyProfile);
         secondarySportSpinner = findViewById(R.id.secondarySportSpinnerMyProfile);

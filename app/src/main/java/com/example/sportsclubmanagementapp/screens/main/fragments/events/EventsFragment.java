@@ -154,10 +154,11 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void checkJoinedEventsRecyclerViewIsEmpty(boolean isEmpty){
         TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.joinedEventsTextView);
         if(isEmpty){
-            textView.setText(R.string.no_joined_clubs);
+            textView.setText(R.string.no_joined_events);
             recyclerViewJoinedEvents.setVisibility(View.GONE);
         }
         else{

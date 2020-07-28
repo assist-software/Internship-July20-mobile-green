@@ -113,7 +113,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         if (getIntent().getExtras() != null) {
             int[] status = (int[]) getIntent().getSerializableExtra(getString(R.string.event_status));
             Button button = findViewById(R.id.eventStatusButton);
-            if (status == null || status[0] == 0) {
+            if (status == null) {
                 makeStatusUnJoined(button);
             } else {
                 makeStatusJoined(button);
