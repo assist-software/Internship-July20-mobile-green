@@ -70,7 +70,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     public void goToBrowser(View view) {
-        String url = "http://192.168.149.51:8001/user/reset_password/";
+        String url = "http://25.35.52.160:8001/user/reset_password/";
         startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse(url)));
     }

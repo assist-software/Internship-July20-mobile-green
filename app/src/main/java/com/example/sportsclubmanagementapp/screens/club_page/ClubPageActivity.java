@@ -77,10 +77,12 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     private void initComponents() {
         membersTextView = findViewById(R.id.members);
         eventTextView = findViewById(R.id.events);
+        recyclerViewUsers = findViewById(R.id.members_recycler_view);
+        recyclerViewEvents = findViewById(R.id.events_recycler_view);
     }
 
     private void checkMembersRecyclerViewEmpty() {
-        if (clubDetails.getMembers().isEmpty()) {
+        if (clubDetails == null || clubDetails.getMembers().isEmpty()) {
             membersTextView.setText(getResources().getText(R.string.no_members));
             recyclerViewUsers.setVisibility(View.GONE);
         } else {
@@ -90,7 +92,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void checkEventsRecyclerViewEmpty() {
-        if (clubDetails.getEvents().isEmpty()) {
+        if (clubDetails == null || clubDetails.getEvents().isEmpty()) {
             eventTextView.setText(getResources().getText(R.string.no_events));
             recyclerViewEvents.setVisibility(View.GONE);
         } else {
@@ -101,6 +103,8 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     @SuppressLint("SetTextI18n")
     private void setTheCouchDetails() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(clubDetails.getName());
         TextView name = findViewById(R.id.name);
         name.setText(clubDetails.getCoach().getFirst_name() + " " + clubDetails.getCoach().getLast_name());
         TextView role = findViewById(R.id.role);
@@ -120,8 +124,11 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
             @Override
             public void onResponse(@NotNull Call<ClubDetails> call, @NotNull Response<ClubDetails> response) {
                 if (!response.isSuccessful()) {
+                    checkMembersRecyclerViewEmpty();
+                    checkEventsRecyclerViewEmpty();
                     Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     clubDetails = response.body();
                     setTheCouchDetails();
                     setUpUsersRecyclerView(); //for users recycler
@@ -182,7 +189,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void setUpUsersRecyclerView() {
-        recyclerViewUsers = findViewById(R.id.members_recycler_view);
         userAdapter = new UserAdapter(clubDetails.getMembers(), this, UserAdapter.MEMBER_BAR_WITHOUT_CHECK_BOX);
         RecyclerView.LayoutManager usersLayoutManager =
                 new LinearLayoutManager(userAdapter.getContext());
@@ -191,7 +197,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void setUpEventsRecyclerView() {
-        recyclerViewEvents = findViewById(R.id.events_recycler_view);
         EventAdapter eventAdapter = new EventAdapter(clubDetails.getEvents(), this, 2, this);
         RecyclerView.LayoutManager eventLayoutManager =
                 new LinearLayoutManager(getBaseContext(), LinearLayoutManager.HORIZONTAL, false);
