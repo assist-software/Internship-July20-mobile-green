@@ -155,11 +155,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
-                if (!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     checkIfJoinedOrPendingFirstClub();
                     Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     assert response.body() != null;
                     if (response.body().size() != 0) {
                         userHasPendingOrJoinedClubs = true;
@@ -199,6 +198,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void checkIfJoinedOrPendingFirstClub() {
+        recyclerViewFirstClubs.setVisibility(View.VISIBLE);
         if (this.userHasPendingOrJoinedClubs) {
             firstClubTextView.setVisibility(View.GONE);
             recyclerViewFirstClubs.setVisibility(View.GONE);
@@ -362,12 +362,11 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void hideVisibilityFirstEvent(boolean isNotVisible) {
+        recyclerViewFirstEvents.setVisibility(View.VISIBLE);
         if (isNotVisible) {
             firstEventTextView.setVisibility(View.GONE);
-            recyclerViewFirstEvents.setVisibility(View.GONE);
         } else {
             firstEventTextView.setVisibility(View.VISIBLE);
-            recyclerViewFirstEvents.setVisibility(View.VISIBLE);
         }
     }
 

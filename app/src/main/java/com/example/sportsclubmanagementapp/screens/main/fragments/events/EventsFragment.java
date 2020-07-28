@@ -116,20 +116,19 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
                     checkJoinedEventsRecyclerViewIsEmpty(true);
                     checkPendingEventsRecyclerViewIsEmpty(true);
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     assert response.body() != null;
                     List<Event> pastEvents = new ArrayList<>(response.body());
                     List<Event> joinedEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 1).collect(Collectors.toList());
                     List<Event> pendingEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 0).collect(Collectors.toList());
-                    if(pastEvents.isEmpty()) checkPastEventsRecyclerViewIsEmpty(true);
-                    else{
+                    if (pastEvents.isEmpty()) checkPastEventsRecyclerViewIsEmpty(true);
+                    else {
                         filterPastEventsList(pastEvents);
                         checkPastEventsRecyclerViewIsEmpty(false);
                     }
-                    if(joinedEvents.isEmpty()) checkJoinedEventsRecyclerViewIsEmpty(true);
+                    if (joinedEvents.isEmpty()) checkJoinedEventsRecyclerViewIsEmpty(true);
                     else checkJoinedEventsRecyclerViewIsEmpty(false);
-                    if(pendingEvents.isEmpty()) checkPendingEventsRecyclerViewIsEmpty(true);
+                    if (pendingEvents.isEmpty()) checkPendingEventsRecyclerViewIsEmpty(true);
                     else checkPendingEventsRecyclerViewIsEmpty(false);
                     initEventsAdapter(joinedEvents, recyclerViewJoinedEvents, 2);
                     initEventsAdapter(pendingEvents, recyclerViewPendingEvents, 4);
@@ -146,40 +145,35 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
         });
     }
 
-    private void checkPastEventsRecyclerViewIsEmpty(boolean isEmpty){
+    private void checkPastEventsRecyclerViewIsEmpty(boolean isEmpty) {
         TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.pastEventsTextView);
-        if(isEmpty){
+        if (isEmpty) {
             textView.setText(R.string.no_past_events);
             recyclerViewPastEvents.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             textView.setText(R.string.past_events);
             recyclerViewPastEvents.setVisibility(View.VISIBLE);
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void checkJoinedEventsRecyclerViewIsEmpty(boolean isEmpty){
+    private void checkJoinedEventsRecyclerViewIsEmpty(boolean isEmpty) {
         TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.joinedEventsTextView);
-        if(isEmpty){
+        if (isEmpty) {
             textView.setText(R.string.no_joined_events);
             recyclerViewJoinedEvents.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             textView.setText(R.string.joined_events);
             recyclerViewJoinedEvents.setVisibility(View.VISIBLE);
         }
     }
 
-    private void checkPendingEventsRecyclerViewIsEmpty(boolean isEmpty){
+    private void checkPendingEventsRecyclerViewIsEmpty(boolean isEmpty) {
         TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.pendingEventsTextView);
-        if(isEmpty){
+        if (isEmpty) {
             textView.setText(R.string.no_pending_events);
-            recyclerViewPendingEvents.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             textView.setText(R.string.pending_events);
-            recyclerViewPendingEvents.setVisibility(View.VISIBLE);
         }
     }
 
