@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -129,7 +128,6 @@ public class AddWorkoutActivity extends AppCompatActivity {
 
     private String[] getEventsName(List<Event> events) {
         String[] eventsName = new String[events.size() + 1];
-        Log.wtf("size", String.valueOf(events.size()));
         for (int i = 0; i < events.size(); i++) {
             eventsName[i] = events.get(i).getName();
         }

@@ -201,44 +201,33 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     private void checkIfJoinedOrPendingFirstClub() {
         if (this.userHasPendingOrJoinedClubs) {
             firstClubTextView.setVisibility(View.GONE);
-            recyclerViewFirstClubs.setVisibility(View.GONE);
         } else {
             firstClubTextView.setVisibility(View.VISIBLE);
-            recyclerViewFirstClubs.setVisibility(View.VISIBLE);
         }
         getApiClubs();
     }
 
-    private void checkClubsRecyclerViewIsEmpty(boolean isEmpty){
-        if(isEmpty){
+    private void checkClubsRecyclerViewIsEmpty(boolean isEmpty) {
+        if (isEmpty) {
             clubsTextView.setText(getResources().getText(R.string.no_clubs));
-            recyclerViewClubs.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             clubsTextView.setText(getResources().getText(R.string.clubs_txt));
-            recyclerViewClubs.setVisibility(View.VISIBLE);
         }
     }
 
-    private void checkFutureEventsRecyclerViewIsEmpty(boolean isEmpty){
-        if(isEmpty){
+    private void checkFutureEventsRecyclerViewIsEmpty(boolean isEmpty) {
+        if (isEmpty) {
             futureEventsTextView.setText(getResources().getText(R.string.no_events));
-            recyclerViewFutureEvents.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             futureEventsTextView.setText(getResources().getText(R.string.future_events));
-            recyclerViewFutureEvents.setVisibility(View.VISIBLE);
         }
     }
 
-    private void checkWorkoutsRecyclerViewIsEmpty(boolean isEmpty){
-        if(isEmpty){
+    private void checkWorkoutsRecyclerViewIsEmpty(boolean isEmpty) {
+        if (isEmpty) {
             workoutsTextView.setText(getResources().getText(R.string.no_workouts));
-            workoutsTextView.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             workoutsTextView.setText(getResources().getText(R.string.workouts));
-            workoutsTextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -272,7 +261,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private ClubsAdapter initClubsAdapter(List<Club> clubs, RecyclerView recyclerView) {
-        if(clubs.isEmpty()) checkClubsRecyclerViewIsEmpty(true);
+        if (clubs.isEmpty()) checkClubsRecyclerViewIsEmpty(true);
         else checkClubsRecyclerViewIsEmpty(false);
         ClubsAdapter adapter = new ClubsAdapter(clubs, getContext(), 1, this);
         RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(this.getContext());
@@ -352,8 +341,6 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private boolean checkIfJoinedOrPendingFirstEvent(List<Event> events) {
-        if(events.isEmpty()) checkFutureEventsRecyclerViewIsEmpty(true);
-        else checkFutureEventsRecyclerViewIsEmpty(false);
         for (Event event : events) {
             if (event.getStatus() != null) {
                 hideVisibilityFirstEvent(true);
@@ -375,6 +362,8 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private EventAdapter initEventsAdapter(List<Event> events, RecyclerView recyclerView, int layout) {
+        if (events.isEmpty()) checkFutureEventsRecyclerViewIsEmpty(true);
+        else checkFutureEventsRecyclerViewIsEmpty(false);
         EventAdapter adapter = new EventAdapter(events, getContext(), layout, this);
         RecyclerView.LayoutManager eventsLayoutManager;
         if (layout == 1) {
@@ -464,7 +453,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void initWorkoutsAdapter(List<Workout> workouts, RecyclerView recyclerView) {
-        if(workouts.isEmpty()) checkWorkoutsRecyclerViewIsEmpty(true);
+        if (workouts.isEmpty()) checkWorkoutsRecyclerViewIsEmpty(true);
         else checkWorkoutsRecyclerViewIsEmpty(false);
         WorkoutsAdapter adapter = new WorkoutsAdapter(workouts, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

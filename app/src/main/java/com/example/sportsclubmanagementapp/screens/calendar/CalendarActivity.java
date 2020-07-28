@@ -102,7 +102,8 @@ public class CalendarActivity extends AppCompatActivity {
     private void setOnClickListenerCalendar() {
         calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             selectedDate = year + "-";
-            if(month < 10) selectedDate = selectedDate + "0" + (month + 1) + "-" + dayOfMonth; //(m+1) fix the problem with the calendar (1 month behind)
+            if (month < 10)
+                selectedDate = selectedDate + "0" + (month + 1) + "-" + dayOfMonth; //(m+1) fix the problem with the calendar (1 month behind)
             //select the events for the selected date
             getApiEvents();
             findEventsForSelectedDate();
@@ -110,7 +111,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void getApiClubs() {
-        if(!readyToGetClubs) return;
+        if (!readyToGetClubs) return;
         readyToGetClubs = false;
         Call<List<Club>> call = ApiHelper.getApi().getClubs(getToken());
         call.enqueue(new Callback<List<Club>>() {
@@ -138,7 +139,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void getApiEvents() {
-        if(!readyToGetEvents) return;
+        if (!readyToGetEvents) return;
         readyToGetEvents = false;
         Call<List<Event>> call = ApiHelper.getApi().getEvents(getToken());
         call.enqueue(new Callback<List<Event>>() {

@@ -181,4 +181,5 @@
     <string name="no_pending_clubs">No pending clubs</string>
     <string name="no_past_events">No past events</string>
     <string name="no_pending_events">No pending events</string>
+    <string name="no_joined_events">No joined events</string>
 </resources>

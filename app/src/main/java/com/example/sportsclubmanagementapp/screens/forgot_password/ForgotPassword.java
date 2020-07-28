@@ -26,7 +26,6 @@ import retrofit2.Response;
 
 public class ForgotPassword extends AppCompatActivity {
 
-    private EditText email;
     private String emailInput;
 
     @Override
@@ -58,7 +57,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     public void goToLoginScreenAndSendEmail(View view) {
-        email = findViewById(R.id.email);
+        EditText email = findViewById(R.id.email);
         emailInput = email.getText().toString();
         if (Utils.isEmailAddressValid(emailInput, email)) {
             checkEmailExists();
