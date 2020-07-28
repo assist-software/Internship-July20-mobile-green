@@ -30,13 +30,13 @@
                 android:id="@+id/new_clubs_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:layout_marginBottom="@dimen/space_12dp"/>
 
             <TextView
                 android:id="@+id/joined_club"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_12dp"
                 android:layout_marginBottom="@dimen/space_12dp"
                 android:fontFamily="@font/inter_regular"
                 android:text="@string/joined_clubs_txt"
@@ -47,13 +47,13 @@
                 android:id="@+id/joined_clubs_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:layout_marginBottom="@dimen/space_12dp"/>
 
             <TextView
                 android:id="@+id/pending_club"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_12dp"
                 android:layout_marginBottom="@dimen/space_12dp"
                 android:fontFamily="@font/inter_regular"
                 android:text="@string/pending_clubs_txt"
@@ -64,8 +64,11 @@
                 android:id="@+id/pending_clubs_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_56dp"
                 android:scrollbars="none" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/space_84dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

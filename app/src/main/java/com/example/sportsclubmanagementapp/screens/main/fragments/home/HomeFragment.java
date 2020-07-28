@@ -201,8 +201,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         recyclerViewFirstClubs.setVisibility(View.VISIBLE);
         if (this.userHasPendingOrJoinedClubs) {
             firstClubTextView.setVisibility(View.GONE);
+            recyclerViewFirstClubs.setVisibility(View.GONE);
         } else {
             firstClubTextView.setVisibility(View.VISIBLE);
+            recyclerViewFirstClubs.setVisibility(View.VISIBLE);
         }
         getApiClubs();
     }
@@ -210,24 +212,30 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     private void checkClubsRecyclerViewIsEmpty(boolean isEmpty) {
         if (isEmpty) {
             clubsTextView.setText(getResources().getText(R.string.no_clubs));
+            recyclerViewClubs.setVisibility(View.GONE);
         } else {
             clubsTextView.setText(getResources().getText(R.string.clubs_txt));
+            recyclerViewClubs.setVisibility(View.VISIBLE);
         }
     }
 
     private void checkFutureEventsRecyclerViewIsEmpty(boolean isEmpty) {
         if (isEmpty) {
             futureEventsTextView.setText(getResources().getText(R.string.no_events));
+            recyclerViewFutureEvents.setVisibility(View.GONE);
         } else {
             futureEventsTextView.setText(getResources().getText(R.string.future_events));
+            recyclerViewFutureEvents.setVisibility(View.VISIBLE);
         }
     }
 
     private void checkWorkoutsRecyclerViewIsEmpty(boolean isEmpty) {
         if (isEmpty) {
             workoutsTextView.setText(getResources().getText(R.string.no_workouts));
+            recyclerViewWorkouts.setVisibility(View.GONE);
         } else {
             workoutsTextView.setText(getResources().getText(R.string.workouts));
+            recyclerViewWorkouts.setVisibility(View.VISIBLE);
         }
     }
 
@@ -267,6 +275,8 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(clubsLayoutManager);
         recyclerView.setAdapter(adapter);
+        //checkIfJoinedOrPendingFirstClub();
+        checkClubsRecyclerViewIsEmpty(clubs.isEmpty());
         return adapter;
     }
 

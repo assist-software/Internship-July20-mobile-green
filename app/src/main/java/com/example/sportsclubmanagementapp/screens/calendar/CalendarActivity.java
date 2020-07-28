@@ -76,6 +76,7 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        findEventsForSelectedDate();
         getApiClubs();
         getApiEvents();
     }

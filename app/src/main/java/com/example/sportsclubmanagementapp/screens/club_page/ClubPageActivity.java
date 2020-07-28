@@ -71,11 +71,6 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         displayAvatar();
         setUpNotifications();
         initComponents();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         getApiCoach(club.getId());
     }
 
