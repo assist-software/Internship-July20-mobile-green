@@ -173,6 +173,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
     public void onEventsClick(Event event) {
         Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
         intent.putExtra(getString(R.string.event_id), event.getId());
+        intent.putExtra(getString(R.string.event_status), event.getStatus());
         startActivity(intent);
     }
 

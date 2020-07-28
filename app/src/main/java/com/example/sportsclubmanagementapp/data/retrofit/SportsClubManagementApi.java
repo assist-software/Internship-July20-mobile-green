@@ -2,6 +2,7 @@ package com.example.sportsclubmanagementapp.data.retrofit;
 
 import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Event;
+import com.example.sportsclubmanagementapp.data.models.EventDetails;
 import com.example.sportsclubmanagementapp.data.models.Sport;
 import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
 import com.example.sportsclubmanagementapp.data.models.UserLogIn;
@@ -54,7 +55,7 @@ public interface SportsClubManagementApi {
 
     @GET("/api/events/{id}/")
         //get event details
-    Call<Event> getEventDetails(@Header("Authorization") String token, @Path("id") int id);
+    Call<EventDetails> getEventDetails(@Header("Authorization") String token, @Path("id") int id);
 
 
     @POST("user/register/validate/")

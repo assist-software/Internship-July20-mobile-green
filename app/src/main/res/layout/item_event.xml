@@ -5,7 +5,8 @@
     android:layout_width="250dp"
     android:layout_height="235dp"
     android:layout_marginEnd="@dimen/space_8dp"
-    app:cardCornerRadius="@dimen/space_4dp">
+    app:cardCornerRadius="@dimen/space_4dp"
+    android:layout_marginBottom="@dimen/border_1dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"

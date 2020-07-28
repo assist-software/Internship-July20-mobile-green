@@ -162,4 +162,8 @@
     <string name="club_joined_successfully"> successfully joined! Your coach will approve your application.</string>
     <string name="event_joined_successfully"> successfully joined! Your coach will approve your application.</string>
     <string name="join_event_to_add_workout">Join an event to add workout</string>
+    <string name="participants_chart">Participants (</string>
+    <string name="event_status">EVENT_STATUS</string>
+    <string name="event_unjoined">Event successfully unjoined!</string>
+    <string name="event_joined">Event successfully joined!</string>
 </resources>

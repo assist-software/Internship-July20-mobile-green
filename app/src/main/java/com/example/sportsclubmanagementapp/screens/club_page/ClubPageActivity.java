@@ -141,12 +141,12 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
 
     }
 
-    private void prepareUsersData() {
+    private void prepareUsersData() {/*
         usersList.add(new User(1, "Brandom Wilson", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-
+    */
         userAdapter.notifyDataSetChanged();
     }
 }

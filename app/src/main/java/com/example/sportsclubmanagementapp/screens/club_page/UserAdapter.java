@@ -28,12 +28,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public static int MEMBER_BAR_WITH_CHECK_BOX = 2;
 
     EventDetailsActivity activity;
+    int layoutType;
     private List<Drawable> avatars; //for TESTS
-
     private List<User> users;
     private List<User> usersSelected = new ArrayList<>();
     private Context context;
-    int layoutType;
 
     public UserAdapter(List<User> users, Context context, int layoutType) {
         this.users = users;
@@ -48,30 +47,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         this.activity = activity;
     }
 
-    public static class UserViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView avatar;
-        private TextView user_name;
-        private CheckBox checkbox;
-
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
-            avatar = itemView.findViewById(R.id.avatar);
-            user_name = itemView.findViewById(R.id.name);
-            checkbox = itemView.findViewById(R.id.checkBox);
-        }
-
-        public void bind(User user, List<Drawable> avatars) {
-            avatar.setImageDrawable(avatars.get(new Random().nextInt(5)));
-            user_name.setText(user.getFirst_and_last_name());
-        }
-    }
-
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
 
-        if( layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX )
+        if (layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX)
             view.findViewById(R.id.checkBox).setVisibility(View.GONE);
 
         avatars = Utils.getAvatars(getContext());
@@ -88,11 +69,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             int pos = holder.getAdapterPosition();
             User selectedUser = users.get(pos); //get the selected user
 
-            if( usersSelected.indexOf(selectedUser) != -1 ){
+            if (usersSelected.indexOf(selectedUser) != -1) {
                 //if the user is already in list, the check box is unchecked and the user is removed from the list
                 usersSelected.remove(selectedUser);
-            }
-            else{
+            } else {
                 //the user is selected and added in the list
                 usersSelected.add(selectedUser);
             }
@@ -105,11 +85,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return this.users.size();
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return this.context;
     }
 
-    public List<User> getSelectedUsers(){
+    public List<User> getSelectedUsers() {
         return usersSelected;
+    }
+
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView avatar;
+        private TextView user_name;
+        private CheckBox checkbox;
+
+        public UserViewHolder(@NonNull View itemView) {
+            super(itemView);
+            avatar = itemView.findViewById(R.id.avatar);
+            user_name = itemView.findViewById(R.id.name);
+            checkbox = itemView.findViewById(R.id.checkBox);
+        }
+
+        public void bind(User user, List<Drawable> avatars) {
+            avatar.setImageDrawable(avatars.get(new Random().nextInt(5)));
+            user_name.setText(user.getFirst_name() + " " + user.getLast_name());
+        }
     }
 }
