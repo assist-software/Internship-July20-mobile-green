@@ -4,12 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,6 +38,7 @@ import com.example.utils.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +50,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyProfileActivity extends AppCompatActivity {
+    private static int RESULT_LOAD_IMAGE = 1;
+    Button buttonLoadImage;
     List<Notification> notification = new ArrayList<>();//for TESTS
     private Spinner primarySportSpinner;
     private Spinner secondarySportSpinner;
@@ -66,6 +74,44 @@ public class MyProfileActivity extends AppCompatActivity {
         setUpNotifications();
         getApiSports();
         getApiUserInfo();
+        loadImage();
+    }
+
+    private void loadImage() {
+        buttonLoadImage = (Button) findViewById(R.id.addPhotoMyProfile);
+        buttonLoadImage.setOnClickListener(arg0 -> {
+
+            Intent i = new Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            startActivityForResult(i, RESULT_LOAD_IMAGE);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            assert selectedImage != null;
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            assert cursor != null;
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            String[] path = picturePath.split("/");
+            buttonLoadImage.setText(path[path.length-1]);
+        }
+
+
     }
 
     private void initComponents() {

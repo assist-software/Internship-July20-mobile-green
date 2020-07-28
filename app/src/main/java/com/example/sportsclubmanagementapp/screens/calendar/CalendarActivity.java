@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +42,8 @@ public class CalendarActivity extends AppCompatActivity {
     private List<Notification> notification = new ArrayList<>();
     private CalendarView calendar;
     private String selectedDate;
-    private boolean readyToGet = true;
+    private boolean readyToGetEvents = true;
+    private boolean readyToGetClubs = true;
     //for parent list recycler
     private List<Club> allClubList = new ArrayList<>();
     private List<Club> currentClubList = new ArrayList<>();
@@ -69,6 +69,7 @@ public class CalendarActivity extends AppCompatActivity {
         selectedDate = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(new Date(calendar.getDate()));
         setOnClickListenerCalendar(); //set up calendar buttons
         prepareEventData(); //for TESTS
+        getApiClubs();
         getApiEvents();
     }
 
@@ -101,9 +102,33 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
+    private void getApiClubs() {
+        if(!readyToGetClubs) return;
+        readyToGetClubs = false;
+        Call<List<Club>> call = ApiHelper.getApi().getClubs();
+        call.enqueue(new Callback<List<Club>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    allClubList = new ArrayList<>(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
+                Toast.makeText(getBaseContext(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        eventParentAdapter.notifyDataSetChanged();
+        readyToGetClubs = true;
+    }
+
     private void getApiEvents() {
-        if(!readyToGet) return;
-        readyToGet = false;
+        if(!readyToGetEvents) return;
+        readyToGetEvents = false;
         Call<List<Event>> call = ApiHelper.getApi().getEvents(getToken());
         call.enqueue(new Callback<List<Event>>() {
             @Override
@@ -114,7 +139,6 @@ public class CalendarActivity extends AppCompatActivity {
                     assert response.body() != null;
                     List<Event> events = new ArrayList<>(response.body());
                     prepareEventListForEveryClub(events);
-                    eventParentAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -124,7 +148,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
         eventParentAdapter.notifyDataSetChanged();
-        readyToGet = true;
+        readyToGetEvents = true;
     }
 
     private String getToken() {

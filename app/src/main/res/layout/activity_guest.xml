@@ -9,7 +9,6 @@
     android:backgroundTintMode="screen"
     tools:context=".screens.guest.GuestActivity">
 
-
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"

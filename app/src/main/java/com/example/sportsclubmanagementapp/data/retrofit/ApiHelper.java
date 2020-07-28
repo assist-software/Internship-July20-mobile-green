@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiHelper {
-    private static final String URL = "http://192.168.149.51:8001/";
+    private static final String URL = "http://192.168.149.51:8001";
     private static SportsClubManagementApi sportsClubManagementApi = null;
 
     public static SportsClubManagementApi getApi() {

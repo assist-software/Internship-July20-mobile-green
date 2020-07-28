@@ -1,6 +1,7 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +55,12 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
+    private FragmentActivity activity;
+    private TextView firstClubTextView;
+    private TextView firstEventTextView;
+    private TextView clubsTextView;
+    private TextView futureEventsTextView;
+    private TextView workoutsTextView;
     private boolean userHasPendingOrJoinedClubs = false;
     private boolean userHasPendingOrJoinedEvents = false;
     //recyclers
@@ -109,6 +117,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        initComponents();
         displayAvatar(); //display avatar as circle view
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
         getApiPendingClubs();
@@ -117,10 +126,20 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         getApiUserName();
     }
 
+    private void initComponents() {
+        activity = getActivity();
+        assert activity != null;
+        firstClubTextView = activity.findViewById(R.id.join_first_club);
+        firstEventTextView = activity.findViewById(R.id.join_first_event);
+        clubsTextView = activity.findViewById(R.id.join_clubs);
+        futureEventsTextView = activity.findViewById(R.id.future_events);
+        workoutsTextView = activity.findViewById(R.id.workouts);
+    }
+
     private void displayAvatar() {
-        MainActivity mainActivity = (MainActivity) getActivity();
+        MainActivity mainActivity = (MainActivity) activity;
         Objects.requireNonNull(mainActivity).setAvatar(Utils.getAvatars(getContext()).get(new Random().nextInt(5)));
-        Utils.setCircleAvatar(getActivity(), mainActivity.getAvatar(), Objects.requireNonNull(getActivity()).findViewById(R.id.avatar));
+        Utils.setCircleAvatar(activity, mainActivity.getAvatar(), Objects.requireNonNull(activity).findViewById(R.id.avatar));
     }
 
     private void setUpAllRecyclerViews(View view) {
@@ -138,7 +157,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     assert response.body() != null;
                     if (response.body().size() != 0) {
@@ -150,7 +169,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -161,7 +180,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     assert response.body() != null;
                     if (response.body().size() != 0) {
@@ -173,18 +192,53 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void checkIfJoinedOrPendingFirstClub() {
         if (this.userHasPendingOrJoinedClubs) {
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.GONE);
+            firstClubTextView.setVisibility(View.GONE);
+            recyclerViewFirstClubs.setVisibility(View.GONE);
         } else {
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_club).setVisibility(View.VISIBLE);
+            firstClubTextView.setVisibility(View.VISIBLE);
+            recyclerViewFirstClubs.setVisibility(View.VISIBLE);
         }
         getApiClubs();
+    }
+
+    private void checkClubsRecyclerViewIsEmpty(boolean isEmpty){
+        if(isEmpty){
+            clubsTextView.setText(getResources().getText(R.string.no_clubs));
+            recyclerViewClubs.setVisibility(View.GONE);
+        }
+        else{
+            clubsTextView.setText(getResources().getText(R.string.clubs_txt));
+            recyclerViewClubs.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkFutureEventsRecyclerViewIsEmpty(boolean isEmpty){
+        if(isEmpty){
+            futureEventsTextView.setText(getResources().getText(R.string.no_events));
+            recyclerViewFutureEvents.setVisibility(View.GONE);
+        }
+        else{
+            futureEventsTextView.setText(getResources().getText(R.string.future_events));
+            recyclerViewFutureEvents.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkWorkoutsRecyclerViewIsEmpty(boolean isEmpty){
+        if(isEmpty){
+            workoutsTextView.setText(getResources().getText(R.string.no_workouts));
+            workoutsTextView.setVisibility(View.GONE);
+        }
+        else{
+            workoutsTextView.setText(getResources().getText(R.string.workouts));
+            workoutsTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getApiClubs() {
@@ -193,7 +247,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     List<Club> clubs = response.body();
                     clubsAdapter = initClubsAdapter(clubs, recyclerViewClubs);
@@ -205,17 +259,19 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<List<Club>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private String getToken() {
-        SharedPreferences prefs = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        SharedPreferences prefs = Objects.requireNonNull(activity).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
         return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     private ClubsAdapter initClubsAdapter(List<Club> clubs, RecyclerView recyclerView) {
+        if(clubs.isEmpty()) checkClubsRecyclerViewIsEmpty(true);
+        else checkClubsRecyclerViewIsEmpty(false);
         ClubsAdapter adapter = new ClubsAdapter(clubs, getContext(), 1, this);
         RecyclerView.LayoutManager clubsLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(clubsLayoutManager);
@@ -225,7 +281,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     @Override
     public void onClubsClick(Club club) {
-        Intent intent = new Intent(getActivity(), ClubPageActivity.class);
+        Intent intent = new Intent(activity, ClubPageActivity.class);
         intent.putExtra("CLUB_EXTRA_SESSION_ID", club); //send the clicked club to the next activity (its page)
         startActivity(intent);
     }
@@ -242,7 +298,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful())
-                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
                 else {
                     if (!userHasPendingOrJoinedClubs) {
                         firstClubsAdapter.removeClub(club);
@@ -253,7 +309,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -264,7 +320,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
                 } else {
                     assert response.body() != null;
                     List<Event> events = new ArrayList<>(response.body());
@@ -281,7 +337,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -294,6 +350,8 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private boolean checkIfJoinedOrPendingFirstEvent(List<Event> events) {
+        if(events.isEmpty()) checkFutureEventsRecyclerViewIsEmpty(true);
+        else checkFutureEventsRecyclerViewIsEmpty(false);
         for (Event event : events) {
             if (event.getStatus() != null) {
                 hideVisibilityFirstEvent(true);
@@ -306,12 +364,13 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     private void hideVisibilityFirstEvent(boolean isNotVisible) {
         if (isNotVisible) {
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_event).setVisibility(View.GONE);
+            firstEventTextView.setVisibility(View.GONE);
+            recyclerViewFirstEvents.setVisibility(View.GONE);
         } else {
-            Objects.requireNonNull(getActivity()).findViewById(R.id.join_first_event).setVisibility(View.VISIBLE);
+            firstEventTextView.setVisibility(View.VISIBLE);
+            recyclerViewFirstEvents.setVisibility(View.VISIBLE);
         }
     }
-
 
     private EventAdapter initEventsAdapter(List<Event> events, RecyclerView recyclerView, int layout) {
         EventAdapter adapter = new EventAdapter(events, getContext(), layout, this);
@@ -350,7 +409,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
     @Override
     public void onEventsClick(Event event) {
-        Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
+        Intent intent = new Intent(activity, EventDetailsActivity.class);
         intent.putExtra(getString(R.string.event_id), event.getId());
         startActivity(intent);
     }
@@ -367,7 +426,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, getString(R.string.api_response_not_successful) + response.code(), Toast.LENGTH_SHORT).show();
                 } else {
                     if (!userHasPendingOrJoinedEvents) firstEventsAdapter.removeEvent(event);
                     futureEventsAdapter.removeEvent(event);
@@ -376,7 +435,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -387,20 +446,23 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<List<Workout>> call, @NotNull Response<List<Workout>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
+                    assert response.body() != null;
                     initWorkoutsAdapter(response.body(), recyclerViewWorkouts);
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<Workout>> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initWorkoutsAdapter(List<Workout> workouts, RecyclerView recyclerView) {
+        if(workouts.isEmpty()) checkWorkoutsRecyclerViewIsEmpty(true);
+        else checkWorkoutsRecyclerViewIsEmpty(false);
         WorkoutsAdapter adapter = new WorkoutsAdapter(workouts, getContext());
         RecyclerView.LayoutManager workoutsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(workoutsLayoutManager);
@@ -413,7 +475,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
             @Override
             public void onResponse(@NotNull Call<UserAccountSetup> call, @NotNull Response<UserAccountSetup> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 } else {
                     assert response.body() != null;
                     setUserName(response.body().getLast_name(), response.body().getFirst_name());
@@ -422,14 +484,14 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
 
             @Override
             public void onFailure(@NotNull Call<UserAccountSetup> call, @NotNull Throwable t) {
-                Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
     private void setUserName(String lastName, String firstName) {
-        TextView userNameTextView = Objects.requireNonNull(getActivity()).findViewById(R.id.username);
+        TextView userNameTextView = Objects.requireNonNull(activity).findViewById(R.id.username);
         userNameTextView.setText(firstName + " " + lastName);
     }
 
