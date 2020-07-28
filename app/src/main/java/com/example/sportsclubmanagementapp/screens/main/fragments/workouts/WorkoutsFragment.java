@@ -63,6 +63,12 @@ public class WorkoutsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_workouts, container, false);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getApiWorkouts();
+    }
+
     private void setToolbar() {
         setToolbarAvatar();
         setToolbarTitle();
@@ -91,7 +97,6 @@ public class WorkoutsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecycle(view);
-        getApiWorkouts();
     }
 
     private void initRecycle(View view) {
