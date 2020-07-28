@@ -175,4 +175,10 @@
     <string name="no_workouts">No workouts</string>
     <string name="email_not_exists">This email doesn\'t exist.</string>
     <string name="open_in_browser">Open in browser</string>
+    <string name="coach">COACH</string>
+    <string name="no_new_clubs">No new clubs</string>
+    <string name="no_joined_clubs">No joined clubs</string>
+    <string name="no_pending_clubs">No pending clubs</string>
+    <string name="no_past_events">No past events</string>
+    <string name="no_pending_events">No pending events</string>
 </resources>

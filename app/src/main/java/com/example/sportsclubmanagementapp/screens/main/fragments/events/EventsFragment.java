@@ -29,6 +29,7 @@ import com.example.sportsclubmanagementapp.screens.myprofile.MyProfileActivity;
 import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,13 +108,25 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
             @Override
             public void onResponse(@NotNull Call<List<Event>> call, @NotNull Response<List<Event>> response) {
                 if (!response.isSuccessful()) {
+                    checkPastEventsRecyclerViewIsEmpty(true);
+                    checkJoinedEventsRecyclerViewIsEmpty(true);
+                    checkPendingEventsRecyclerViewIsEmpty(true);
                     Toast.makeText(getActivity(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     assert response.body() != null;
                     List<Event> pastEvents = new ArrayList<>(response.body());
                     List<Event> joinedEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 1).collect(Collectors.toList());
                     List<Event> pendingEvents = pastEvents.stream().filter(event -> event.getStatus() != null && event.getStatus()[0] == 0).collect(Collectors.toList());
-                    filterPastEventsList(pastEvents);
+                    if(pastEvents.isEmpty()) checkPastEventsRecyclerViewIsEmpty(true);
+                    else{
+                        filterPastEventsList(pastEvents);
+                        checkPastEventsRecyclerViewIsEmpty(false);
+                    }
+                    if(joinedEvents.isEmpty()) checkJoinedEventsRecyclerViewIsEmpty(true);
+                    else checkJoinedEventsRecyclerViewIsEmpty(false);
+                    if(pendingEvents.isEmpty()) checkPendingEventsRecyclerViewIsEmpty(true);
+                    else checkPendingEventsRecyclerViewIsEmpty(false);
                     initEventsAdapter(joinedEvents, recyclerViewJoinedEvents, 2);
                     initEventsAdapter(pendingEvents, recyclerViewPendingEvents, 4);
                 }
@@ -121,9 +134,48 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
 
             @Override
             public void onFailure(@NotNull Call<List<Event>> call, @NotNull Throwable t) {
+                checkPastEventsRecyclerViewIsEmpty(true);
+                checkJoinedEventsRecyclerViewIsEmpty(true);
+                checkPendingEventsRecyclerViewIsEmpty(true);
                 Toast.makeText(getActivity(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkPastEventsRecyclerViewIsEmpty(boolean isEmpty){
+        TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.pastEventsTextView);
+        if(isEmpty){
+            textView.setText(R.string.no_past_events);
+            recyclerViewPastEvents.setVisibility(View.GONE);
+        }
+        else{
+            textView.setText(R.string.past_events);
+            recyclerViewPastEvents.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkJoinedEventsRecyclerViewIsEmpty(boolean isEmpty){
+        TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.joinedEventsTextView);
+        if(isEmpty){
+            textView.setText(R.string.no_joined_clubs);
+            recyclerViewJoinedEvents.setVisibility(View.GONE);
+        }
+        else{
+            textView.setText(R.string.joined_clubs_txt);
+            recyclerViewJoinedEvents.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkPendingEventsRecyclerViewIsEmpty(boolean isEmpty){
+        TextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.pendingEventsTextView);
+        if(isEmpty){
+            textView.setText(R.string.no_pending_events);
+            recyclerViewPendingEvents.setVisibility(View.GONE);
+        }
+        else{
+            textView.setText(R.string.pending_events);
+            recyclerViewPendingEvents.setVisibility(View.VISIBLE);
+        }
     }
 
     private String getToken() {

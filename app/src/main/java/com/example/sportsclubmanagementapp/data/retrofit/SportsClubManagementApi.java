@@ -1,6 +1,7 @@
 package com.example.sportsclubmanagementapp.data.retrofit;
 
 import com.example.sportsclubmanagementapp.data.models.Club;
+import com.example.sportsclubmanagementapp.data.models.ClubDetails;
 import com.example.sportsclubmanagementapp.data.models.Coach;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.EventDetails;
@@ -54,7 +55,7 @@ public interface SportsClubManagementApi {
     Call<List<Club>> getPendingClubs(@Header("Authorization") String token);
 
     @GET("api/clubs/{club_id}/")
-    Call<Coach> getClubDetails(@Header("Authorization") String token, @Path("id") int club_id);
+    Call<ClubDetails> getClubDetails(@Header("Authorization") String token, @Path("club_id") int club_id);
 
     @GET("user/update/profile/")
         //get all data for the user
