@@ -6,13 +6,11 @@ import com.example.sportsclubmanagementapp.data.models.Coach;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.EventDetails;
 import com.example.sportsclubmanagementapp.data.models.Sport;
-import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
 import com.example.sportsclubmanagementapp.data.models.UserLogIn;
 import com.example.sportsclubmanagementapp.data.models.UserRegister;
 import com.example.sportsclubmanagementapp.data.models.Workout;
 
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +38,7 @@ public interface SportsClubManagementApi {
 
     @GET("/api/clubs/")
         //get all clubs
-    Call<List<Club>> getClubs();
+    Call<List<Club>> getClubs(@Header("Authorization") String token);
 
     @GET("api/clubs/user/unjoined/")
         //get all unjoined clubs by the user
@@ -64,6 +62,7 @@ public interface SportsClubManagementApi {
     @GET("/api/events/{id}/")
         //get event details
     Call<EventDetails> getEventDetails(@Header("Authorization") String token, @Path("id") int id);
+
 
     @POST("user/register/validate/")
         //register activity
