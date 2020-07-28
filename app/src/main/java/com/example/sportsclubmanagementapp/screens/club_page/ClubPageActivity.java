@@ -1,11 +1,5 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
@@ -23,7 +23,6 @@ import com.example.sportsclubmanagementapp.data.models.Club;
 import com.example.sportsclubmanagementapp.data.models.Coach;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
-import com.example.sportsclubmanagementapp.data.models.Role;
 import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
@@ -32,13 +31,11 @@ import com.example.sportsclubmanagementapp.screens.notification.NotificationActi
 import com.example.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,23 +85,21 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
         eventTextView = findViewById(R.id.events);
     }
 
-    private void checkMembersRecyclerViewEmpty(){
-        if(usersList.isEmpty()){
+    private void checkMembersRecyclerViewEmpty() {
+        if (usersList.isEmpty()) {
             membersTextView.setText(getResources().getText(R.string.no_members));
             recyclerViewUsers.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             membersTextView.setText(getResources().getText(R.string.members_txt));
             recyclerViewUsers.setVisibility(View.VISIBLE);
         }
     }
 
-    private void checkEventsRecyclerViewEmpty(){
-        if(eventList.isEmpty()){
+    private void checkEventsRecyclerViewEmpty() {
+        if (eventList.isEmpty()) {
             eventTextView.setText(getResources().getText(R.string.no_events));
             recyclerViewEvents.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             eventTextView.setText(getResources().getText(R.string.events));
             recyclerViewEvents.setVisibility(View.VISIBLE);
         }

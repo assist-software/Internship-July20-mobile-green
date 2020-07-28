@@ -161,6 +161,10 @@
     <string name="club_joined_successfully"> successfully joined! Your coach will approve your application.</string>
     <string name="event_joined_successfully"> successfully joined! Your coach will approve your application.</string>
     <string name="join_event_to_add_workout">Join an event to add workout</string>
+    <string name="participants_chart">Participants (</string>
+    <string name="event_status">EVENT_STATUS</string>
+    <string name="event_unjoined">Event successfully unjoined!</string>
+    <string name="event_joined">Event successfully joined!</string>
     <string name="forgot_password_description">We just need your registered email to send you password reset instruction.</string>
     <string name="reset_password">RESET PASSWORD</string>
     <string name="back">BACK</string>
@@ -171,5 +175,4 @@
     <string name="no_workouts">No workouts</string>
     <string name="email_not_exists">This email doesn\'t exist.</string>
     <string name="open_in_browser">Open in browser</string>
-
 </resources>

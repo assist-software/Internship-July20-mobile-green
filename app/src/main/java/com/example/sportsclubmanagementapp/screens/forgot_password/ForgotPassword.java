@@ -1,7 +1,5 @@
 package com.example.sportsclubmanagementapp.screens.forgot_password;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +7,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
@@ -49,6 +49,7 @@ public class ForgotPassword extends AppCompatActivity {
                     new Handler().postDelayed(() -> startActivity(new Intent(ForgotPassword.this, LoginActivity.class)), 2000);
                 }
             }
+
             @Override
             public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 Toast.makeText(ForgotPassword.this, getString(R.string.api_failure) + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -56,21 +57,21 @@ public class ForgotPassword extends AppCompatActivity {
         });
     }
 
-    public void goToLoginScreenAndSendEmail(View view){
+    public void goToLoginScreenAndSendEmail(View view) {
         email = findViewById(R.id.email);
         emailInput = email.getText().toString();
-        if( Utils.isEmailAddressValid(emailInput, email)){
+        if (Utils.isEmailAddressValid(emailInput, email)) {
             checkEmailExists();
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
 
-    public void goToLoginScreen(View view){
+    public void goToLoginScreen(View view) {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    public void goToBrowser(View view){
-        String url = "http://25.35.52.160:8001/user/reset-password/";
+    public void goToBrowser(View view) {
+        String url = "http://192.168.149.51:8001/user/reset_password/";
         startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse(url)));
     }

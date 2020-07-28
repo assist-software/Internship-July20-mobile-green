@@ -1,6 +1,6 @@
 package com.example.sportsclubmanagementapp.data.models;
 
-public class User { //api data, for members
+public class Member {
     private int id;
     private String first_name;
     private String last_name;
@@ -9,7 +9,7 @@ public class User { //api data, for members
     private int primary_sport;
     private int secondary_sport;
 
-    public User(int id, String first_name, String last_name, int gender, int age, int primary_sport, int secondary_sport) {
+    public Member(int id, String first_name, String last_name, int gender, int age, int primary_sport, int secondary_sport) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;

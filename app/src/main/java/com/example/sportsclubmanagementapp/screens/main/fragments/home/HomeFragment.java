@@ -411,6 +411,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     public void onEventsClick(Event event) {
         Intent intent = new Intent(activity, EventDetailsActivity.class);
         intent.putExtra(getString(R.string.event_id), event.getId());
+        intent.putExtra(getString(R.string.event_status), event.getStatus());
         startActivity(intent);
     }
 

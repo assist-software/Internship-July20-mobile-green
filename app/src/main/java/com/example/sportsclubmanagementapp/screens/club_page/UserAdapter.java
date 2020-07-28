@@ -29,12 +29,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public static int MEMBER_BAR_WITH_CHECK_BOX = 2;
 
     EventDetailsActivity activity;
+    int layoutType;
     private List<Drawable> avatars; //for TESTS
-
     private List<User> users;
     private List<User> usersSelected = new ArrayList<>();
     private Context context;
-    int layoutType;
 
     public UserAdapter(List<User> users, Context context, int layoutType) {
         this.users = users;
@@ -47,6 +46,52 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         this.context = context;
         this.layoutType = layoutType;
         this.activity = activity;
+    }
+
+    @NonNull
+    @Override
+    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
+
+        if (layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX)
+            view.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
+        avatars = Utils.getAvatars(getContext());
+
+        return new UserViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+        holder.bind(users.get(position), avatars);
+
+        //listener for every participant check box
+        holder.checkbox.setOnClickListener(view -> {
+            int pos = holder.getAdapterPosition();
+            User selectedUser = users.get(pos); //get the selected user
+
+            if (usersSelected.indexOf(selectedUser) != -1) {
+                //if the user is already in list, the check box is unchecked and the user is removed from the list
+                usersSelected.remove(selectedUser);
+            } else {
+                //the user is selected and added in the list
+                usersSelected.add(selectedUser);
+            }
+            activity.setParticipants(); //send the selected participants to activity (to set their dates in chart)
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.users.size();
+    }
+
+    public Context getContext() {
+        return this.context;
+    }
+
+    public List<User> getSelectedUsers() {
+        return usersSelected;
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -66,52 +111,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             avatar.setImageDrawable(avatars.get(new Random().nextInt(5)));
             user_name.setText(user.getFirst_name() + " " + user.getLast_name());
         }
-    }
-
-    @NonNull
-    @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_member, parent, false);
-
-        if( layoutType == MEMBER_BAR_WITHOUT_CHECK_BOX )
-            view.findViewById(R.id.checkBox).setVisibility(View.GONE);
-
-        avatars = Utils.getAvatars(getContext());
-
-        return new UserViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        holder.bind(users.get(position), avatars);
-
-        //listener for every participant check box
-        holder.checkbox.setOnClickListener(view -> {
-            int pos = holder.getAdapterPosition();
-            User selectedUser = users.get(pos); //get the selected user
-
-            if( usersSelected.indexOf(selectedUser) != -1 ){
-                //if the user is already in list, the check box is unchecked and the user is removed from the list
-                usersSelected.remove(selectedUser);
-            }
-            else{
-                //the user is selected and added in the list
-                usersSelected.add(selectedUser);
-            }
-            activity.setParticipants(); //send the selected participants to activity (to set their dates in chart)
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return this.users.size();
-    }
-
-    public Context getContext(){
-        return this.context;
-    }
-
-    public List<User> getSelectedUsers(){
-        return usersSelected;
     }
 }
