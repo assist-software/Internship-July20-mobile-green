@@ -1,7 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.main.fragments.home;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -156,8 +155,10 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
         call.enqueue(new Callback<List<Club>>() {
             @Override
             public void onResponse(@NotNull Call<List<Club>> call, @NotNull Response<List<Club>> response) {
-                if (!response.isSuccessful())
+                if (!response.isSuccessful()){
+                    checkIfJoinedOrPendingFirstClub();
                     Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                }
                 else {
                     assert response.body() != null;
                     if (response.body().size() != 0) {
@@ -250,6 +251,7 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
                     Toast.makeText(activity, R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
                 else {
                     List<Club> clubs = response.body();
+                    assert clubs != null;
                     clubsAdapter = initClubsAdapter(clubs, recyclerViewClubs);
                     if (!userHasPendingOrJoinedClubs) {
                         firstClubsAdapter = initClubsAdapter(clubs, recyclerViewFirstClubs);

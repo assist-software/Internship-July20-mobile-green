@@ -71,9 +71,14 @@ public class MyProfileActivity extends AppCompatActivity {
         setMyProfileAvatar();
         setToolbar();
         setUpNotifications();
+        loadImage();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getApiSports();
         getApiUserInfo();
-        loadImage();
     }
 
     private void loadImage() {

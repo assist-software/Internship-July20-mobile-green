@@ -68,10 +68,15 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     protected void onStart() {
         super.onStart();
         getClubFromLastActivity(); //get club object pressed in the last screen
-        getApiCoach(club.getId());
         displayAvatar();
         setUpNotifications();
         initComponents();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getApiCoach(club.getId());
     }
 
     private void initComponents() {
