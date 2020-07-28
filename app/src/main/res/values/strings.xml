@@ -169,5 +169,7 @@
     <string name="no_events">No events</string>
     <string name="no_clubs">No clubs</string>
     <string name="no_workouts">No workouts</string>
+    <string name="email_not_exists">This email doesn\'t exist.</string>
+    <string name="open_in_browser">Open in browser</string>
 
 </resources>

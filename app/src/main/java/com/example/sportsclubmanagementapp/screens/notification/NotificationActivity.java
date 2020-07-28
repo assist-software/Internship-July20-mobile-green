@@ -49,14 +49,14 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void prepareNotificationData() {
-        notificationList.add(new Notification("2 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("4 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("6 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("6 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("6 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("6 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("6 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
-        notificationList.add(new Notification("6 mins ago", "Coach", "John Woston", "invited you to join", "Running Club"));
+        notificationList.add(new Notification("2 mins ago", "Coach", "John Woston", "invited you to join", "Biking Club"));
+        notificationList.add(new Notification("4 mins ago", "Coach", "Connie Webb", "invited you to join", "Running Club"));
+        notificationList.add(new Notification("6 mins ago", "Coach", "Connie Webb", "accepted request to join", "Running Club"));
+        notificationList.add(new Notification("7 mins ago", "Coach", "John Woston", "invited you to join", "Cycling Club"));
+        notificationList.add(new Notification("7 mins ago", "Coach", "John Woston", "accepted request to join", "Biking Club"));
+        notificationList.add(new Notification("10 mins ago", "Coach", "John Woston", "accepted request to join", "Cycling Club"));
+        notificationList.add(new Notification("25 mins ago", "Coach", "Connie Webb", "invited you to join", "Tennis Club"));
+        notificationList.add(new Notification("30 mins ago", "Coach", "JConnie Webb", "accepted request to join", "Tennis Club"));
 
         notificationAdapter.notifyDataSetChanged();
     }

@@ -1,14 +1,18 @@
 package com.example.sportsclubmanagementapp.data.retrofit;
 
 import com.example.sportsclubmanagementapp.data.models.Club;
+import com.example.sportsclubmanagementapp.data.models.Coach;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Sport;
+import com.example.sportsclubmanagementapp.data.models.User;
 import com.example.sportsclubmanagementapp.data.models.UserAccountSetup;
 import com.example.sportsclubmanagementapp.data.models.UserLogIn;
 import com.example.sportsclubmanagementapp.data.models.UserRegister;
 import com.example.sportsclubmanagementapp.data.models.Workout;
 
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -48,6 +52,9 @@ public interface SportsClubManagementApi {
         //get all pending clubs by the user
     Call<List<Club>> getPendingClubs(@Header("Authorization") String token);
 
+    @GET("api/clubs/{club_id}/")
+    Call<Coach> getClubDetails(@Header("Authorization") String token, @Path("id") int club_id);
+
     @GET("user/update/profile/")
         //get all data for the user
     Call<UserAccountSetup> getUserData(@Header("Authorization") String token);
@@ -55,7 +62,6 @@ public interface SportsClubManagementApi {
     @GET("/api/events/{id}/")
         //get event details
     Call<Event> getEventDetails(@Header("Authorization") String token, @Path("id") int id);
-
 
     @POST("user/register/validate/")
         //register activity
@@ -68,6 +74,10 @@ public interface SportsClubManagementApi {
     @POST("user/register/")
         //account setup activity
     Call<Void> createPostUserAccountSetup(@Body UserAccountSetup userAccountSetup);
+
+    @POST("/user/reset-password/")
+        //forgot password activity
+    Call<Void> createPostEmail(@Body Map<String, String> email);
 
     @POST("api/clubs/join/{id}/")
         //user join club
@@ -85,6 +95,4 @@ public interface SportsClubManagementApi {
     @PUT("user/update/profile/")
         //user update his profile
     Call<Void> updateUserProfile(@Header("Authorization") String token, @Body UserAccountSetup userAccountSetup);
-
-
 }

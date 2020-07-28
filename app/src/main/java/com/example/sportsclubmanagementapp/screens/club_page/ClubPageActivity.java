@@ -6,34 +6,49 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.Club;
+import com.example.sportsclubmanagementapp.data.models.Coach;
 import com.example.sportsclubmanagementapp.data.models.Event;
 import com.example.sportsclubmanagementapp.data.models.Notification;
 import com.example.sportsclubmanagementapp.data.models.Role;
 import com.example.sportsclubmanagementapp.data.models.User;
+import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.EventAdapter;
 import com.example.sportsclubmanagementapp.screens.main.fragments.home.OnEventItemListener;
 import com.example.sportsclubmanagementapp.screens.notification.NotificationActivity;
 import com.example.utils.Utils;
 
+import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ClubPageActivity extends AppCompatActivity implements OnEventItemListener {
 
-    List<Notification> notification = new ArrayList<>();
+    private List<Notification> notification = new ArrayList<>();
+    private Coach coach;
+    private Club club;
 
     //for members list recycler
     private TextView membersTextView;
@@ -58,7 +73,8 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     protected void onStart() {
         super.onStart();
         getClubFromLastActivity(); //get club object pressed in the last screen
-        setTheCouchDetails();
+        getApiCoach();
+        //setTheCouchDetails();
         displayAvatar();
         setUpNotifications();
         initComponents();
@@ -95,9 +111,38 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void setTheCouchDetails() {
-        /*TextView name = findViewById(R.id.name);
-        name.setText(club.getName());
-        TextView role = findViewById(R.id.role);*/
+        TextView name = findViewById(R.id.name);
+        //name.setText(usersList.get(0).getFirst_and_last_name());
+        TextView role = findViewById(R.id.role);
+        //role.setText(usersList.get(0).getRole().getRoleString());
+        TextView age = findViewById(R.id.age);
+        //age.setText(String.valueOf(usersList.get(0).getAge()));
+        TextView clubsOwned = findViewById(R.id.owned_clubs);
+        //clubsOwned.setText(usersList.get(0).getSecondarySport());
+    }
+
+    private void getApiCoach() {
+        Call<Coach> call = ApiHelper.getApi().getClubDetails(getToken(), 1);
+        call.enqueue(new Callback<Coach>() {
+            @Override
+            public void onResponse(@NotNull Call<Coach> call, @NotNull Response<Coach> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getBaseContext(), R.string.api_response_not_successful, Toast.LENGTH_SHORT).show();
+                } else {
+                    coach = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Coach> call, @NotNull Throwable t) {
+                Toast.makeText(getBaseContext(), R.string.api_failure + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String getToken() {
+        SharedPreferences prefs = Objects.requireNonNull(getBaseContext()).getSharedPreferences(getString(R.string.MY_PREFS_NAME), Context.MODE_PRIVATE);
+        return "token " + prefs.getString(getString(R.string.user_token), getString(R.string.no_token_prefs));
     }
 
     private void setToolbar() {
@@ -131,7 +176,7 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void getClubFromLastActivity() {
-        Club club = (Club) getIntent().
+        club = (Club) getIntent().
                 getSerializableExtra("CLUB_EXTRA_SESSION_ID"); //get the club object from the last screen
     }
 
@@ -164,12 +209,13 @@ public class ClubPageActivity extends AppCompatActivity implements OnEventItemLi
     }
 
     private void prepareUsersData() {
-        usersList.add(new User(1, "Brandom Wilson", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(1, "Brandom Wilson", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         userAdapter.notifyDataSetChanged();
         checkMembersRecyclerViewEmpty();
         checkEventsRecyclerViewEmpty();
+        setTheCouchDetails();
     }
 }

@@ -171,7 +171,8 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         for (int i = 0; i < participants.size(); i++) {
             list.add(new BarEntry(i + 1, new Random().nextInt(maximumValue)));
             //take the first name of the user for x coordinate
-            xAxisLabel.add(i + 1, participants.get(i).getFirst_and_last_name().split(" ")[0]);
+            //xAxisLabel.add(i + 1, participants.get(i).getFirst_and_last_name().split(" ")[0]);
+            xAxisLabel.add(i + 1, participants.get(i).getFirst_name());
         }
         setAppearanceForChart(xAxisLabel, list); //set the date in the chart and modify the default appearance
     }
@@ -299,10 +300,10 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void prepareUsersData() {
-        usersList.add(new User(1, "Brandom Wilson", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
-        usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(1, "Brandom Wilson", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(2, "Nelsol Cooper", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(3, "Mihai Icon", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
+        //usersList.add(new User(4, "Ron Shit", "abc@domain.com", "password", new Role(false, true, false), "Running", "", 180, 85, 18));
         userAdapter.notifyDataSetChanged();
     }
 }

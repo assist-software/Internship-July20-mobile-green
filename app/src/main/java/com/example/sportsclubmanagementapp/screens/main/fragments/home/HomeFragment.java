@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +55,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnClubItemListener, OnEventItemListener {
 
-    private Activity activity;
+    private FragmentActivity activity;
     private TextView firstClubTextView;
     private TextView firstEventTextView;
     private TextView clubsTextView;
@@ -92,32 +93,32 @@ public class HomeFragment extends Fragment implements OnClubItemListener, OnEven
     }
 
     private void disableToolbarAvatar() {
-        CircleImageView avatar_toolbar = Objects.requireNonNull(activity).findViewById(R.id.avatar_toolbar);
+        CircleImageView avatar_toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.avatar_toolbar);
         avatar_toolbar.setVisibility(View.GONE);
-        avatar_toolbar.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_default_avatar));
+        avatar_toolbar.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_default_avatar));
     }
 
     private void setToolbarTitle() {
-        TextView fragment_title = Objects.requireNonNull(activity).findViewById(R.id.fragment_title);
+        TextView fragment_title = Objects.requireNonNull(getActivity()).findViewById(R.id.fragment_title);
         fragment_title.setText(getResources().getText(R.string.home));
     }
 
     private void setBurgerMenuForDrawer() {
-        Toolbar toolbar = Objects.requireNonNull(activity).findViewById(R.id.toolbar);
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(null);
         toolbar.setTitle("");
         //set left side drawer for toolbar
-        DrawerLayout drawer = activity.findViewById(R.id.drawerLayout);
-        ((AppCompatActivity) activity).setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        DrawerLayout drawer = getActivity().findViewById(R.id.drawerLayout);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        displayAvatar(); //display avatar as circle view
         initComponents();
+        displayAvatar(); //display avatar as circle view
         setUpAllRecyclerViews(view); //set up all recycler view and create adapters for each
         getApiPendingClubs();
         getApiEvents();
