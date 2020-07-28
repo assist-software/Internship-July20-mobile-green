@@ -236,6 +236,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
             list.add(new BarEntry(i + 1, new Random().nextInt(maximumValue)));
             //take the first name of the user for x coordinate
             xAxisLabel.add(i + 1, selectedMembersChart.get(i).getFirst_name());
+
         }
         setAppearanceForChart(xAxisLabel, list); //set the date in the chart and modify the default appearance
     }

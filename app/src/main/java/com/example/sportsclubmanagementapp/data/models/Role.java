@@ -22,4 +22,10 @@ public class Role { //hardcoded data
     public boolean isAthlete() {
         return athlete;
     }
+
+    public String getRoleString(){
+        if(admin) return "ADMIN";
+        else if(coach) return "COACH";
+        else return "ATHLETE";
+    }
 }

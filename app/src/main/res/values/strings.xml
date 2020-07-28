@@ -120,7 +120,6 @@
     <string name="participants">Participants</string>
 
 
-
     <string name="MY_PREFS_NAME">MyPrefsFile</string>
     <string name="user_token">user_token</string>
     <string name="graphics_txt">Graphics</string>
@@ -166,4 +165,14 @@
     <string name="event_status">EVENT_STATUS</string>
     <string name="event_unjoined">Event successfully unjoined!</string>
     <string name="event_joined">Event successfully joined!</string>
+    <string name="forgot_password_description">We just need your registered email to send you password reset instruction.</string>
+    <string name="reset_password">RESET PASSWORD</string>
+    <string name="back">BACK</string>
+    <string name="forgot_password_sended">Check your email address to reset your password.</string>
+    <string name="no_members">No members</string>
+    <string name="no_events">No events</string>
+    <string name="no_clubs">No clubs</string>
+    <string name="no_workouts">No workouts</string>
+    <string name="email_not_exists">This email doesn\'t exist.</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>

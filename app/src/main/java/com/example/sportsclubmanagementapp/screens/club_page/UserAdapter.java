@@ -1,5 +1,6 @@
 package com.example.sportsclubmanagementapp.screens.club_page;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -105,6 +106,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             checkbox = itemView.findViewById(R.id.checkBox);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(User user, List<Drawable> avatars) {
             avatar.setImageDrawable(avatars.get(new Random().nextInt(5)));
             user_name.setText(user.getFirst_name() + " " + user.getLast_name());

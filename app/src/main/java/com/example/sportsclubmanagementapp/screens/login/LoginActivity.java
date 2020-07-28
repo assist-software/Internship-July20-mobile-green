@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.sportsclubmanagementapp.R;
 import com.example.sportsclubmanagementapp.data.models.UserLogIn;
 import com.example.sportsclubmanagementapp.data.retrofit.ApiHelper;
+import com.example.sportsclubmanagementapp.screens.forgot_password.ForgotPassword;
 import com.example.sportsclubmanagementapp.screens.main.MainActivity;
 import com.example.sportsclubmanagementapp.screens.register.RegisterActivity;
 import com.example.utils.Utils;
@@ -57,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         if (isValid) {
             checkUserExists();
         }
+    }
+
+    public void goToForgotPassword(View view){
+        startActivity(new Intent(this, ForgotPassword.class));
     }
 
     public void onClickNewHereRegister(View view) {

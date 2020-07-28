@@ -88,10 +88,15 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <Button
         android:id="@+id/addPhotoMyProfile"
         android:layout_width="@dimen/margin_0dp"
         android:layout_height="@dimen/space_42dp"
+        android:text="@string/add_photo"
+        android:textAlignment="textStart"
+        android:paddingHorizontal="@dimen/space_14dp"
+        android:fontFamily="@font/inter_semibold"
+        android:textSize="@dimen/text_14sp"
         app:layout_constraintWidth_percent="0.8"
         android:background="@drawable/text_input"
         app:layout_constraintBottom_toTopOf="@+id/primarySportTextInputLayoutMyProfile"
@@ -99,17 +104,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95"
-        app:layout_constraintHorizontal_bias="0.5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/addPhotoTextInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_14dp"
-            android:hint="@string/add_photo" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintHorizontal_bias="0.5"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/secondarySportTextInputLayoutMyProfile"
