@@ -363,7 +363,7 @@
                 android:id="@+id/saveChangeButtonMyProfile"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_42dp"
-                android:layout_marginBottom="@dimen/margin_74dp"
+                android:layout_marginBottom="@dimen/space_100dp"
                 android:layout_marginStart="@dimen/margin_18dp"
                 android:layout_marginEnd="@dimen/margin_18dp"
                 android:layout_height="wrap_content"

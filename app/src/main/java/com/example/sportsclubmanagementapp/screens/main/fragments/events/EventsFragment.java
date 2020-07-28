@@ -166,7 +166,7 @@ public class EventsFragment extends Fragment implements OnEventItemListener {
             recyclerViewJoinedEvents.setVisibility(View.GONE);
         }
         else{
-            textView.setText(R.string.joined_clubs_txt);
+            textView.setText(R.string.joined_events);
             recyclerViewJoinedEvents.setVisibility(View.VISIBLE);
         }
     }

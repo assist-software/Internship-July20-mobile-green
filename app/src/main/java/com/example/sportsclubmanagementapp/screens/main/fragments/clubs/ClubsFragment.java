@@ -88,9 +88,9 @@ public class ClubsFragment extends Fragment implements OnClubItemListener {
     @Override
     public void onResume() {
         super.onResume();
-        geUnJoinedClubsApi();
-        getJoinedClubsApi();
         getPendingClubsApi();
+        getJoinedClubsApi();
+        geUnJoinedClubsApi();
     }
 
     private void setUpAllRecyclerViews(View view) {
